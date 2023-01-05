@@ -16,7 +16,7 @@ class Employment extends DataModel
 
     protected float $Salary;
 
-    protected string $PersonID;
+    protected UUID $PersonID;
     protected Person $Person;
 
     public static function Create() : DataModel

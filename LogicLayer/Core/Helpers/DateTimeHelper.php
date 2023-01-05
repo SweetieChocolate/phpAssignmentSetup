@@ -12,6 +12,10 @@ class DateTimeHelper
     {
         return $dateTime->format("Y/m/d H:i:s");
     }
+    public static function FromString(string $dateTime) : DateTime
+    {
+        return (new DateTime($dateTime));
+    }
 }
 
 ?>

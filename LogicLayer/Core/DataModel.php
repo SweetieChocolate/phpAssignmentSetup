@@ -4,6 +4,7 @@ require_once "Connection.php";
 require_once "Helpers/Database.php";
 require_once "Helpers/StringHelper.php";
 require_once "Helpers/DateTimeHelper.php";
+require_once "UUID.php";
 require_once "DataList.php";
 
 class DataModel
@@ -15,7 +16,7 @@ class DataModel
 
     // every property that need to map with database must be protected
     // default database field
-    protected string $ObjectID = "";
+    protected UUID $ObjectID;
     protected string $ObjectNumber = "";
     protected string $ObjectName = "";
     protected string $CreatedBy = "";
@@ -39,8 +40,7 @@ class DataModel
         $classname = get_called_class();
         $obj = new $classname();
         $obj->IsNew = true;
-        $con = new Connection();
-        $obj->ObjectID = $con->NewObjectID();
+        $obj->ObjectID = UUID::New();
         $obj->CreatedDateTime = DateTimeHelper::Now();
         $obj->LastModifiedDateTime = DateTimeHelper::Now();
         return $obj;
@@ -50,11 +50,41 @@ class DataModel
     public static function Load(string $objectID) : DataModel
     {
         $classname = get_called_class();
-        $sql = "SELECT TOP 1 * FROM $classname WHERE IsDeleted = 0 AND ObjectID = '$objectID' ;";
+        $sql = "SELECT * FROM $classname WHERE IsDeleted = 0 AND ObjectID = " . UUID::ID_FOR_QUERY($objectID) . " LIMIT 1;";
         /* load sql select top 1 from database and map every column to the obj below */
-        echo $sql . "<br>";
-        $obj = new $classname();
+        $con = new Connection();
+        $result = $con->ExecuteQuery($sql);
         /* map the dataset get from query to obj*/
+        $dataModel = new ReflectionClass($classname);
+        $pros = $dataModel->getProperties(ReflectionProperty::IS_PROTECTED);
+        $obj = new $classname();
+        while ($row = $result->fetch_assoc())
+        {
+            $obj = new $classname();
+            foreach ($pros as $pro)
+            {
+                $pro->setAccessible(true); // only required prior to PHP 8.1.0
+                
+                $proName = $pro->getName();
+                $isInit = isset($row[$proName]);
+                $isID = $pro->getType()->getName() == "UUID";
+                $isString = $pro->getType()->getName() == "string";
+                $isBoolean = $pro->getType()->getName() == "bool";
+                $isDateTime = $pro->getType()->getName() == "DateTime";
+    
+                if (!$isInit) continue;
+
+                $value = $row[$proName];
+                if (is_object($value) && !$isID && !$isDateTime) continue;
+
+                if ($isID) $value = UUID::FromBinary($value);
+                //if ($isString) $value = $value;
+                if ($isBoolean) $value = $value == 1 ? true : false;
+                if ($isDateTime) $value = DateTimeHelper::FromString($value);
+                
+                $pro->setValue($obj, $value);
+            }
+        }
         return $obj;
     }
 
@@ -64,11 +94,41 @@ class DataModel
         $classname = get_called_class();
         $sql = "SELECT * FROM $classname WHERE IsDeleted = 0 AND $where ORDER BY $orderby ;";
         /* load sql select * from database and map every column to the obj below */
-        echo $sql . "<br>";
-        $array = array();
+        $con = new Connection();
+        $result = $con->ExecuteQuery($sql);
         /* pull every data row from sql to array */
-        $obj = new $classname();
+        $dataModel = new ReflectionClass($classname);
+        $pros = $dataModel->getProperties(ReflectionProperty::IS_PROTECTED);
+        $array = array();
         /* map the dataset get from query to obj*/
+        while ($row = $result->fetch_assoc())
+        {
+            $obj = new $classname();
+            foreach ($pros as $pro)
+            {
+                $pro->setAccessible(true); // only required prior to PHP 8.1.0
+                
+                $proName = $pro->getName();
+                $isInit = isset($row[$proName]);
+                $isID = $pro->getType()->getName() == "UUID";
+                $isString = $pro->getType()->getName() == "string";
+                $isBoolean = $pro->getType()->getName() == "bool";
+                $isDateTime = $pro->getType()->getName() == "DateTime";
+    
+                if (!$isInit) continue;
+
+                $value = $row[$proName];
+                if (is_object($value) && !$isID && !$isDateTime) continue;
+
+                if ($isID) $value = UUID::FromBinary($value);
+                //if ($isString) $value = $value;
+                if ($isBoolean) $value = $value == 1 ? true : false;
+                if ($isDateTime) $value = DateTimeHelper::FromString($value);
+                
+                $pro->setValue($obj, $value);
+            }
+            array_push($array, $obj);
+        }
         return $array;
     }
     
@@ -198,18 +258,19 @@ class DataModel
             
             $proName = $pro->getName();
             $isInit = $pro->isInitialized($this);
+            $isID = $pro->getType()->getName() == "UUID";
             $isString = $pro->getType()->getName() == "string";
-            $isID = endsWith($proName, "ID");
             $isBoolean = $pro->getType()->getName() == "bool";
             $isDateTime = $pro->getType()->getName() == "DateTime";
 
             if (!$isInit) continue;
             
             $value = $pro->getValue($this);
-            if (is_object($value) && !$isDateTime) continue;
-            
+            if (is_object($value) && !$isID && !$isDateTime) continue;
+
+            if ($isID)
+                $value = "UUID_TO_BIN('{$value->ToString()}')";
             if ($isString) $value = "'$value'";
-            if ($isID) $value = "UUID_TO_BIN($value)";
             if ($isBoolean) $value = $value ? 1 : 0;
             if ($isDateTime) $value = "'" . DateTimeHelper::ConvertToString($value) . "'";
             
