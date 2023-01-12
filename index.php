@@ -34,7 +34,19 @@ function testload()
     echo $emp->Person->FamilyName;
 }
 
+function test()
+{
+    $dataModel = new ReflectionClass("Employment");
+    $pros = $dataModel->getProperties(ReflectionProperty::IS_PROTECTED);
+
+    foreach ($pros as $pro)
+    {
+        echo $pro->class . " - " . $pro->name . "<br>";
+    }
+}
+
 // testinsert();
-testload();
+// testload();
+// test();
 
 ?>

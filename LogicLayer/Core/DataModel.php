@@ -244,47 +244,13 @@ class DataModel
         $this->IsLock = true;
         array_push($connection->object, $this);
     }
-    
-    private function GetPropertiesWithValues() : Array
-    {
-        $dataModel = new ReflectionClass(get_class($this));
-        $pros = $dataModel->getProperties(ReflectionProperty::IS_PROTECTED);
-
-        $array = array();
-
-        foreach ($pros as $pro)
-        {
-            $pro->setAccessible(true); // only required prior to PHP 8.1.0
-            
-            $proName = $pro->getName();
-            $isInit = $pro->isInitialized($this);
-            $isID = $pro->getType()->getName() == "UUID";
-            $isString = $pro->getType()->getName() == "string";
-            $isBoolean = $pro->getType()->getName() == "bool";
-            $isDateTime = $pro->getType()->getName() == "DateTime";
-
-            if (!$isInit) continue;
-            
-            $value = $pro->getValue($this);
-            if (is_object($value) && !$isID && !$isDateTime) continue;
-
-            if ($isID)
-                $value = "UUID_TO_BIN('{$value->ToString()}')";
-            if ($isString) $value = "'$value'";
-            if ($isBoolean) $value = $value ? 1 : 0;
-            if ($isDateTime) $value = "'" . DateTimeHelper::ConvertToString($value) . "'";
-            
-            $array[$proName] = $value;
-        }
-        return $array;
-    }
 
     /** Get Raw Sql command that correspond to the object **/
     public function GenerateRawInsertUpdateSql() : string
     {
         $sql = "";
         $tablename = get_class($this);
-        $table = $this->GetPropertiesWithValues();
+        $table = $this->GetPropertiesWithValuesForDB();
         if ($this->IsNew)
         {
             $insert = "";
@@ -314,5 +280,70 @@ class DataModel
             $sql = "UPDATE $tablename SET $update WHERE ObjectID = " . $table['ObjectID'];
         }
         return "$sql ;";
+    }
+    
+    private function GetPropertiesWithValuesForDB() : Array
+    {
+        $array = array();
+        
+        $props = $this->GetPropertiesAsReflectionProperty();
+
+        foreach ($props as $prop)
+        {
+            $prop->setAccessible(true); // only required prior to PHP 8.1.0
+            
+            $proName = $prop->getName();
+            $isInit = $prop->isInitialized($this);
+            $isID = $prop->getType()->getName() == "UUID";
+            $isString = $prop->getType()->getName() == "string";
+            $isBoolean = $prop->getType()->getName() == "bool";
+            $isDateTime = $prop->getType()->getName() == "DateTime";
+
+            if (!$isInit) continue;
+            
+            $value = $prop->getValue($this);
+            if (is_object($value) && !$isID && !$isDateTime) continue;
+
+            if ($isID)
+                $value = "UUID_TO_BIN('{$value->ToString()}')";
+            if ($isString) $value = "'$value'";
+            if ($isBoolean) $value = $value ? 1 : 0;
+            if ($isDateTime) $value = "'" . DateTimeHelper::ConvertToString($value) . "'";
+            
+            $array[$proName] = $value;
+        }
+
+        return $array;
+    }
+
+    public function GetPropertiesAsReflectionProperty() : Array
+    {
+        $className = new ReflectionClass(get_class($this));
+        return DataModel::GetSortedProperties($className);
+    }
+
+    private static function GetSortedProperties($className) : Array
+    {
+        $props_arr = array();
+        $ref = new ReflectionClass($className);
+        if($parentClass = $ref->getParentClass())
+        {
+            $parent_props = DataModel::GetSortedProperties($parentClass->getName()); //RECURSIVE
+    
+            if(count($parent_props) > 0)
+            {
+                $props_arr = array_merge($parent_props, $props_arr);
+            }
+        }
+
+        $props = $ref->getProperties(ReflectionProperty::IS_PROTECTED);
+        foreach ($props as $prop)
+        {
+            if ($prop->class != $className)
+                continue;
+            array_push($props_arr, $prop);
+        }
+
+        return $props_arr;
     }
 }
