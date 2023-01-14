@@ -316,13 +316,13 @@ class DataModel
         return $array;
     }
 
-    public function GetPropertiesAsReflectionProperty() : Array
+    private function GetPropertiesAsReflectionProperty() : Array
     {
-        $className = new ReflectionClass(get_class($this));
+        $className = get_class($this);
         return DataModel::GetSortedProperties($className);
     }
 
-    private static function GetSortedProperties($className) : Array
+    private static function GetSortedProperties(string $className) : Array
     {
         $props_arr = array();
         $ref = new ReflectionClass($className);
@@ -345,5 +345,109 @@ class DataModel
         }
 
         return $props_arr;
+    }
+
+    /** Get Raw Sql command that correspond to the object for creating or altering table **/
+    public function GetDBTableQuery() : string
+    {
+        $className = get_class($this);
+        return DataModel::GetDBTableQueryWithName($className);
+    }
+
+    public static function GetDBTableQueryWithName(string $className) : string
+    {
+        $con = new Connection();
+        $query = "SHOW TABLE STATUS FROM " . $con->DataBase() . " WHERE Name = '" . $className . "';";
+        $result = $con->ExecuteQuery($query);
+        if ($result->num_rows < 1)
+        {
+            return DataModel::GenerateCreateTable($className);
+        }
+        else
+        {
+            return DataModel::GenerateAlterTable($className);
+        }
+    }
+
+    private static function GenerateCreateTable(string $className) : string
+    {
+        $cols = DataModel::GetPropertiesForDB($className);
+        $query = "CREATE TABLE " . $className . " ";
+        $columns = "";
+        foreach ($cols as $col)
+        {
+            $colName = $col->getName();
+            $colType = DataModel::GetPropertyTypeForDB($col->getType());
+            $columns .= empty($columns) ? "$colName $colType NULL" : ", $colName $colType NULL";
+        }
+        $query = $query . "(" . $columns . ");";
+        return $query;
+    }
+
+    private static function GenerateAlterTable(string $className)
+    {
+        $con = new Connection();
+        $cols = DataModel::GetPropertiesForDB($className);
+        $query = "SHOW COLUMNS FROM " . $className . ";";
+        $result = $con->ExecuteQuery($query);
+        $exists = array();
+        while ($row = $result->fetch_assoc())
+        {
+            array_push($exists, $row['Field']);
+        }
+        $query = "ALTER TABLE " . $className . " ";
+        $columns = "";
+        foreach ($cols as $col)
+        {
+            $colName = $col->getName();
+            if (in_array($colName, $exists)) continue;
+            $colType = DataModel::GetPropertyTypeForDB($col->getType());
+            $columns .= empty($columns) ? "ADD $colName $colType NULL" : ", ADD $colName $colType NULL";
+        }
+        if (empty($columns)) return "";
+        $query = $query . $columns . ";";
+        return $query;
+    }
+
+    private static function GetPropertiesForDB(string $className) : Array
+    {
+        $temp = DataModel::GetSortedProperties($className);
+        $props = array();
+        foreach ($temp as $prop)
+        {
+            $isID = $prop->getType()->getName() == "UUID";
+            $isInt = $prop->getType()->getName() == "int";
+            $isFloat = $prop->getType()->getName() == "float";
+            $isString = $prop->getType()->getName() == "string";
+            $isBoolean = $prop->getType()->getName() == "bool";
+            $isDateTime = $prop->getType()->getName() == "DateTime";
+
+            if (
+                !$isID &&
+                !$isInt &&
+                !$isFloat &&
+                !$isString &&
+                !$isBoolean &&
+                !$isDateTime
+            )
+                continue;
+
+            array_push($props, $prop);
+        }
+        return $props;
+    }
+
+    private static function GetPropertyTypeForDB(string $phpType) : string
+    {
+        $dbType = "";
+        switch ($phpType)
+        {
+            case "UUID": $dbType = "binary(16)"; break;
+            case "float": $dbType = "double"; break;
+            case "bool": $dbType = "bit"; break;
+            case "string": $dbType = "text"; break;
+            default: $dbType = $phpType; break;
+        }
+        return strtoupper($dbType);
     }
 }

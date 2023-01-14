@@ -45,6 +45,15 @@ function test()
     }
 }
 
+echo DataModel::GetDBTableQueryWithName("Employment");
+
+// $emp = Employment::Create();
+// $array = $emp->GetPropertiesAsReflectionProperty();
+// foreach ($array as $col)
+// {
+//     echo $col->getName() . " " . $col->getType() . "<br>";
+// }
+
 // testinsert();
 // testload();
 // test();

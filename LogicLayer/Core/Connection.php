@@ -10,6 +10,15 @@ class Connection
     private string $password;
     private string $database;
     private mixed $connection;
+
+    public function ServerName() : string
+    {
+        return $this->servername;
+    }
+    public function DataBase(): string
+    {
+        return $this->database;
+    }
     
     public function __construct()
     {
