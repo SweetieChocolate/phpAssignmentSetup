@@ -451,3 +451,5 @@ class DataModel
         return strtoupper($dbType);
     }
 }
+
+?>
