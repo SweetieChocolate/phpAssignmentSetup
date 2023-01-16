@@ -1,8 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . "/../Core/Connection.php";
-require_once dirname(__FILE__) . "/../Core/DataModel.php";
-require_once "Person/Person.php";
+require_once dirname(__FILE__) . "/../TablesLogic.php";
 
 class Employment extends DataModel
 {
