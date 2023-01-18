@@ -42,7 +42,7 @@ function test()
 
 <html>
 <head>
-<script src="UIFramework/template.js"> </script>
+    <script src="UIFramework/UIFramework.js" async> </script>
 </head>
 <body>
 

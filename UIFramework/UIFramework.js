@@ -1,5 +1,5 @@
 
-const defaultDir = "/phpAssignmentSetup";
+const defaultDir = "/phpAssignmentSetup/";
 
 class GridView extends HTMLElement {
     constructor() {
@@ -7,24 +7,30 @@ class GridView extends HTMLElement {
     }
 
     // class field
-    id; tablename; properties;
+    id; tablename; headertexts; properties;
 
     // call when element is added
-    connectedCallback() {
+    connectedCallback()
+    {
         var id = this.getAttribute('id');
-        var tablename = this.getAttribute('TableName');
         this.id = id;
-        this.tablename = tablename;
-        var properties = "";
+        this.tablename = this.getAttribute('TableName');
+        this.headertexts = "";
+        this.properties = "";
         var columns = this.getElementsByTagName('column');
-        console.log(columns);
         for (var i = 0; i < columns.length; i++)
         {
-            console.log("aaa");
+            var headertext = columns[i].getAttribute('HeaderText');
+            if (headertext)
+                this.headertexts += headertext + ";";
+            else
+                this.headertexts += "-;"
             var property = columns[i].getAttribute('PropertyName');
-            console.log(property);
+            if (property)
+                this.properties += property + ";";
+            else
+                this.properties += "-;"
         }
-        this.properties = properties;
         if (id) {
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
@@ -34,16 +40,17 @@ class GridView extends HTMLElement {
                         elmnt.innerHTML = "Page not found.";
                     }
                     if (this.status == 200) {
-                        //elmnt.SetUp(this.responseText);
+                        elmnt.SetUp(this.responseText);
                     }
                 }
             }
             var data = new FormData();
 
-            data.append('TABLENAME', 'Employment');
-            data.append('PROPERTIES', 'Salary');
+            data.append('TABLENAME', this.tablename);
+            data.append('HEADERTEXTS', this.headertexts);
+            data.append('PROPERTIES', this.properties);
 
-            xhttp.open("POST", defaultDir + "/UIFramework/GridView/GridView.php", true);
+            xhttp.open("POST", defaultDir + "UIFramework/GridView/GridView.php", true);
             //xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhttp.send(data);
             return;
@@ -54,7 +61,10 @@ class GridView extends HTMLElement {
         var template = document.createElement("template");
         template.innerHTML = html;
         this.innerHTML = template.innerHTML;
+        while (this.attributes.length > 0)
+        {
+            this.removeAttribute(this.attributes[0].name);
+        }
     }
 }
-
 customElements.define('grid-view', GridView);

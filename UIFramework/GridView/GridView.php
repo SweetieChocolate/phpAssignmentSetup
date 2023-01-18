@@ -3,14 +3,61 @@
 require_once dirname(__FILE__) . "/../../LogicLayer/TablesLogic.php";
 
 $tablename = ISSET($_POST['TABLENAME']) ? $_POST['TABLENAME'] : "";
+$headertexts = ISSET($_POST['HEADERTEXTS']) ? $_POST['HEADERTEXTS'] : "";
 $properties = ISSET($_POST['PROPERTIES']) ? $_POST['PROPERTIES'] : "";
 
-$emps = $tablename::LoadList();
-foreach ($emps as $emp)
+if (!empty($tablename))
 {
-    $var1 = "Person";
-    $var2 = "FamilyName";
-    echo $emp->$var1->$var2 . "<br>";
+    $doc = new DOMDocument();
+    $doc->loadHTMLFile("GridView.html");
+    $table = $doc->getElementById("gvDetails");
+    ClearChild($table);
+
+    $htexts = explode(";", $headertexts);
+    $row = $doc->createElement("tr");
+    foreach ($htexts as $htext)
+    {
+        if (empty($htext))
+            continue;
+        $col = $doc->createElement("th", $htext);
+        $row->appendChild($col);
+    }
+    $table->appendChild($row);
+
+    $props = explode(";", $properties);
+    $list = $tablename::LoadList();
+    foreach ($list as $item)
+    {
+        $row = $doc->createElement("tr");
+        foreach ($props as $prop)
+        {
+            if (empty($prop))
+                continue;
+            $value = $prop == "-" ? "-" : GetPropertyValue($item, $prop);
+            $col = $doc->createElement("td", $value);
+            $row->appendChild($col);
+        }
+        $table->appendChild($row);
+    }
+    
+    echo $doc->saveHTML();
+}
+
+function GetPropertyValue(DataModel $item, string $prop) : mixed
+{
+    $ps = explode("->", $prop);
+    $value = $item;
+    foreach ($ps as $p)
+    {
+        $value = $value->$p;
+    }
+    return $value;
+}
+
+function ClearChild(DOMElement $parent)
+{
+    while ($parent->firstElementChild != null)
+        $parent->removeChild($parent->firstElementChild);
 }
 
 ?>
