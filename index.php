@@ -1,29 +1,16 @@
 <?php
 
-require_once 'LogicLayer/Core/Connection.php';
-require_once 'LogicLayer/Core/UUID.php';
-require_once 'LogicLayer/Workforce/Employment.php';
-require_once 'LogicLayer/Workforce/Person/Person.php';
-require_once 'LogicLayer/Workforce/Person/PersonPhone.php';
-require_once 'LogicLayer/Core/Helpers/DateTimeHelper.php';
-require_once 'LogicLayer/Core/Helpers/Database.php';
+require_once "LogicLayer/TablesLogic.php";
 
 function testinsert() {
     $con = new Connection();
     
     $emp = Employment::Create();
-    // $emp->Salary = 500;
+    $emp->Salary = 500;
     $emp->Person->FamilyName = "DOV";
     $emp->Person->GivenName = "Ratha";
 
     $emp->save($con);
-    
-    // $emp->Person->Phones->Add(PersonPhone::Create());
-
-    // foreach ($emp->Person->Phones as $p)
-    // {
-    //     $p->save($con);
-    // }
     
     $con->commit();
 }
@@ -45,17 +32,26 @@ function test()
     }
 }
 
-echo DataModel::GetDBTableQueryWithName("Employment");
-
-// $emp = Employment::Create();
-// $array = $emp->GetPropertiesAsReflectionProperty();
-// foreach ($array as $col)
-// {
-//     echo $col->getName() . " " . $col->getType() . "<br>";
-// }
-
 // testinsert();
 // testload();
 // test();
 
+// echo TablesLogic::SynchronizeDB();
+
 ?>
+
+<html>
+<head>
+<script src="UIFramework/template.js"> </script>
+</head>
+<body>
+
+
+<grid-view id="abc" TableName="Employment">
+    <column PropertyName="Person->FamilyName" HeaderText="Last Name"></column>
+    <column PropertyName="Person->GivenName" HeaderText="First Name"></column>
+</grid-view>
+
+
+</body>
+</html>
