@@ -33,30 +33,9 @@ class Employment extends DataModel
     }
 }
 
-class OEmployment
+class OEmployment extends ODataModel
 {
-    protected Employment $obj;
-    public function __construct(Employment $emp)
-    {
-        $this->obj = $emp;
-    }
-
-    public function __get($name)
-    {
-        return $this->obj->$name;
-    }
-
-    public function __set($name, $value)
-    {
-        $this->obj->$name = $value;
-    }
-
-    public function test()
-    {
-        echo "aa";
-        print_r($this->obj);
-        echo $this->obj->Person->GivenName;
-    }
+    
 }
 
 ?>

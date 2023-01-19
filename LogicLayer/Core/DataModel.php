@@ -59,7 +59,6 @@ class DataModel
         /* map the dataset get from query to obj*/
         $dataModel = new ReflectionClass($classname);
         $pros = $dataModel->getProperties(ReflectionProperty::IS_PROTECTED);
-        $obj = new $classname();
         while ($row = $result->fetch_assoc())
         {
             $obj = new $classname();
@@ -89,7 +88,7 @@ class DataModel
             $oClass = "O".$classname;
             return new $oClass($obj);
         }
-        return $obj;
+        return null;
     }
 
     /** Load a list of DataModel Object from DataBase with or without where condition **/
@@ -152,7 +151,12 @@ class DataModel
                     if (isset($this->$var) && isset($this->$varID))
                     {
                         if ($this->$varID != $this->$var->ObjectID)
-                            $this->$var = $type::Load($this->$varID);
+                        {
+                            $temp = $type::Load($this->$varID);
+                            if ($temp != null)
+                                $this->$var = $temp->toDataModel();
+                            return $this->$var;
+                        }
                         else if (isset($this->$var))
                             return $this->$var;
                         else return NULL;
@@ -160,8 +164,12 @@ class DataModel
                     else if (isset($this->$varID))
                     {
                         $temp = $type::Load($this->$varID);
-                        $this->$var = $temp;
-                        return $this->$var;
+                        if ($temp != null)
+                        {
+                            $this->$var = $temp->toDataModel();
+                            return $this->$var;
+                        }
+                        else return NULL;
                     }
                     else return NULL;
                 }
@@ -454,6 +462,30 @@ class DataModel
             default: $dbType = $phpType; break;
         }
         return strtoupper($dbType);
+    }
+}
+
+class ODataModel
+{
+    protected $obj;
+    public function __construct($obj)
+    {
+        $this->obj = $obj;
+    }
+
+    public function __get($name)
+    {
+        return $this->obj->$name;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->obj->$name = $value;
+    }
+
+    public function toDataModel()
+    {
+        return $this->obj;
     }
 }
 

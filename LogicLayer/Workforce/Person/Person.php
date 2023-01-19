@@ -17,4 +17,9 @@ class Person extends DataModel
     protected DataList $Phones;
 }
 
+class OPerson extends ODataModel
+{
+    
+}
+
 ?>

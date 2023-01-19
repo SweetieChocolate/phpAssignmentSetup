@@ -7,4 +7,9 @@ class PersonPhone extends DataModel
     protected string $PersonID;
 }
 
+class OPersonPhone extends ODataModel
+{
+    
+}
+
 ?>

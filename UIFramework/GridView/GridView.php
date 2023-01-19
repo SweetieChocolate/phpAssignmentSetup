@@ -43,7 +43,7 @@ if (!empty($tablename))
     echo $doc->saveHTML();
 }
 
-function GetPropertyValue(DataModel $item, string $prop) : mixed
+function GetPropertyValue(ODataModel $item, string $prop) : mixed
 {
     $ps = explode("->", $prop);
     $value = $item;
