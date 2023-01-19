@@ -7,6 +7,8 @@ require_once "Helpers/DateTimeHelper.php";
 require_once "UUID.php";
 require_once "DataList.php";
 
+require_once dirname(__FILE__) . "/../TablesLogic.php";
+
 class DataModel
 {
     // private property is work with current class only and will not store to database
@@ -47,7 +49,7 @@ class DataModel
     }
 
     /** Load a DataModel Object from DataBase **/
-    public static function Load(string $objectID) : DataModel
+    public static function Load(string $objectID)
     {
         $classname = get_called_class();
         $sql = "SELECT * FROM $classname WHERE IsDeleted = 0 AND ObjectID = " . UUID::ID_FOR_QUERY($objectID) . " LIMIT 1;";
@@ -84,6 +86,8 @@ class DataModel
                 
                 $pro->setValue($obj, $value);
             }
+            $oClass = "O".$classname;
+            return new $oClass($obj);
         }
         return $obj;
     }
@@ -127,7 +131,8 @@ class DataModel
                 
                 $pro->setValue($obj, $value);
             }
-            array_push($array, $obj);
+            $oClass = "O".$classname;
+            array_push($array, new $oClass($obj));
         }
         return $array;
     }
