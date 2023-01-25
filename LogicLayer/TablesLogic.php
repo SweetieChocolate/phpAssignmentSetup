@@ -4,6 +4,7 @@ require_once "Core/Connection.php";
 require_once "Core/DataModel.php";
 require_once "Core/DataList.php";
 require_once "Core/UUID.php";
+require_once "Core/ODataModel.php";
 
 require_once "Workforce/Employment.php";
 require_once "Workforce/Person/Person.php";

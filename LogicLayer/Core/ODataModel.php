@@ -2,6 +2,19 @@
 
 class ODataModel
 {
+    public static function GetPropertyValue(ODataModel $item, string $prop) : mixed
+    {
+        $ps = explode("->", $prop);
+        $value = $item;
+        foreach ($ps as $p)
+        {
+            if ($value == null)
+                return null;
+            $value = $value->$p;
+        }
+        return $value;
+    }
+
     protected $obj;
     public function __construct($obj)
     {

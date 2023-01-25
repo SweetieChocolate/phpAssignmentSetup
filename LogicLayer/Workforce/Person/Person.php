@@ -19,7 +19,16 @@ class Person extends DataModel
 
 class OPerson extends ODataModel
 {
-    
+    public function __get($name) : mixed
+    {
+        switch($name)
+        {
+            case "FullName":
+                return $this->obj->FamilyName . " " . $this->obj->GivenName;
+            default:
+                return parent::__get($name);
+        }
+    }
 }
 
 ?>

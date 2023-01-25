@@ -155,10 +155,10 @@ class DataModel
                             $temp = $type::Load($this->$varID);
                             if ($temp != null)
                                 $this->$var = $temp->toDataModel();
-                            return $this->$var;
+                            return $this->$var->toObject();
                         }
                         else if (isset($this->$var))
-                            return $this->$var;
+                            return $this->$var->toObject();
                         else return NULL;
                     }
                     else if (isset($this->$varID))
@@ -167,7 +167,7 @@ class DataModel
                         if ($temp != null)
                         {
                             $this->$var = $temp->toDataModel();
-                            return $this->$var;
+                            return $this->$var->toObject();
                         }
                         else return NULL;
                     }
@@ -201,6 +201,13 @@ class DataModel
             throw new Exception("Property '$var' is not exist in class $classname");
         }
     }
+
+    public function toObject()
+    {
+        $classname = get_called_class();
+        $oClass = "O".$classname;
+        return new $oClass($this);
+    }
     
     public function __set($var, $val) : void
     {
@@ -223,7 +230,7 @@ class DataModel
                 $varID = $var."ID";
                 if (property_exists($classname, $varID))
                 {
-                    $this->$var = $val;
+                    $this->$var = $val->toDataModel();
                     $this->$varID = $val->ObjectID;
                 }
                 else
@@ -462,30 +469,6 @@ class DataModel
             default: $dbType = $phpType; break;
         }
         return strtoupper($dbType);
-    }
-}
-
-class ODataModel
-{
-    protected $obj;
-    public function __construct($obj)
-    {
-        $this->obj = $obj;
-    }
-
-    public function __get($name)
-    {
-        return $this->obj->$name;
-    }
-
-    public function __set($name, $value)
-    {
-        $this->obj->$name = $value;
-    }
-
-    public function toDataModel()
-    {
-        return $this->obj;
     }
 }
 

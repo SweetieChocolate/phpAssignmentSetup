@@ -33,7 +33,8 @@ if (!empty($tablename))
         {
             if (empty($prop))
                 continue;
-            $value = $prop == "-" ? "-" : GetPropertyValue($item, $prop);
+            $value = $prop == "-" ? "-" : ODataModel::GetPropertyValue($item, $prop);
+            $value = $value == null ? "-" : $value;
             $col = $doc->createElement("td", $value);
             $row->appendChild($col);
         }
@@ -41,17 +42,6 @@ if (!empty($tablename))
     }
     
     echo $doc->saveHTML();
-}
-
-function GetPropertyValue(ODataModel $item, string $prop) : mixed
-{
-    $ps = explode("->", $prop);
-    $value = $item;
-    foreach ($ps as $p)
-    {
-        $value = $value->$p;
-    }
-    return $value;
 }
 
 function ClearChild(DOMElement $parent)
