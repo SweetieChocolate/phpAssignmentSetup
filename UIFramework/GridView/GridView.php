@@ -34,7 +34,7 @@ if (!empty($tablename))
             if (empty($prop))
                 continue;
             $value = $prop == "-" ? "-" : ODataModel::GetPropertyValue($item, $prop);
-            $value = $value == null ? "-" : $value;
+            $value = $value == null ? "null" : $value;
             $col = $doc->createElement("td", $value);
             $row->appendChild($col);
         }

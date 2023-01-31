@@ -1,6 +1,6 @@
 <?php
 session_start();
-echo session_id() . '<br>';
+$_SESSION['ROOTPATH'] = $_SERVER['DOCUMENT_ROOT'] . "/phpAssignmentSetup/";
 ?>
 <html>
     <head>
