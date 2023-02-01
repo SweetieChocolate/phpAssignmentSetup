@@ -1,7 +1,9 @@
 <script>
 <?php
 session_start();
-print_r($_SESSION);
+if (!isset($_SESSION['ROOTPATH']))
+    die();
+require_once $_SESSION['ROOTPATH'] . "validate-access.php";
 ?>
 </script>
 <html>

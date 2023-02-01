@@ -3,6 +3,10 @@ if (session_status() === PHP_SESSION_NONE)
 {
     session_start();
 }
+if (!isset($_SESSION['ROOTPATH']))
+    die();
+require_once $_SESSION['ROOTPATH'] . "validate-access.php";
+
 $sid = session_id();
 
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
@@ -19,8 +23,14 @@ $tmpdir = "/tmp";
 $tmppath = $rootpath . $tmpdir;
 if (!is_dir($tmppath))
     mkdir($tmppath);
-//session_save_path($tmppath);
 
+$tmpdir .= "/" . $sid;
+
+$tmppath = $rootpath . $tmpdir;
+if (!is_dir($tmppath))
+    mkdir($tmppath);
+
+//session_save_path($tmppath);
 $tmpdir .= "/";
 $tmppath .= "/";
 
@@ -47,7 +57,7 @@ $uiscript = $xpath->query("//*[@id='uiframework']")->item(0);
 $uiscript->parentNode->removeChild($uiscript);
 
 // use current session id as temp file
-$tmpfile = $sid . ".php";
+$tmpfile = substr(str_replace("/", "_", $uri), 1);
 
 // save the result html to a temp file
 $doc->saveHTMLFile($tmppath . $tmpfile);
