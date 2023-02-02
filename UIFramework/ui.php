@@ -60,7 +60,7 @@ $uiscript->parentNode->removeChild($uiscript);
 $tmpfile = substr(str_replace("/", "_", $uri), 1);
 
 // save the result html to a temp file
-$doc->save($tmppath . $tmpfile);
+$doc->save($tmppath . $tmpfile, LIBXML_NOEMPTYTAG);
 
 // get actual url of the temp file
 $link = $tmpdir . $tmpfile;
