@@ -39,7 +39,7 @@ $path = $rootpath . $uri;
 
 $doc = new DOMDocument();
 $doc->formatOutput = true;
-$doc->loadHTMLFile($path, LIBXML_NOEMPTYTAG);
+$doc->load($path, LIBXML_NOEMPTYTAG);
 $xpath = new DOMXPath($doc);
 
 // ALL UI FRAMEWORK MUST START HERE
@@ -60,7 +60,7 @@ $uiscript->parentNode->removeChild($uiscript);
 $tmpfile = substr(str_replace("/", "_", $uri), 1);
 
 // save the result html to a temp file
-$doc->saveHTMLFile($tmppath . $tmpfile);
+$doc->save($tmppath . $tmpfile);
 
 // get actual url of the temp file
 $link = $tmpdir . $tmpfile;

@@ -1,12 +1,13 @@
-<script>
 <?php
 session_start();
 if (!isset($_SESSION['ROOTPATH']))
     die();
 require_once $_SESSION['ROOTPATH'] . "validate-access.php";
 ?>
-</script>
 <html>
+<script>
+
+</script>
 <head>
 </head>
 <body>
