@@ -1,9 +1,10 @@
 <?php
 session_start();
 session_unset();
-$_SESSION['ROOTDIR'] = "/phpAssignmentSetup/";
-$_SESSION['ROOTURI'] = $_SESSION['ROOTDIR'] . "webapp/";
-$_SESSION['ROOTPATH'] = $_SERVER['DOCUMENT_ROOT'] . $_SESSION['ROOTDIR'];
+$_SESSION['PROJECTFOLDER'] = "/phpAssignmentSetup/";
+$_SESSION['PROJECTROOT'] = $_SERVER['DOCUMENT_ROOT'] . $_SESSION['PROJECTFOLDER'];
+$_SESSION['ROOTURI'] = $_SESSION['PROJECTFOLDER'] . "webapp/";
+$_SESSION['ROOTPATH'] = $_SERVER['DOCUMENT_ROOT'] . $_SESSION['ROOTURI'];
 
 // login logic here if username and password valid redirect to home
 // true for now

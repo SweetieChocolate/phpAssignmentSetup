@@ -16,27 +16,33 @@ else
 $rooturl .= "://";
 $rooturl .= $_SERVER['HTTP_HOST'];
 
-$rootpath = $_SERVER['DOCUMENT_ROOT'];
+$tmpdir = "tmp";
+$tmppath = $_SESSION['ROOTPATH'] . $tmpdir;
 
-$tmpdir = "/tmp";
-
-$tmppath = $rootpath . $tmpdir;
 if (!is_dir($tmppath))
-    mkdir($tmppath);
+{
+    if (!mkdir($tmppath))
+    {
+        //echo "failed to make directory $tmppath \n";
+    }
+}
 
 $tmpdir .= "/" . $sid;
+$tmppath .= "/" . $sid;
 
-$tmppath = $rootpath . $tmpdir;
 if (!is_dir($tmppath))
-    mkdir($tmppath);
+{
+    if (!mkdir($tmppath))
+    {
+        //echo "failed to make directory $tmppath \n";
+    }
+}
 
 //session_save_path($tmppath);
 $tmpdir .= "/";
 $tmppath .= "/";
 
-$uri = $_SERVER['REQUEST_URI'];
-$path = $rootpath . $uri;
-
+$path = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
 $doc = new DOMDocument();
 $doc->formatOutput = true;
 $doc->load($path, LIBXML_NOEMPTYTAG);
@@ -62,8 +68,10 @@ $tmpfile = substr(str_replace("/", "_", $uri), 1);
 // save the result html to a temp file
 $doc->save($tmppath . $tmpfile, LIBXML_NOEMPTYTAG);
 
+//echo $tmppath . $tmpfile . "\n";
+
 // get actual url of the temp file
-$link = $tmpdir . $tmpfile;
+$link = $_SESSION['ROOTURI'] . $tmpdir . $tmpfile;
 
 // redirect to the temp file that just save
 echo "document.location.href = '" . $link . "';";

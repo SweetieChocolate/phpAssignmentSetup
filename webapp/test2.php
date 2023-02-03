@@ -17,7 +17,7 @@ require_once $_SESSION['ROOTPATH'] . "validate-access.php";
 </body>
 <script id="uiframework">
 <?php
-require_once $_SESSION['ROOTPATH'] . "UIFramework/ui.php";
+require_once $_SESSION['PROJECTROOT'] . "UIFramework/ui.php";
 ?>
 </script>
 </html>
