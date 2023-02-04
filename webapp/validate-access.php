@@ -13,8 +13,8 @@ if (!isset($_SESSION["USERID"]))
 
 if (!$valid)
 {
-    header("Location: " . $_SESSION['WEBROOTURL_SERVER'] . "deny.php");
-    header("Location: " . $_SESSION['WEBROOTURL_LOCAL'] . "deny.php");
+    header("Location: " . $_SESSION['WEB_ROOTURL_SERVER'] . "deny.php");
+    //header("Location: " . $_SESSION['WEB_ROOTURL_LOCAL'] . "deny.php");
 }
 
 $uri = $_SERVER['REQUEST_URI'];
