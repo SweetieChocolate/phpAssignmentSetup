@@ -6,12 +6,12 @@ if (session_status() === PHP_SESSION_NONE)
 if (!isset($_SESSION['ISINITIALIZE']))
     exit();
 
-require_once $_SESSION['WEBROOTPATH'] . "validate-access.php";
+require_once $_SESSION['WEB_ROOTPATH'] . "validate-access.php";
 
 $sid = session_id();
 
-// $tmpdir = $_SESSION['PROJECTROOTPATH'] . "tmp";
-// $tmpdir = $_SESSION['WEBROOTPATH'] . "tmp";
+// $tmpdir = $_SESSION['PROJECT_ROOTPATH'] . "tmp";
+// $tmpdir = $_SESSION['WEB_ROOTPATH'] . "tmp";
 $tmpdir = session_save_path();
 if (!is_dir($tmpdir))
 {
@@ -33,6 +33,8 @@ if (!is_dir($tmpdir))
 }
 $tmpdir .= "/";
 
+
+
 $path = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
 $doc = new DOMDocument();
 $doc->formatOutput = true;
@@ -46,9 +48,6 @@ $xpath = new DOMXPath($doc);
 // xpath query element with id
 // $ele = $xpath->query("//*[@id='id_here']")->item(0);
 
-$ele = $xpath->query("//*[@id='uiscript']")->item(0);
-$ele->parentNode->removeChild($ele);
-
 
 
 
@@ -58,6 +57,7 @@ $ele->parentNode->removeChild($ele);
 
 // store raw html into a string
 $result = $doc->saveXML($doc->documentElement, LIBXML_NOEMPTYTAG);
+$result = str_replace("</br>", "", $result);
 
 // there is two ways to output the result
 

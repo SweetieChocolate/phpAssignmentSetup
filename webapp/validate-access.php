@@ -19,6 +19,9 @@ if (!$valid)
 
 $uri = $_SERVER['REQUEST_URI'];
 
+if (basename($uri) == "home.php")
+    return;
+
 // in db -> function table will have url with ~/test.php
 // uri will get phpAssignmentSetup/webapp/test.php
 // we will select function from db that has the same url as uri

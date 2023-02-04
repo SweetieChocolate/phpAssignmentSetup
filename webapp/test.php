@@ -9,8 +9,7 @@ if (session_status() === PHP_SESSION_NONE)
 if (!isset($_SESSION['ISINITIALIZE']))
     exit();
 
-if(!isset($_GET['view']))
-    require_once $_SESSION['PROJECTROOTPATH'] . "UIFramework/ui.php";
+require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
 
 ?>
 

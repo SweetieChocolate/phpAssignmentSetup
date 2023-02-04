@@ -4,8 +4,8 @@ require "web-initialize.php";
 
 if (isset($_SESSION['USERID']))
 {
-    include("home.php");
-    exit();
+    $homepageurl = $_SESSION['HOME_PAGE'];
+    header("Location: $homepageurl");
 }
 
 // login logic here if username and password valid redirect to home

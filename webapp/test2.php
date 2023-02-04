@@ -2,14 +2,14 @@
 // this part is ui framework and seesion validate part
 // do not start your code here
 // all your code must start inside html tag
+
 if (session_status() === PHP_SESSION_NONE)
     session_start();
 
 if (!isset($_SESSION['ISINITIALIZE']))
     exit();
-
-if(!isset($_GET['view']))
-    require_once $_SESSION['PROJECTROOTPATH'] . "UIFramework/ui.php";
+    
+require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
 
 ?>
 
