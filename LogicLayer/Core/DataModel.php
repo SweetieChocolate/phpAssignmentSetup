@@ -37,7 +37,7 @@ class DataModel
     }
 
     /** Create an DataModel Object with a new ObjectID and Set flag IsNew to true **/
-    public static function Create() : DataModel
+    public static function Create() : ODataModel
     {
         $classname = get_called_class();
         $obj = new $classname();
@@ -45,7 +45,8 @@ class DataModel
         $obj->ObjectID = UUID::New();
         $obj->CreatedDateTime = DateTimeHelper::Now();
         $obj->LastModifiedDateTime = DateTimeHelper::Now();
-        return $obj;
+        $oClass = "O" . $classname;
+        return new $oClass($obj);
     }
 
     /** Load a DataModel Object from DataBase **/
@@ -54,7 +55,7 @@ class DataModel
         $classname = get_called_class();
         $sql = "SELECT * FROM $classname WHERE IsDeleted = 0 AND ObjectID = " . UUID::ID_FOR_QUERY($objectID) . " LIMIT 1;";
         /* load sql select top 1 from database and map every column to the obj below */
-        $con = new Connection();
+        $con = new DBConnection();
         $result = $con->ExecuteQuery($sql);
         /* map the dataset get from query to obj*/
         $dataModel = new ReflectionClass($classname);
@@ -97,7 +98,7 @@ class DataModel
         $classname = get_called_class();
         $sql = "SELECT * FROM $classname WHERE IsDeleted = 0 AND $where ORDER BY $orderby ;";
         /* load sql select * from database and map every column to the obj below */
-        $con = new Connection();
+        $con = new DBConnection();
         $result = $con->ExecuteQuery($sql);
         /* pull every data row from sql to array */
         $dataModel = new ReflectionClass($classname);
@@ -250,14 +251,14 @@ class DataModel
         }
     }
     
-    public function save(Connection $connection) : void
+    public function save(DBConnection $connection) : void
     {
         if ($this->IsLock) return;
         $this->IsLock = true;
         array_push($connection->object, $this);
     }
 
-    public function delete(Connection $connection) : void
+    public function delete(DBConnection $connection) : void
     {
         $this->IsDeleted = true;
         if ($this->IsLock) return;
@@ -376,7 +377,7 @@ class DataModel
 
     public static function GetDBTableQueryWithName(string $className) : string
     {
-        $con = new Connection();
+        $con = new DBConnection();
         $query = "SHOW TABLE STATUS FROM " . $con->DataBase() . " WHERE Name = '" . $className . "';";
         $result = $con->ExecuteQuery($query);
         if ($result->num_rows < 1)
@@ -406,7 +407,7 @@ class DataModel
 
     private static function GenerateAlterTable(string $className)
     {
-        $con = new Connection();
+        $con = new DBConnection();
         $cols = DataModel::GetPropertiesForDB($className);
         $query = "SHOW COLUMNS FROM " . $className . ";";
         $result = $con->ExecuteQuery($query);

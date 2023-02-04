@@ -2,7 +2,7 @@
 
 require_once "DataModel.php";
 
-class Connection
+class DBConnection
 {
     public array $object;
     private string $servername;

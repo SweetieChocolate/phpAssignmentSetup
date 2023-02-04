@@ -55,7 +55,7 @@ class UUID
 
     private static function NewUUID() : string
     {
-        $con = new Connection();
+        $con = new DBConnection();
         $query = "SELECT UUID() AS NEWID;";
         $result = $con->ExecuteQuery($query);
         if ($result->num_rows < 1)

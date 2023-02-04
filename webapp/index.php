@@ -1,6 +1,9 @@
 <?php
 
-require "web-initialize.php";
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
+
+require_once "web-initialize.php";
 
 if (isset($_SESSION['USERID']))
 {

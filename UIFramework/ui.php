@@ -7,43 +7,36 @@ if (!isset($_SESSION['ISINITIALIZE']))
     exit();
 
 require_once $_SESSION['WEB_ROOTPATH'] . "validate-access.php";
+require_once "UIHelper.php";
+require_once $_SESSION['PROJECT_ROOTPATH'] . "LogicLayer/TablesLogic.php";
 
 $sid = session_id();
 
-// $tmpdir = $_SESSION['PROJECT_ROOTPATH'] . "tmp";
-// $tmpdir = $_SESSION['WEB_ROOTPATH'] . "tmp";
-$tmpdir = session_save_path();
+// $tmpdir = $_SESSION['PROJECT_ROOTPATH'] . "tmp/" . $sid . "/";
+// $tmpdir = $_SESSION['WEB_ROOTPATH'] . "tmp/" . $sid . "/";
+$tmpdir = session_save_path() . "/" . $sid . "/";
 if (!is_dir($tmpdir))
 {
-    if (!mkdir($tmpdir))
+    if (!mkdir($tmpdir, 0777, true))
     {
         //echo "failed to make directory $tmpdir \n";
         exit();
     }
 }
-
-$tmpdir .= "/" . $sid;
-if (!is_dir($tmpdir))
-{
-    if (!mkdir($tmpdir))
-    {
-        //echo "failed to make directory $tmpdir \n";
-        exit();
-    }
-}
-$tmpdir .= "/";
-
-
 
 $path = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
-$doc = new DOMDocument();
-$doc->formatOutput = true;
-$doc->load($path, LIBXML_NOEMPTYTAG);
-$xpath = new DOMXPath($doc);
+$dom = new DOMDocument();
+$dom->formatOutput = true;
+$dom->load($path, LIBXML_NOEMPTYTAG);
+$domXPath = new DOMXPath($dom);
 
 // ALL UI FRAMEWORK MUST START HERE
 
+$nulltext = $_SESSION['NULL_TEXT'];
+
 // MANIPULATE DATA
+
+require_once "gridview.php";
 
 // xpath query element with id
 // $ele = $xpath->query("//*[@id='id_here']")->item(0);
@@ -56,7 +49,7 @@ $xpath = new DOMXPath($doc);
 
 
 // store raw html into a string
-$result = $doc->saveXML($doc->documentElement, LIBXML_NOEMPTYTAG);
+$result = $dom->saveXML($dom->documentElement, LIBXML_NOEMPTYTAG);
 $result = str_replace("</br>", "", $result);
 
 // there is two ways to output the result

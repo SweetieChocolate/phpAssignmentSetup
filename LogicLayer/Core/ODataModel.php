@@ -2,9 +2,9 @@
 
 class ODataModel
 {
-    public static function GetPropertyValue(ODataModel $item, string $prop) : mixed
+    public static function GetPropertyValue(ODataModel $item, string $prop, string $delimiter = "->") : mixed
     {
-        $ps = explode("->", $prop);
+        $ps = explode($delimiter, $prop);
         $value = $item;
         foreach ($ps as $p)
         {
@@ -15,7 +15,7 @@ class ODataModel
         return $value;
     }
 
-    protected $obj;
+    protected DataModel $obj;
     public function __construct($obj)
     {
         $this->obj = $obj;
@@ -31,7 +31,7 @@ class ODataModel
         $this->obj->$name = $value;
     }
 
-    public function toDataModel()
+    public function toDataModel() : DataModel
     {
         return $this->obj;
     }

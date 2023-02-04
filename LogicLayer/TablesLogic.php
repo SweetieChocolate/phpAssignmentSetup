@@ -33,7 +33,7 @@ class TablesLogic
     {
         try
         {
-            $con = new Connection();
+            $con = new DBConnection();
             foreach (TablesLogic::$tables as $t)
             {
                 echo "Started Synchronizing table: " . $t . "<br>";

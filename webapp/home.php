@@ -21,8 +21,9 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
     </script>
 </head>
 <body>
+    <a href="synchronize_table.php" onclick="event.preventDefault(); changeFrame(this)">synchronize table</a><br />
     <a href="test.php" onclick="event.preventDefault(); changeFrame(this)">test</a><br />
-    <a href="test2.php" onclick="event.preventDefault(); changeFrame(this)">test2</a><br />
+    <a href="employment.php" onclick="event.preventDefault(); changeFrame(this)">employment</a><br />
     <iframe id ="frameView" src="" frameborder="0" width="100%" height="100%"></iframe>
 </body>
 </html>

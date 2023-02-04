@@ -1,7 +1,4 @@
 <?php
-// this part is ui framework and seesion validate part
-// do not start your code here
-// all your code must start inside html tag
 
 if (session_status() === PHP_SESSION_NONE)
     session_start();
@@ -9,24 +6,22 @@ if (session_status() === PHP_SESSION_NONE)
 if (!isset($_SESSION['ISINITIALIZE']))
     exit();
 
-require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
+require_once $_SESSION['PROJECT_ROOTPATH'] . "LogicLayer/TablesLogic.php";
+
+$emp = Employment::Create();
+$emp->Person->FamilyName = "DOV";
+$emp->Person->GivenName = "Ratha";
+$emp->Salary = 500;
+
+echo "Inserting new Employment:" . "<br>";
+echo $emp->ObjectID . "<br>";
+echo $emp->Person->FamilyName . "<br>";
+echo $emp->Person->GivenName . "<br>";
+echo $emp->Salary . "<br>";
+
+$con = new DBConnection();
+$emp->toDataModel()->save($con);
+$con->commit();
+echo "Success";
 
 ?>
-
-<html>
-<?php
-// ur php code can be written here
-
-
-?>
-<head>
-</head>
-<body>
-    <b>this is a test</b>
-    <gridview id="gvDetails" TableName="Employment">
-        <column PropertyName="Person->FullName" HeaderText="Full Name"></column>
-        <column PropertyName="Person->FamilyName" HeaderText="Last Name"></column>
-        <column PropertyName="Person->GivenName" HeaderText="First Name"></column>
-    </gridview>
-</body>
-</html>

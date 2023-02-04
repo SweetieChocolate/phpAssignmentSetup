@@ -4,20 +4,20 @@ require_once dirname(__FILE__) . "/../TablesLogic.php";
 
 class Employment extends DataModel
 {
-    // Job Information
-    protected string $BranchID;
-    protected string $DepartmentID;
-    protected string $PositionID;
-
-    // Time Attendance
-    protected string $RosterID;
-
-    protected float $Salary;
-
     protected UUID $PersonID;
     protected Person $Person;
 
-    public static function Create() : DataModel
+    protected float $Salary;
+
+    // Job Information
+    protected UUID $BranchID;
+    protected UUID $DepartmentID;
+    protected UUID $PositionID;
+
+    // Time Attendance
+    protected UUID $RosterID;
+
+    public static function Create() : ODataModel
     {
         $obj = parent::Create();
         $per = Person::Create();
@@ -26,7 +26,7 @@ class Employment extends DataModel
         return $obj;
     }
 
-    public function save(Connection $con) : void
+    public function save(DBConnection $con) : void
     {
         parent::save($con);
         $this->Person->save($con);
