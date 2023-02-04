@@ -1,46 +1,37 @@
 <?php
+
 if (session_status() === PHP_SESSION_NONE)
-{
     session_start();
-}
-if (!isset($_SESSION['ROOTPATH']))
-    die();
-require_once $_SESSION['ROOTPATH'] . "validate-access.php";
+
+if (!isset($_SESSION['ISINITIALIZE']))
+    exit();
+
+require_once $_SESSION['WEBROOTPATH'] . "validate-access.php";
 
 $sid = session_id();
 
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
-    $rooturl = "https";
-else
-    $rooturl = "http";
-$rooturl .= "://";
-$rooturl .= $_SERVER['HTTP_HOST'];
-
-$tmpdir = "tmp";
-$tmppath = $_SESSION['ROOTPATH'] . $tmpdir;
-
-if (!is_dir($tmppath))
+// $tmpdir = $_SESSION['PROJECTROOTPATH'] . "tmp";
+// $tmpdir = $_SESSION['WEBROOTPATH'] . "tmp";
+$tmpdir = session_save_path();
+if (!is_dir($tmpdir))
 {
-    if (!mkdir($tmppath))
+    if (!mkdir($tmpdir))
     {
-        //echo "failed to make directory $tmppath \n";
+        //echo "failed to make directory $tmpdir \n";
+        exit();
     }
 }
 
 $tmpdir .= "/" . $sid;
-$tmppath .= "/" . $sid;
-
-if (!is_dir($tmppath))
+if (!is_dir($tmpdir))
 {
-    if (!mkdir($tmppath))
+    if (!mkdir($tmpdir))
     {
-        //echo "failed to make directory $tmppath \n";
+        //echo "failed to make directory $tmpdir \n";
+        exit();
     }
 }
-
-//session_save_path($tmppath);
 $tmpdir .= "/";
-$tmppath .= "/";
 
 $path = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
 $doc = new DOMDocument();
@@ -52,28 +43,40 @@ $xpath = new DOMXPath($doc);
 
 // MANIPULATE DATA
 
+// xpath query element with id
+// $ele = $xpath->query("//*[@id='id_here']")->item(0);
+
+$ele = $xpath->query("//*[@id='uiscript']")->item(0);
+$ele->parentNode->removeChild($ele);
+
 
 
 
 // ALL UI FRAMEWORK MUST END HERE
 
-// remove the php ui framework to prevent infinite loop
-//$uiscript = $doc->getElementById("uiframework");
-$uiscript = $xpath->query("//*[@id='uiframework']")->item(0);
-$uiscript->parentNode->removeChild($uiscript);
 
-// use current session id as temp file
-$tmpfile = substr(str_replace("/", "_", $uri), 1);
 
+// store raw html into a string
+$result = $doc->saveXML($doc->documentElement, LIBXML_NOEMPTYTAG);
+
+// there is two ways to output the result
+
+// 1. using echo will not run the php script inside html tag
+// 2. using include will run the php script inside html tag
+//    using include will need the save the result into a temp file first
+
+// first method
+// echo $result;
+
+// second method
 // save the result html to a temp file
-$doc->save($tmppath . $tmpfile, LIBXML_NOEMPTYTAG);
+$tmpfile = substr(str_replace("/", "_", $_SERVER['REQUEST_URI']), 1);
+$filepath = $tmpdir . $tmpfile;
+file_put_contents($filepath, $result);
+include($filepath);
 
-//echo $tmppath . $tmpfile . "\n";
-
-// get actual url of the temp file
-$link = $_SESSION['ROOTURI'] . $tmpdir . $tmpfile;
-
-// redirect to the temp file that just save
-echo "document.location.href = '" . $link . "';";
+// exit to prevent the code below being execute
+// because everything already print out at this point
+exit();
 
 ?>

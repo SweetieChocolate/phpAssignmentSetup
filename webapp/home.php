@@ -1,9 +1,16 @@
 <?php
-session_start();
-if (!isset($_SESSION['ROOTPATH']))
-    die();
-require_once $_SESSION['ROOTPATH'] . "validate-access.php";
+
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
+
+if (!isset($_SESSION['ISINITIALIZE']))
+    exit();
+
+if(!isset($_GET['view']))
+    require_once $_SESSION['PROJECTROOTPATH'] . "UIFramework/ui.php";
+
 ?>
+
 <html>
     <head>
         <script>

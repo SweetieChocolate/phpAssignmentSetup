@@ -1,10 +1,24 @@
 <?php
-session_start();
-if (!isset($_SESSION['ROOTPATH']))
-    die();
-require_once $_SESSION['ROOTPATH'] . "validate-access.php";
+// this part is ui framework and seesion validate part
+// do not start your code here
+// all your code must start inside html tag
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
+
+if (!isset($_SESSION['ISINITIALIZE']))
+    exit();
+
+if(!isset($_GET['view']))
+    require_once $_SESSION['PROJECTROOTPATH'] . "UIFramework/ui.php";
+
 ?>
+
 <html>
+<?php
+// ur php code can be written here
+
+
+?>
 <head>
 </head>
 <body>
@@ -15,9 +29,4 @@ require_once $_SESSION['ROOTPATH'] . "validate-access.php";
         <column PropertyName="Person->GivenName" HeaderText="First Name"></column>
     </gridview>
 </body>
-<script id="uiframework">
-<?php
-require_once $_SESSION['PROJECTROOT'] . "UIFramework/ui.php";
-?>
-</script>
 </html>

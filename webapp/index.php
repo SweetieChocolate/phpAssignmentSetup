@@ -1,10 +1,12 @@
 <?php
-session_start();
-session_unset();
-$_SESSION['PROJECTFOLDER'] = "/phpAssignmentSetup/";
-$_SESSION['PROJECTROOT'] = $_SERVER['DOCUMENT_ROOT'] . $_SESSION['PROJECTFOLDER'];
-$_SESSION['ROOTURI'] = $_SESSION['PROJECTFOLDER'] . "webapp/";
-$_SESSION['ROOTPATH'] = $_SERVER['DOCUMENT_ROOT'] . $_SESSION['ROOTURI'];
+
+require "web-initialize.php";
+
+if (isset($_SESSION['USERID']))
+{
+    include("home.php");
+    exit();
+}
 
 // login logic here if username and password valid redirect to home
 // true for now
@@ -13,9 +15,10 @@ if (true)
     // store objectid of the user in USERID to able access across the web application
     // random text for now
     $_SESSION['USERID'] = "random";
-    header("Location: home.php");
+    header("Refresh:0");
 }
 ?>
+
 <html>
     <head>
         <script>
