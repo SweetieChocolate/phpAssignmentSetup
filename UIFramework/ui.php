@@ -24,7 +24,10 @@ if (!is_dir($tmpdir))
     }
 }
 
-$path = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['REQUEST_URI'];
+$action = $_GET['ACTION'];
+
+$requestURI = strtok($_SERVER['REQUEST_URI'], '?');
+$path = $_SERVER['DOCUMENT_ROOT'] . $requestURI;
 $dom = new DOMDocument();
 $dom->formatOutput = true;
 $dom->load($path, LIBXML_NOEMPTYTAG);
@@ -52,24 +55,17 @@ require_once "gridview.php";
 $result = $dom->saveXML($dom->documentElement, LIBXML_NOEMPTYTAG);
 $result = str_replace("</br>", "", $result);
 
-// there is two ways to output the result
-
-// 1. using echo will not run the php script inside html tag
-// 2. using include will run the php script inside html tag
-//    using include will need the save the result into a temp file first
-
-// first method
-// echo $result;
-
-// second method
 // save the result html to a temp file
-$tmpfile = substr(str_replace("/", "_", $_SERVER['REQUEST_URI']), 1);
+$tmpfile = substr(str_replace("/", "_", $requestURI), 1);
 $filepath = $tmpdir . $tmpfile;
 file_put_contents($filepath, $result);
 include($filepath);
 
-// exit to prevent the code below being execute
-// because everything already print out at this point
-exit();
+// exit to prevent the code in main file being execute
+// because the action if view only not edit the information
+if ($action == "VIEW")
+    exit();
+
+header("Location: $requestURI" . "?ACTION=VIEW");
 
 ?>

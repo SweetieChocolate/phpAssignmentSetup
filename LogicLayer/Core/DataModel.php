@@ -50,6 +50,46 @@ class DataModel
     }
 
     /** Load a DataModel Object from DataBase **/
+    private static function LoadDataModel(string $objectID)
+    {
+        $classname = get_called_class();
+        $sql = "SELECT * FROM $classname WHERE IsDeleted = 0 AND ObjectID = " . UUID::ID_FOR_QUERY($objectID) . " LIMIT 1;";
+        /* load sql select top 1 from database and map every column to the obj below */
+        $con = new DBConnection();
+        $result = $con->ExecuteQuery($sql);
+        /* map the dataset get from query to obj*/
+        $dataModel = new ReflectionClass($classname);
+        $pros = $dataModel->getProperties(ReflectionProperty::IS_PROTECTED);
+        while ($row = $result->fetch_assoc())
+        {
+            $obj = new $classname();
+            foreach ($pros as $pro)
+            {
+                $pro->setAccessible(true); // only required prior to PHP 8.1.0
+                
+                $proName = $pro->getName();
+                $isInit = isset($row[$proName]);
+                $isID = $pro->getType()->getName() == "UUID";
+                $isString = $pro->getType()->getName() == "string";
+                $isBoolean = $pro->getType()->getName() == "bool";
+                $isDateTime = $pro->getType()->getName() == "DateTime";
+    
+                if (!$isInit) continue;
+
+                $value = $row[$proName];
+                if (is_object($value) && !$isID && !$isDateTime) continue;
+
+                if ($isID) $value = UUID::FromBinary($value);
+                //if ($isString) $value = $value;
+                if ($isBoolean) $value = $value == 1 ? true : false;
+                if ($isDateTime) $value = DateTimeHelper::FromString($value);
+                
+                $pro->setValue($obj, $value);
+            }
+            return $obj;
+        }
+        return null;
+    }
     public static function Load(string $objectID)
     {
         $classname = get_called_class();
@@ -153,26 +193,22 @@ class DataModel
                     {
                         if ($this->$varID != $this->$var->ObjectID)
                         {
-                            $temp = $type::Load($this->$varID);
-                            if ($temp != null)
-                                $this->$var = $temp->toDataModel();
-                            return $this->$var->toObject();
+                            $temp = $type::LoadDataModel($this->$varID);
+                            if ($temp == null)
+                                return null;
+                            $this->$var = $temp;
                         }
-                        else if (isset($this->$var))
-                            return $this->$var->toObject();
-                        else return NULL;
+                        return $this->$var->toObject();
                     }
                     else if (isset($this->$varID))
                     {
-                        $temp = $type::Load($this->$varID);
-                        if ($temp != null)
-                        {
-                            $this->$var = $temp->toDataModel();
-                            return $this->$var->toObject();
-                        }
-                        else return NULL;
+                        $temp = $type::LoadDataModel($this->$varID);
+                        if ($temp == null)
+                            return null;
+                        $this->$var = $temp;
+                        return $this->$var->toObject();
                     }
-                    else return NULL;
+                    else return null;
                 }
                 else
                 {

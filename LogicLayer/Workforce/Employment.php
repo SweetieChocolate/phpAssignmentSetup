@@ -29,7 +29,7 @@ class Employment extends DataModel
     public function save(DBConnection $con) : void
     {
         parent::save($con);
-        $this->Person->save($con);
+        parent::__get("Person")->save($con);
     }
 }
 

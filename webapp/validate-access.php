@@ -17,7 +17,7 @@ if (!$valid)
     //header("Location: " . $_SESSION['WEB_ROOTURL_LOCAL'] . "deny.php");
 }
 
-$uri = $_SERVER['REQUEST_URI'];
+$uri = strtok($_SERVER['REQUEST_URI'], '?');
 
 if (basename($uri) == "home.php")
     return;

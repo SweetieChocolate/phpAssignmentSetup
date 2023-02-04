@@ -5,14 +5,34 @@ class ODataModel
     public static function GetPropertyValue(ODataModel $item, string $prop, string $delimiter = "->") : mixed
     {
         $ps = explode($delimiter, $prop);
-        $value = $item;
+        $temp = $item;
         foreach ($ps as $p)
         {
-            if ($value == null)
+            if ($temp == null)
                 return null;
-            $value = $value->$p;
+            $temp = $temp->$p;
         }
-        return $value;
+        return $temp;
+    }
+
+    public static function SetPropertyValue(ODataModel $item, string $prop, mixed $value, string $delimiter = "->") : bool
+    {
+        $ps = explode($delimiter, $prop);
+        $count = count($ps);
+        $temp = $item;
+        for ($i = 0; $i < $count; $i++)
+        {
+            $p = $ps[$i];
+            if ($i == $count - 1)
+            {
+                $temp->$p = $value;
+                return true;
+            }
+            $temp = $temp->$p;
+            if ($temp == null)
+                return false;
+        }
+        return true;
     }
 
     protected DataModel $obj;
@@ -34,6 +54,16 @@ class ODataModel
     public function toDataModel() : DataModel
     {
         return $this->obj;
+    }
+
+    public function save(DBConnection $connection) : void
+    {
+        $this->obj->save($connection);
+    }
+
+    public function delete(DBConnection $connection) : void
+    {
+        $this->obj->delete($connection);
     }
 }
 
