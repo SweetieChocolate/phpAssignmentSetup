@@ -24,8 +24,6 @@ if (!is_dir($tmpdir))
     }
 }
 
-$action = $_GET['ACTION'];
-
 $requestURI = strtok($_SERVER['REQUEST_URI'], '?');
 $path = $_SERVER['DOCUMENT_ROOT'] . $requestURI;
 $dom = new DOMDocument();
@@ -35,14 +33,30 @@ $domXPath = new DOMXPath($dom);
 
 // ALL UI FRAMEWORK MUST START HERE
 
+// xpath query element with id
+// $ele = $xpath->query("//*[@id='id_here']")->item(0);
+
+if (!isset($_GET['ACTION']))
+    header("Location: $requestURI" . "?ACTION=VIEW");
+
+$action = GetAndUnsetGET('ACTION');
+$button = GetAndUnsetPOST('BUTTON');
+
+$forms = $domXPath->query("//form");
+foreach ($forms as $form)
+{
+    $formaction = GetAttribute($form, "id");
+    if ($formaction != $action)
+    {
+        RemoveSelfNode($form);
+    }
+}
+
 $nulltext = $_SESSION['NULL_TEXT'];
 
 // MANIPULATE DATA
 
 require_once "gridview.php";
-
-// xpath query element with id
-// $ele = $xpath->query("//*[@id='id_here']")->item(0);
 
 
 
@@ -61,11 +75,8 @@ $filepath = $tmpdir . $tmpfile;
 file_put_contents($filepath, $result);
 include($filepath);
 
-// exit to prevent the code in main file being execute
-// because the action if view only not edit the information
-if ($action == "VIEW")
-    exit();
-
-header("Location: $requestURI" . "?ACTION=VIEW");
+// exit to prevent the html code in main file being display
+// because at this time everything should already display by include($filepath);
+exit();
 
 ?>

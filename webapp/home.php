@@ -24,7 +24,7 @@ if (!isset($_SESSION['ISINITIALIZE']))
     <a href="synchronize_table.php" onclick="event.preventDefault(); changeFrame(this)">synchronize table</a><br />
     <a href="test.php" onclick="event.preventDefault(); changeFrame(this)">test</a><br />
     <a href="employment.php?ACTION=VIEW" onclick="event.preventDefault(); changeFrame(this)">employment</a><br />
-    <a href="employment-edit.php?ACTION=VIEW" onclick="event.preventDefault(); changeFrame(this)">employment-edit</a><br />
+    <a href="employment.php?ACTION=EDIT" onclick="event.preventDefault(); changeFrame(this)">employment-edit</a><br />
     <iframe id ="frameView" src="" frameborder="0" width="100%" height="100%"></iframe>
 </body>
 </html>

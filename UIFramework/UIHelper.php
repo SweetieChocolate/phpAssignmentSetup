@@ -1,5 +1,37 @@
 <?php
 
+function GetAndUnsetPOST(string $key)
+{
+    if (isset($_POST[$key]))
+    {
+        $value = $_POST[$key];
+        unset($_POST[$key]);
+        return $value;
+    }
+    return null;
+}
+
+function GetAndUnsetGET(string $key)
+{
+    if (isset($_GET[$key]))
+    {
+        $value = $_GET[$key];
+        unset($_GET[$key]);
+        return $value;
+    }
+    return null;
+}
+
+function RemoveSelfElement(DOMElement $element)
+{
+    $element->parentNode->removeChild($element);
+}
+
+function RemoveSelfNode(DOMNode $node)
+{
+    $node->parentNode->removeChild($node);
+}
+
 function ClearElementChild(DOMElement $parent)
 {
     while ($parent->hasChildNodes())
