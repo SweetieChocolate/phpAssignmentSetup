@@ -29,6 +29,14 @@ class OFunctionModule extends ODataModel
                 return parent::__get($name);
         }
     }
+
+    // load function base on user permission
+    public static function GetAvailableFunction(UUID $userID)
+    {
+        // load all for now
+        $functions = FunctionModule::LoadList("1", "DisplayOrder ASC");
+        return $functions;
+    }
 }
 
 ?>

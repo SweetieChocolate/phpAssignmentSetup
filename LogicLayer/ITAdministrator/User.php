@@ -7,6 +7,7 @@ class User extends DataModel
     protected string $UserName;
     protected string $Password;
     protected string $UserEmail;
+    protected bool $IsAdministrator;
     protected bool $IsBan;
 }
 

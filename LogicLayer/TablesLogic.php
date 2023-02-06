@@ -44,19 +44,20 @@ class TablesLogic
     {
         try
         {
+            echo "<h1>All Table Is Being Synchronize</h1>";
             $con = new DBConnection();
             foreach (TablesLogic::$tables as $t)
             {
-                echo "Started Synchronizing table: " . $t . "<br>";
+                echo "<b>Started Synchronizing table: " . $t . "</b><br>";
                 $query = DataModel::GetDBTableQueryWithName($t);
                 if (!empty($query))
                 {
                     echo "Executing: <br>" . $query . "<br>";
                     $con->ExecuteQuery($query);
                 }
-                echo "Finished Synchronizing table: " . $t . "<br><br>";
+                echo "<b>Finished Synchronizing table: " . $t . "</b><br><br>";
             }
-            echo "All Table Synchronize";
+            echo "<h1>All Table Synchronize</h1>";
         }
         catch (Exception $e)
         {
