@@ -9,7 +9,14 @@ class PersonPhone extends DataModel
 
 class OPersonPhone extends ODataModel
 {
-    
+    public function __get($name) : mixed
+    {
+        switch($name)
+        {
+            default:
+                return parent::__get($name);
+        }
+    }
 }
 
 ?>

@@ -6,6 +6,11 @@ require_once "Core/DataList.php";
 require_once "Core/UUID.php";
 require_once "Core/ODataModel.php";
 
+require_once "ITAdministrator/User.php";
+require_once "ITAdministrator/FunctionModule.php";
+require_once "ITAdministrator/RoleModule.php";
+require_once "ITAdministrator/FunctionRoleDetail.php";
+
 require_once "Workforce/Employment.php";
 require_once "Workforce/Person/Person.php";
 require_once "Workforce/Person/PersonPhone.php";
@@ -13,6 +18,12 @@ require_once "Workforce/Person/PersonPhone.php";
 class TablesLogic
 {
     public static $tables = [
+        // IT Administrator
+        "User",
+        "FunctionModule",
+        "RoleModule",
+        "FunctionRoleDetail",
+        // Workforce
         "Employment",
         "Person",
         "PersonPhone"

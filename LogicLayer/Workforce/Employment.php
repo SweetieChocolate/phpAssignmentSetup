@@ -35,7 +35,14 @@ class Employment extends DataModel
 
 class OEmployment extends ODataModel
 {
-    
+    public function __get($name) : mixed
+    {
+        switch($name)
+        {
+            default:
+                return parent::__get($name);
+        }
+    }
 }
 
 ?>
