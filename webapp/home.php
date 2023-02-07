@@ -6,13 +6,13 @@ if (session_status() === PHP_SESSION_NONE)
 if (!isset($_SESSION['ISINITIALIZE']))
     exit();
 
-//require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
+require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
 
 ?>
 
 <html>
 <head>
-    <?php include "web-header.php"; ?>
+    <?php include $_SESSION['WEB_ROOTPATH'] . "web-header.php"; ?>
 </head>
 <body class="bg-info">
     <div class="sidebar">
@@ -26,7 +26,7 @@ if (!isset($_SESSION['ISINITIALIZE']))
         <div class="profile_content">
             <div class="profile">
                 <div class="profile_details">
-                    <img src="assets/medium-hr_20software_202.jpg" alt="">
+                    <img src="assets/medium-hr_20software_202.jpg" alt="" />
                     <div class="name_job">
                         <div class="name">Sokmean Kao</div>
                         <div class="email">sokmeankao.me@gmail.com</div>
@@ -34,7 +34,7 @@ if (!isset($_SESSION['ISINITIALIZE']))
                 </div>
             </div>
         </div>
-        <?php include "web-navigation.php" ?>
+        <?php include $_SESSION['WEB_ROOTPATH'] . "web-navigation.php" ?>
     </div>
     
     <div class="home_content">
@@ -63,6 +63,6 @@ if (!isset($_SESSION['ISINITIALIZE']))
         }
 
     </script>
-    <?php include "web-footer.php" ?>
+    <?php include $_SESSION['WEB_ROOTPATH'] . "web-footer.php" ?>
 </body>
 </html>

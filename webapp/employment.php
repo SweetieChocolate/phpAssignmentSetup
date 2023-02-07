@@ -11,17 +11,24 @@ if (!isset($_SESSION['ISINITIALIZE']))
     
 require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
 
+// control on how the ui load start here
+function gvDetailsLoad()
+{
+    return Employment::LoadList();
+}
+
 ?>
 
 <html>
 <?php
-// ur php code can be written here
+
+// form submitinn code written here
 
 if ($button != null)
 {
-    if (str_starts_with($button, "Save"))
+    if (str_contains($button, "Save"))
     {
-        $emp = Employment::Load("0xd217126aa61311ed831135aec8e00b93");
+        $emp = Employment::Load("0x44875b5fa56511ed854750ebf62b0b36");
         foreach ($_POST as $key => $value)
         {
             ODataModel::SetPropertyValue($emp, $key, $value);
@@ -30,7 +37,7 @@ if ($button != null)
         $emp->save($con);
         $con->commit();
     }
-    if (str_ends_with($button, "Close"))
+    if (str_contains($button, "Close"))
     {
         header("Location: $requestURI" . "?ACTION=VIEW");
     }
@@ -57,7 +64,7 @@ if ($button != null)
 <body>
 <form id="VIEW" action="" method="post">
     <b>this is a data manipulate test on employment table</b>
-    <gridview id="gvDetails" TableName="Employment">
+    <gridview id="gvDetails" TableName="Employment" Load="gvDetailsLoad">
         <column PropertyName="Person->FullName" HeaderText="Full Name"></column>
         <column PropertyName="Person->FamilyName" HeaderText="Last Name"></column>
         <column PropertyName="Person->GivenName" HeaderText="First Name"></column>
@@ -72,7 +79,7 @@ if ($button != null)
     <label for="lname">Salary:</label>
     <input type="text" id="lname" name="Salary" value="0" /> <br/>
     <input type="submit" name="BUTTON" value="Save" />
-    <input type="submit" name="BUTTON" value="SaveClose" />
+    <input type="submit" name="BUTTON" value="Save and Close" />
 </form>
 </body>
 </html>

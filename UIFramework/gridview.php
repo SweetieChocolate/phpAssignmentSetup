@@ -21,10 +21,17 @@ foreach ($element as $ele)
     $table->appendChild($row);
 
     // check if gridview is for any table in database
-    if (array_key_exists('TableName', $attrs))
+    if (array_key_exists('TableName', $attrs) || array_key_exists('Load', $attrs))
     {
-        $tableName = $attrs['TableName'];
-        $list = $tableName::LoadList();
+        if (array_key_exists('Load', $attrs))
+        {
+            $list = call_user_func($attrs['Load']);
+        }
+        else
+        {
+            $tableName = $attrs['TableName'];
+            $list = $tableName::LoadList();
+        }
         // add every row data to table by property name
         foreach ($list as $item)
         {

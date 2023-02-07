@@ -6,7 +6,6 @@ if (session_status() === PHP_SESSION_NONE)
 if (!isset($_SESSION['ISINITIALIZE']))
     exit();
 
-require_once $_SESSION['WEB_ROOTPATH'] . "validate-access.php";
 require_once "UIHelper.php";
 require_once $_SESSION['PROJECT_ROOTPATH'] . "LogicLayer/TablesLogic.php";
 
@@ -25,19 +24,24 @@ if (!is_dir($tmpdir))
 }
 
 $requestURI = strtok($_SERVER['REQUEST_URI'], '?');
+$requestFileName = basename($requestURI);
+
+if ($requestFileName != $_SESSION['HOME_PAGE'])
+    require_once $_SESSION['WEB_ROOTPATH'] . "validate-access.php";
+
 $path = $_SERVER['DOCUMENT_ROOT'] . $requestURI;
 $dom = new DOMDocument();
 $dom->formatOutput = true;
 $dom->load($path, LIBXML_NOEMPTYTAG);
 $domXPath = new DOMXPath($dom);
 
+if (!isset($_GET['ACTION']) && $requestFileName != $_SESSION['HOME_PAGE'])
+    header("Location: $requestURI" . "?ACTION=VIEW");
+
 // ALL UI FRAMEWORK MUST START HERE
 
 // xpath query element with id
 // $ele = $xpath->query("//*[@id='id_here']")->item(0);
-
-if (!isset($_GET['ACTION']))
-    header("Location: $requestURI" . "?ACTION=VIEW");
 
 $action = GetAndUnsetGET('ACTION');
 $button = GetAndUnsetPOST('BUTTON');
@@ -68,6 +72,7 @@ require_once "gridview.php";
 // store raw html into a string
 $result = $dom->saveXML($dom->documentElement, LIBXML_NOEMPTYTAG);
 $result = str_replace("</br>", "", $result);
+$result = str_replace("~/", $_SESSION['WEB_ROOTURL_LOCAL'], $result);
 
 // save the result html to a temp file
 $tmpfile = substr(str_replace("/", "_", $requestURI), 1);
