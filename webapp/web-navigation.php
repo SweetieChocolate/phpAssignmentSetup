@@ -5,8 +5,6 @@ if (session_status() === PHP_SESSION_NONE)
 
 require_once $_SESSION['PROJECT_ROOTPATH'] . "LogicLayer/TablesLogic.php";
 
-$functionName = "changeFrame";
-
 function GetClassIcon(string $text)
 {
     switch ($text)
@@ -18,49 +16,51 @@ function GetClassIcon(string $text)
     }
 }
 
-function GenerateNavigation(string $class, string $text, string $url)
+function GenerateNavigation(string $class, string $functionName, string $url)
 {
-    global $functionName;
-    $url = str_replace("~/", $_SESSION['WEB_ROOTURL_LOCAL'], $url);
-
     $rawHTML = '
-<a href="' . $url . '" onclick="event.preventDefault(); ' . $functionName . '(this)">
-    <i id="icon" class="' . $class . '" aria-hidden="true"></i>
-    <span class="link_name">' . $text . '</span>
+<a href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)">
+    <i id="icon" class="[Class]" aria-hidden="true"></i>
+    <span class="link_name">[FunctionName]</span>
 </a>';
 
+    $rawHTML = str_replace("[Class]", $class, $rawHTML);
+    $rawHTML = str_replace("[FunctionName]", $functionName, $rawHTML);
+    $rawHTML = str_replace("[URL]", $url, $rawHTML);
     return $rawHTML;
 }
 
-function GenerateNavigationDropDownParentChild(string $class, string $category, string $text, string $url)
+function GenerateNavigationDropDownParentChild(string $class, string $category, string $functionName, string $url)
 {
-    global $functionName;
-    $url = str_replace("~/", $_SESSION['WEB_ROOTURL_LOCAL'], $url);
-
     $rawHTML = '
 <li>
     <a href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i id="icon" class="' . $class . '" aria-hidden="true"></i>
-        <span class="link_name">' . $category . '</span>
+        <i id="icon" class="[Class]" aria-hidden="true"></i>
+        <span class="link_name">[Category]</span>
         <i class="down-arrow fa-solid fa-angle-down"></i>
     </a>
-    <ul category="' . $category . '" class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item" href="' . $url . '" onclick="event.preventDefault(); ' . $functionName . '(this)"></a>'. $text .'</li>
+    <ul category="[Category]" class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)"></a>[FunctionName]</li>
     </ul>
 </li>';
+
+    $rawHTML = str_replace("[Class]", $class, $rawHTML);
+    $rawHTML = str_replace("[Category]", $category, $rawHTML);
+    $rawHTML = str_replace("[FunctionName]", $functionName, $rawHTML);
+    $rawHTML = str_replace("[URL]", $url, $rawHTML);
 
     $result = new DOMDocument();
     $result->loadXML($rawHTML, LIBXML_NOEMPTYTAG);
     return $result->documentElement;
 }
 
-function GenerateNavigationDropDownChild(string $text, string $url)
+function GenerateNavigationDropDownChild(string $functionName, string $url)
 {
-    global $functionName;
-    $url = str_replace("~/", $_SESSION['WEB_ROOTURL_LOCAL'], $url);
+    $rawHTML = '<li><a class="dropdown-item" href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)"></a>[FunctionName]</li>';
 
-    $rawHTML = '<li><a class="dropdown-item" href="' . $url . '" onclick="event.preventDefault(); ' . $functionName . '(this)"></a>' . $text . '</li>';
-
+    $rawHTML = str_replace("[FunctionName]", $functionName, $rawHTML);
+    $rawHTML = str_replace("[URL]", $url, $rawHTML);
+    
     $result = new DOMDocument();
     $result->loadXML($rawHTML, LIBXML_NOEMPTYTAG);
     return $result->documentElement;
@@ -94,6 +94,9 @@ foreach ($functions as $f)
     }
 }
 
-echo $navigation->saveXML($navigation->documentElement, LIBXML_NOEMPTYTAG);
+$navigationHTML = $navigation->saveXML($navigation->documentElement, LIBXML_NOEMPTYTAG);
+$navigationHTML = str_replace("~/", $_SESSION['WEB_ROOTURL_LOCAL'], $navigationHTML);
+$navigationHTML = str_replace("[ChangeFrameFunctionName]", "changeFrame", $navigationHTML);
+echo $navigationHTML;
 
 ?>
