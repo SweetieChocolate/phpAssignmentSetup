@@ -26,6 +26,17 @@ function gvDetailsLoad()
 
 if ($button != null)
 {
+    if (str_contains($button, "Add"))
+    {
+        $emp = Employment::Create();
+        foreach ($_POST as $key => $value)
+        {
+            ODataModel::SetPropertyValue($emp, $key, $value);
+        }
+        $con = new DBConnection();
+        $emp->save($con);
+        $con->commit();
+    }
     if (str_contains($button, "Save"))
     {
         $emp = Employment::Load("0x44875b5fa56511ed854750ebf62b0b36");
@@ -78,6 +89,8 @@ if ($button != null)
     <input type="text" id="lname" name="Person->GivenName" value="Ratha" /> <br/>
     <label for="lname">Salary:</label>
     <input type="text" id="lname" name="Salary" value="0" /> <br/>
+    <input type="submit" name="BUTTON" value="Add" />
+    <input type="submit" name="BUTTON" value="Add and Close" />
     <input type="submit" name="BUTTON" value="Save" />
     <input type="submit" name="BUTTON" value="Save and Close" />
 </form>

@@ -16,10 +16,9 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
 </head>
 <body class="bg-info">
     <div class="sidebar">
-        <div class="logo_content">
-            <div class="logo">
-                <i id="icon-home" class="fa fa-home"></i>
-                <div class="icon_name">HR Admin</div>
+        <div class="title">
+            <div class="name">
+                HR Management System
             </div>
             <span id="btn"><i class="fa fa-bars"></i></span>
         </div>
@@ -27,8 +26,8 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
             <div class="profile">
                 <div class="profile_details">
                     <img src="assets/medium-hr_20software_202.jpg" alt="" />
-                    <div class="name_job">
-                        <div class="name">Sokmean Kao</div>
+                    <div>
+                        <div class="name"><?php echo $_SESSION['COMPANY_NAME']; ?></div>
                         <div class="email">sokmeankao.me@gmail.com</div>
                     </div>
                 </div>

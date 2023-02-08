@@ -11,6 +11,8 @@ function GetClassIcon(string $text)
     {
         case "WORKFORCR MANAGEMENT":
             return "fa fa-users";
+        case "PAYROLL":
+            return "fa fa-money-bill";
         default:
             return "fa fa-users";
     }

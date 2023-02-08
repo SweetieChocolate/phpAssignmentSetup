@@ -23,7 +23,7 @@ body{
 .sidebar.active{
     width: 350px;
 }
-.sidebar .logo_content .logo{
+.sidebar .title .name{
     color: white;
     display: flex;
     height: 50px;
@@ -33,17 +33,10 @@ body{
     pointer-events: none;
     transition: all o.5s ease;
 }
-.sidebar.active .logo_content .logo{
+.sidebar.active .title .name{
     opacity: 1;
     pointer-events: none;
-}
-.logo_content .logo #icon-home{
     font-size: 20px;
-    margin-right: 15px;
-}
-.logo_content .logo .logo_name{
-    font-size: 20px;
-    font-weight: 500;
 }
 .sidebar #btn{
     position: absolute;
@@ -71,7 +64,7 @@ body{
     margin: 0 5px;
     list-style: none;
     line-height: 50px;
-    font-size: 18px;
+    font-size: 16px;
 }
 .sidebar ul li a{
     color: white;
@@ -87,8 +80,8 @@ body{
     background: white;
 }
 .sidebar ul li a #icon{
-    height: 22px;
-    min-height: 22px;
+    height: 20px;
+    min-height: 20px;
     border-radius: 12px;
     line-height: 50px;
     text-align: center;
