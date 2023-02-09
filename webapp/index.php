@@ -42,7 +42,7 @@ if (isset($_POST['button']))
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title><?php echo $_SESSION['COMPANY_NAME'] ?></title>
+    <title><?= $_SESSION['COMPANY_NAME'] ?></title>
     <style>
         *{
         padding: 0;
@@ -112,12 +112,12 @@ if (isset($_POST['button']))
     <div class="container">
         <div class="myform">
             <form id="loginForm" action="" method="post">
-                <input type="text" name="tbUserName" placeholder="User Name" />
+                <input type="text" name="tbUserName" placeholder="User Name" value="<?= isset($_POST['tbUserName']) ? $_POST['tbUserName'] : '' ?>" />
                 <input type="password" name="tbPassaword" placeholder="Password" />
                 <input type="submit" name="button" value="LOGIN" />
             </form>
             <br />
-            <p style="color: red"><?php echo $loginMessage ?></p>
+            <p style="color: red"><?= $loginMessage ?></p>
             <br />
             <?php include "web-db-script.php" ?>
         </div>
