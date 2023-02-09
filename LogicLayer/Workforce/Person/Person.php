@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . "/../../TablesLogic.php";
+require_once dirname(__FILE__) . "/../../LogicLayer.php";
 
 class Person extends DataModel
 {

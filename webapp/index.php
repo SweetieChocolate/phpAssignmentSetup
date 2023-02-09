@@ -22,7 +22,7 @@ if (isset($_POST['button']))
         $password = $_POST['tbPassaword'];
         if (!empty($username) && !empty($password))
         {
-            $user = User::Where("UserName = '$username' AND Password = '$password'");
+            $user = OUser::GetUserByUserNamePassword($username, $password);
             if ($user != null)
             {
                 $user->LastLoginTime = DateTimeHelper::Now();
@@ -36,12 +36,13 @@ if (isset($_POST['button']))
         $loginMessage = "Invalid username or password";
     }
 }
+
 ?>
 
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title>Log in Form</title>
+    <title><?php echo $_SESSION['COMPANY_NAME'] ?></title>
     <style>
         *{
         padding: 0;
@@ -117,6 +118,8 @@ if (isset($_POST['button']))
             </form>
             <br />
             <p style="color: red"><?php echo $loginMessage ?></p>
+            <br />
+            <?php include "web-db-script.php" ?>
         </div>
         <div class="image">
             <img src="" />
