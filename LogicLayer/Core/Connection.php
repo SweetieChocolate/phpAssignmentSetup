@@ -25,7 +25,7 @@ class DBConnection
         $this->object = array();
         $this->servername = "localhost";
         $this->username = "root";
-        $this->password = "root";
+        $this->password = "";
         $this->database = "test";
     }
 
