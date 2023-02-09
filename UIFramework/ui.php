@@ -26,7 +26,7 @@ if (!is_dir($tmpdir))
 $requestURI = strtok($_SERVER['REQUEST_URI'], '?');
 $requestFileName = basename($requestURI);
 
-if ($requestFileName != $_SESSION['HOME_PAGE'])
+if ($requestURI != $_SESSION['HOME_PAGE'])
     require_once $_SESSION['WEB_ROOTPATH'] . "validate-access.php";
 
 $path = $_SERVER['DOCUMENT_ROOT'] . $requestURI;
@@ -35,7 +35,7 @@ $dom->formatOutput = true;
 $dom->load($path, LIBXML_NOEMPTYTAG);
 $domXPath = new DOMXPath($dom);
 
-if (!isset($_GET['ACTION']) && $requestFileName != $_SESSION['HOME_PAGE'])
+if (!isset($_GET['ACTION']) && $requestURI != $_SESSION['HOME_PAGE'])
     header("Location: $requestURI" . "?ACTION=VIEW");
 
 // ALL UI FRAMEWORK MUST START HERE

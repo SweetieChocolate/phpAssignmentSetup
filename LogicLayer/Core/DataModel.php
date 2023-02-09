@@ -131,6 +131,47 @@ class DataModel
         }
         return null;
     }
+    public static function Where(string $where = "1")
+    {
+        $classname = get_called_class();
+        $sql = "SELECT * FROM $classname WHERE IsDeleted = 0 AND $where LIMIT 1;";
+        /* load sql select top 1 from database and map every column to the obj below */
+        $con = new DBConnection();
+        $result = $con->ExecuteQuery($sql);
+        /* map the dataset get from query to obj*/
+        $dataModel = new ReflectionClass($classname);
+        $pros = $dataModel->getProperties(ReflectionProperty::IS_PROTECTED);
+        while ($row = $result->fetch_assoc())
+        {
+            $obj = new $classname();
+            foreach ($pros as $pro)
+            {
+                $pro->setAccessible(true); // only required prior to PHP 8.1.0
+                
+                $proName = $pro->getName();
+                $isInit = isset($row[$proName]);
+                $isID = $pro->getType()->getName() == "UUID";
+                $isString = $pro->getType()->getName() == "string";
+                $isBoolean = $pro->getType()->getName() == "bool";
+                $isDateTime = $pro->getType()->getName() == "DateTime";
+    
+                if (!$isInit) continue;
+
+                $value = $row[$proName];
+                if (is_object($value) && !$isID && !$isDateTime) continue;
+
+                if ($isID) $value = UUID::FromBinary($value);
+                //if ($isString) $value = $value;
+                if ($isBoolean) $value = $value == 1 ? true : false;
+                if ($isDateTime) $value = DateTimeHelper::FromString($value);
+                
+                $pro->setValue($obj, $value);
+            }
+            $oClass = "O".$classname;
+            return new $oClass($obj);
+        }
+        return null;
+    }
 
     /** Load a list of DataModel Object from DataBase with or without where condition **/
     public static function LoadList(string $where = "1", string $orderby = "CreatedDateTime DESC") : array

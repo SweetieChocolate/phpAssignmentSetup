@@ -11,6 +11,7 @@ $valid = true;
 if (!isset($_SESSION["USERID"]))
     $valid = false;
 
+//$valid = false;
 if (!$valid)
 {
     header("Location: " . $_SESSION['WEB_ROOTURL_SERVER'] . "deny.php");
@@ -19,7 +20,7 @@ if (!$valid)
 
 $uri = strtok($_SERVER['REQUEST_URI'], '?');
 
-if (basename($uri) == "home.php")
+if ($requestURI == $_SESSION['HOME_PAGE'])
     return;
 
 // in db -> function table will have url with ~/test.php

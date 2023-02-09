@@ -20,11 +20,12 @@ function GetClassIcon(string $text)
 
 function GenerateNavigation(string $class, string $functionName, string $url)
 {
-    $rawHTML = '
+    $rawHTML = <<<RAWHTML
 <a href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)">
     <i id="icon" class="[Class]" aria-hidden="true"></i>
     <span class="link_name">[FunctionName]</span>
-</a>';
+</a>
+RAWHTML;
 
     $rawHTML = str_replace("[Class]", $class, $rawHTML);
     $rawHTML = str_replace("[FunctionName]", $functionName, $rawHTML);
@@ -34,7 +35,7 @@ function GenerateNavigation(string $class, string $functionName, string $url)
 
 function GenerateNavigationDropDownParentChild(string $class, string $category, string $functionName, string $url)
 {
-    $rawHTML = '
+    $rawHTML = <<<RAWHTML
 <li>
     <a href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i id="icon" class="[Class]" aria-hidden="true"></i>
@@ -44,7 +45,8 @@ function GenerateNavigationDropDownParentChild(string $class, string $category, 
     <ul category="[Category]" class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
         <li><a class="dropdown-item" href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)"></a>[FunctionName]</li>
     </ul>
-</li>';
+</li>
+RAWHTML;
 
     $rawHTML = str_replace("[Class]", $class, $rawHTML);
     $rawHTML = str_replace("[Category]", $category, $rawHTML);
@@ -58,7 +60,9 @@ function GenerateNavigationDropDownParentChild(string $class, string $category, 
 
 function GenerateNavigationDropDownChild(string $functionName, string $url)
 {
-    $rawHTML = '<li><a class="dropdown-item" href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)"></a>[FunctionName]</li>';
+    $rawHTML = <<<RAWHTML
+<li><a class="dropdown-item" href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)"></a>[FunctionName]</li>
+RAWHTML;
 
     $rawHTML = str_replace("[FunctionName]", $functionName, $rawHTML);
     $rawHTML = str_replace("[URL]", $url, $rawHTML);

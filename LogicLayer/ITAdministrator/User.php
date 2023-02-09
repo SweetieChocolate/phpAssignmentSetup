@@ -9,6 +9,8 @@ class User extends DataModel
     protected string $UserEmail;
     protected bool $IsAdministrator;
     protected bool $IsBan;
+    protected bool $RequirePasswordChange;
+    protected DateTime $LastLoginTime;
 }
 
 class OUser extends ODataModel
