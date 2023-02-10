@@ -10,6 +10,7 @@ class FunctionModule extends DataModel
     protected int $DisplayOrder;
     protected string $URL;
     protected string $SubURL;
+    protected bool $IsEnable;
 
     protected function __construct()
     {
@@ -33,9 +34,16 @@ class OFunctionModule extends ODataModel
     // load function base on user permission
     public static function GetAvailableFunction(UUID $userID)
     {
-        // load all for now
-        $functions = FunctionModule::LoadList("1", "DisplayOrder ASC");
-        return $functions;
+        $user = User::Load($userID->ToString());
+        if ($user == null)
+            return array();
+        if ($user->IsAdministrator)
+            return FunctionModule::LoadList("IsEnable = 1", "DisplayOrder ASC");
+            
+
+        // dynamically load function
+        // empty array for now
+        return array();
     }
 }
 
