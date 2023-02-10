@@ -7,7 +7,7 @@ class Person extends DataModel
     protected string $FamilyName;
     protected string $GivenName;
     protected string $Gender;
-    protected string $BirthDay;
+    protected DateTime $BirthDay;
 
     protected function __construct()
     {

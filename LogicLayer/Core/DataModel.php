@@ -48,6 +48,17 @@ class DataModel
         $oClass = "O" . $classname;
         return new $oClass($obj);
     }
+    public static function CreateWithID(UUID $ObjectID) : ODataModel
+    {
+        $classname = get_called_class();
+        $obj = new $classname();
+        $obj->IsNew = true;
+        $obj->ObjectID = $ObjectID;
+        $obj->CreatedDateTime = DateTimeHelper::Now();
+        $obj->LastModifiedDateTime = DateTimeHelper::Now();
+        $oClass = "O" . $classname;
+        return new $oClass($obj);
+    }
 
     /** Load a DataModel Object from DataBase **/
     private static function LoadDataModel(string $objectID)
@@ -272,7 +283,8 @@ class DataModel
                     throw new Exception("Using '$var' datalist in class $classname without DataList::Init in constructor");
                 }
             }
-            else return $this->$var;
+            else if (isset($this->$var)) return $this->$var;
+            else return null;
         }
         else
         {
@@ -397,9 +409,10 @@ class DataModel
             $isBoolean = $prop->getType()->getName() == "bool";
             $isDateTime = $prop->getType()->getName() == "DateTime";
 
-            if (!$isInit) continue;
-            
-            $value = $prop->getValue($this);
+            if (!$isInit && !$isString) continue;
+
+            if (!$isInit) $value = '';
+            else $value = $prop->getValue($this);
             if (is_object($value) && !$isID && !$isDateTime) continue;
 
             if ($isID)

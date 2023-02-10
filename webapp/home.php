@@ -1,12 +1,16 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE)
-    session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 
-if (!isset($_SESSION['ISINITIALIZE']))
-    exit();
+if (!isset($_SESSION['ISINITIALIZE'])) exit();
 
-require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
+// require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-head.php";
+
+// // data manipulate start here
+
+// // data manupulate end here
+    
+// require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 
 ?>
 

@@ -3,58 +3,35 @@
 // do not start your code here
 // all your code must start inside html tag
 
-if (session_status() === PHP_SESSION_NONE)
-    session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 
-if (!isset($_SESSION['ISINITIALIZE']))
-    exit();
-    
-require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui.php";
+if (!isset($_SESSION['ISINITIALIZE'])) exit();
 
-// control on how the ui load start here
-function gvDetailsLoad()
+require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-head.php";
+
+// data manipulate start here
+
+$gvDetailsLoad = Employment::LoadList();
+
+// data manupulate end here
+
+// function start here
+
+function Save()
 {
-    return Employment::LoadList();
+    $emp = BindFormToObject();
+    $con = new DBConnection();
+    $emp->save($con);
+    $con->commit();
 }
+
+// function end here
+
+require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 
 ?>
 
 <html>
-<?php
-
-// form submitinn code written here
-
-if ($button != null)
-{
-    if (str_contains($button, "Add"))
-    {
-        $emp = Employment::Create();
-        foreach ($_POST as $key => $value)
-        {
-            ODataModel::SetPropertyValue($emp, $key, $value);
-        }
-        $con = new DBConnection();
-        $emp->save($con);
-        $con->commit();
-    }
-    if (str_contains($button, "Save"))
-    {
-        $emp = Employment::Load("0x44875b5fa56511ed854750ebf62b0b36");
-        foreach ($_POST as $key => $value)
-        {
-            ODataModel::SetPropertyValue($emp, $key, $value);
-        }
-        $con = new DBConnection();
-        $emp->save($con);
-        $con->commit();
-    }
-    if (str_contains($button, "Close"))
-    {
-        header("Location: $requestURI" . "?ACTION=VIEW");
-    }
-}
-
-?>
 <head>
     <style>
         table {
@@ -73,16 +50,15 @@ if ($button != null)
     </style>
 </head>
 <body>
-<form id="VIEW" action="" method="post">
+<form id="VIEW" action="" method="post" BaseTableName="Employment">
     <b>this is a data manipulate test on employment table</b>
     <gridview id="gvDetails" TableName="Employment" Load="gvDetailsLoad">
-        <column PropertyName="Person->FullName" HeaderText="Full Name"></column>
         <column PropertyName="Person->FamilyName" HeaderText="Last Name"></column>
         <column PropertyName="Person->GivenName" HeaderText="First Name"></column>
         <column PropertyName="Salary" HeaderText="Salary"></column>
     </gridview>
 </form>
-<form id="EDIT" action="" method="post">
+<form id="EDIT" action="" method="post" BaseTableName="Employment" DataKey="0xe1eb3a4fa96b11edb45950ebf62b0b36">
     <label for="fname">Family Name:</label>
     <input type="text" id="fname" name="Person->FamilyName" value="DOV" /> <br/>
     <label for="lname">Given Name:</label>

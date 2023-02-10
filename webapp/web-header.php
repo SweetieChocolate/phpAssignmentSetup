@@ -3,10 +3,10 @@
 if (session_status() === PHP_SESSION_NONE)
     session_start();
 
-$rootURL = $_SESSION['WEB_ROOTURL_LOCAL'];
-$rootSource = $rootURL . "source";
+$_rootURL = $_SESSION['WEB_ROOTURL_LOCAL'];
+$_rootSource = $_rootURL . "source";
 
-$rawscript = <<<RAWSCRIPT
+$_rawscript = <<<RAWSCRIPT
 
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,13 +16,13 @@ $rawscript = <<<RAWSCRIPT
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="$rootSource/bootstrap5/5.3.0/css/bootstrap.css">
-<link rel="stylesheet" href="$rootSource/font-awesome/6.3.0/css/all.min.css">
-<link rel="stylesheet" href="$rootSource/DataTables/1.13.2/css/jquery.dataTables.css">
+<link rel="stylesheet" href="$_rootSource/bootstrap5/5.3.0/css/bootstrap.css">
+<link rel="stylesheet" href="$_rootSource/font-awesome/6.3.0/css/all.min.css">
+<link rel="stylesheet" href="$_rootSource/DataTables/1.13.2/css/jquery.dataTables.css">
 
-<link rel="stylesheet" href="$rootSource/style.css">
+<link rel="stylesheet" href="$_rootSource/style.css">
 
 RAWSCRIPT;
-echo $rawscript;
+echo $_rawscript;
 
 ?>
