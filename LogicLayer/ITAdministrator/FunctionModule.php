@@ -32,9 +32,9 @@ class OFunctionModule extends ODataModel
     }
 
     // load function base on user permission
-    public static function GetAvailableFunction(UUID $userID)
+    public static function GetAvailableFunction(string $userID)
     {
-        $user = User::Load($userID->ToString());
+        $user = User::Load($userID);
         if ($user == null)
             return array();
         if ($user->IsAdministrator)

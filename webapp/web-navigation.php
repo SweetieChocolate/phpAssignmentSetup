@@ -77,7 +77,7 @@ $navigation->loadXML('<ul class="nav_list"></ul>', LIBXML_NOEMPTYTAG);
 
 
 // dynamically load the Function Modules base on user permission
-$functions = OFunctionModule::GetAvailableFunction(UUID::FromString($_SESSION['USERID']));
+$functions = OFunctionModule::GetAvailableFunction($_SESSION['USERID']);
 
 foreach ($functions as $f)
 {
