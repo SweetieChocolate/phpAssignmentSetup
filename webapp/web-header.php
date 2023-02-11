@@ -16,11 +16,11 @@ $_rawscript = <<<RAWSCRIPT
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="$_rootSource/bootstrap5/5.3.0/css/bootstrap.css">
-<link rel="stylesheet" href="$_rootSource/font-awesome/6.3.0/css/all.min.css">
-<link rel="stylesheet" href="$_rootSource/DataTables/1.13.2/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="$_rootSource/bootstrap5/5.3.0/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="$_rootSource/fontawesome/6.3.0/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="$_rootSource/DataTables/1.13.2/css/jquery.dataTables.css">
 
-<link rel="stylesheet" href="$_rootSource/style.css">
+<link rel="stylesheet" type="text/css" href="$_rootSource/style.css">
 
 RAWSCRIPT;
 echo $_rawscript;
