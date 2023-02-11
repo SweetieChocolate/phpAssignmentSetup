@@ -14,7 +14,7 @@ $_rawscript = <<<RAWSCRIPT
 
 <script type="text/javascript" src="$_rootSource/DataTables/1.13.2/js/jquery.dataTables.js"></script>
 
-<script type="text/javascript" src="$_rootSource/js/popper.min.js"></script>
+<script type="text/javascript" src="$_rootSource/popper.min.js"></script>
 
 RAWSCRIPT;
 echo $_rawscript;
