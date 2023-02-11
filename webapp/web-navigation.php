@@ -37,10 +37,10 @@ function GenerateNavigationWithoutDropDown(string $_icon, string $_functionName,
 <li>
     <a href="[URL]">
         <i class="[Icon]"></i>
-        <span class="link_name">[FunctionName]</span>
+        <span class="category_name">[FunctionName]</span>
     </a>
     <ul class="sub-menu blank">
-        <li><a href="[URL]" class="link_name">[FunctionName]</a></li>
+        <li><a href="[URL]" class="category_name">[FunctionName]</a></li>
     </ul>
 </li>
 RAWHTML;
@@ -61,12 +61,12 @@ function GenerateNavigationDropDownParentChild(string $_icon, string $_category,
     <div class="nav-link">
         <a>
             <i class="[Icon]"></i>
-            <span class="link_name">[Category]</span>
+            <span class="category_name">[Category]</span>
         </a>
         <i class='bx bxs-chevron-down arrow'></i>
     </div>
     <ul category="[Category]" class="sub-menu">
-        <li><a class="link_name">[Category]</a></li>
+        <li><a class="category_name">[Category]</a></li>
         <li><a href="[URL]">[FunctionName]</a></li>
     </ul>
 </li>

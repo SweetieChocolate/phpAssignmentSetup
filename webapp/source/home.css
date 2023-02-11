@@ -1,6 +1,19 @@
 /* Google Fonts Import Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+:root {
+    --transition-time: 0.5s;
+    --transition-delay: 0.3s;
+    --sidebar-width-close: 70px;
+    --sidebar-width-open: 400px;
+    --sidebar-background-color: #00ccff;
+    --sidebar-background-color-hover: #00beee;
+    --sidebar-user-background-color: #00beee;
+    --sidebar-fontsize-category: 16px;
+    --sidebar-fontsize-item: 14px;
+    --sidebar-text-color:#ffffff;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -17,14 +30,14 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    width: 390px;
-    background: #11101d;
+    width: var(--sidebar-width-open);
+    background: var(--sidebar-background-color);
     z-index: 100;
-    transition: all 0.5s ease;
+    transition: all var(--transition-time) ease;
 }
 
 .sidebar.close {
-    width: 70px;
+    width: var(--sidebar-width-close);
 }
 
 .sidebar .logo-details {
@@ -36,25 +49,24 @@ body {
 
 .sidebar .logo-details i {
     font-size: 30px;
-    color: #fff;
-    height: 50px;
-    min-width: 70px;
     text-align: center;
+    height: 50px;
     line-height: 50px;
+    color: var(--sidebar-text-color);
+    min-width: var(--sidebar-width-close);
 }
 
 .sidebar .logo-details .logo_name {
     font-size: 20px;
-    color: #fff;
     font-weight: 600;
-    transition: 0.3s ease;
-    transition-delay: 0.1s;
+    color: var(--sidebar-text-color);
+    transition: all var(--transition-time) ease var(--transition-delay);
 }
 
 .sidebar.close .logo-details .logo_name {
-    transition-delay: 0s;
     opacity: 0;
     pointer-events: none;
+    transition-delay: 0s;
 }
 
 .sidebar .navigation {
@@ -74,11 +86,10 @@ body {
 .sidebar .navigation li {
     position: relative;
     list-style: none;
-    transition: all 0.4s ease;
 }
 
 .sidebar .navigation li:hover {
-    background: #1d1b31;
+    background: var(--sidebar-background-color-hover);
 }
 
 .sidebar .navigation li .nav-link {
@@ -93,13 +104,13 @@ body {
 
 .sidebar .navigation li i {
     height: 50px;
-    min-width: 70px;
     text-align: center;
     line-height: 50px;
-    color: #fff;
     font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
+    min-width: var(--sidebar-width-close);
+    color: var(--sidebar-text-color);
 }
 
 .sidebar .navigation li.showMenu i.arrow {
@@ -116,23 +127,25 @@ body {
     text-decoration: none;
 }
 
-.sidebar .navigation li a .link_name {
-    font-size: 16px;
+.sidebar .navigation li a .category_name {
     font-weight: 400;
-    color: #fff;
-    transition: all 0.4s ease;
+    font-size: var(--sidebar-fontsize-category);
+    color: var(--sidebar-text-color);
+    transition: all var(--transition-time) ease var(--transition-delay);
 }
 
-.sidebar.close .navigation li a .link_name {
+.sidebar.close .navigation li a .category_name {
     opacity: 0;
     pointer-events: none;
+    transition: 0s;
 }
 
 .sidebar .navigation li .sub-menu {
     padding: 6px 6px 14px 80px;
     margin-top: -10px;
-    background: #1d1b31;
     display: none;
+    background: var(--sidebar-background-color-hover);
+    transition: all var(--transition-time) ease var(--transition-delay);
 }
 
 .sidebar .navigation li.showMenu .sub-menu {
@@ -140,12 +153,11 @@ body {
 }
 
 .sidebar .navigation li .sub-menu a {
-    color: #fff;
-    font-size: 14px;
     padding: 5px 0;
     white-space: nowrap;
     opacity: 0.6;
-    transition: all 0.3s ease;
+    font-size: var(--sidebar-fontsize-item);
+    color: var(--sidebar-text-color);
 }
 
 .sidebar .navigation li .sub-menu a:hover {
@@ -169,17 +181,17 @@ body {
     top: 0;
     opacity: 1;
     pointer-events: auto;
-    transition: all 0.4s ease;
+    transition: all var(--transition-time) ease;
 }
 
-.sidebar .navigation li .sub-menu .link_name {
+.sidebar .navigation li .sub-menu .category_name {
     display: none;
 }
 
-.sidebar.close .navigation li .sub-menu .link_name {
-    font-size: 16px;
+.sidebar.close .navigation li .sub-menu .category_name {
     opacity: 1;
     display: block;
+    font-size: var(--sidebar-fontsize-category);
 }
 
 .sidebar .navigation li .sub-menu.blank {
@@ -198,21 +210,18 @@ body {
 .sidebar .profile-details {
     position: fixed;
     bottom: 0;
-    width: 390px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #1d1b31;
     padding: 12px 0;
-    transition: all 0.5s ease;
+    background: var(--sidebar-user-background-color);
+    width: var(--sidebar-width-open);
+    transition: all var(--transition-time) ease;
 }
 
 .sidebar.close .profile-details {
     background: none;
-}
-
-.sidebar.close .profile-details {
-    width: 70px;
+    width: var(--sidebar-width-close);
 }
 
 .sidebar .profile-details .profile-content {
@@ -226,20 +235,22 @@ body {
     object-fit: cover;
     border-radius: 16px;
     margin: 0 14px 0 12px;
-    background: #1d1b31;
-    transition: all 0.5s ease;
+    background: var(--sidebar-user-background-color);
+    transition: all var(--transition-time) ease;
 }
 
 .sidebar.close .profile-details img {
     padding: 10px;
 }
 
+.sidebar .profile-details i,
 .sidebar .profile-details .profile_name,
 .sidebar .profile-details .job {
-    color: #fff;
-    font-size: 16px;
     font-weight: 500;
     white-space: nowrap;
+    font-size: var(--sidebar-fontsize-category);
+    min-width: var(--sidebar-width-close);
+    color: var(--sidebar-text-color);
 }
 
 .sidebar.close .profile-details i,
@@ -249,22 +260,22 @@ body {
 }
 
 .sidebar .profile-details .job {
-    font-size: 12px;
+    font-size: var(--sidebar-fontsize-item);
 }
 
 .home-section {
     position: relative;
     background: #E4E9F7;
     height: 100vh;
-    left: 390px;
-    width: calc(100% - 390px);
-    transition: all 0.5s ease;
     padding: 12px;
+    left: var(--sidebar-width-open);
+    width: calc(100% - var(--sidebar-width-open));
+    transition: all var(--transition-time) ease;
 }
 
 .sidebar.close~.home-section {
-    left: 70px;
-    width: calc(100% - 70px);
+    left: var(--sidebar-width-close);
+    width: calc(100% - var(--sidebar-width-close));
 }
 
 .home-content {
