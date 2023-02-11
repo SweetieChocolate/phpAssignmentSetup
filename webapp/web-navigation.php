@@ -5,50 +5,74 @@ if (session_status() === PHP_SESSION_NONE)
 
 require_once $_SESSION['PROJECT_ROOTPATH'] . "LogicLayer/TablesLogic.php";
 
-function GetClassIcon(string $_text)
+function GetIconByFunctionName(string $_text)
 {
     switch ($_text)
     {
         case "WORKFORCR MANAGEMENT":
-            return "fa fa-users";
+            return "bx bx-collection";
         case "PAYROLL":
-            return "fa fa-money-bill";
+            return "bx bx-collection";
         default:
-            return "fa fa-users";
+            return "bx bx-collection";
     }
 }
 
-function GenerateNavigation(string $_class, string $_functionName, string $_url)
+function GetIconByCategory(string $_text)
 {
-    $_rawHTML = <<<RAWHTML
-<a href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)">
-    <i id="icon" class="[Class]" aria-hidden="true"></i>
-    <span class="link_name">[FunctionName]</span>
-</a>
-RAWHTML;
-
-    $_rawHTML = str_replace("[Class]", $_class, $_rawHTML);
-    $_rawHTML = str_replace("[FunctionName]", $_functionName, $_rawHTML);
-    $_rawHTML = str_replace("[URL]", $_url, $_rawHTML);
-    return $_rawHTML;
+    switch ($_text)
+    {
+        case "WORKFORCR MANAGEMENT":
+            return "bx bx-collection";
+        case "PAYROLL":
+            return "bx bx-collection";
+        default:
+            return "bx bx-collection";
+    }
 }
 
-function GenerateNavigationDropDownParentChild(string $_class, string $_category, string $_functionName, string $_url)
+function GenerateNavigationWithoutDropDown(string $_icon, string $_functionName, string $_url)
 {
     $_rawHTML = <<<RAWHTML
 <li>
-    <a href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i id="icon" class="[Class]" aria-hidden="true"></i>
-        <span class="link_name">[Category]</span>
-        <i class="down-arrow fa-solid fa-angle-down"></i>
+    <a href="[URL]">
+        <i class="[Icon]"></i>
+        <span class="link_name">[FunctionName]</span>
     </a>
-    <ul category="[Category]" class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item" href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)"></a>[FunctionName]</li>
+    <ul class="sub-menu blank">
+        <li><a href="[URL]" class="link_name">[FunctionName]</a></li>
     </ul>
 </li>
 RAWHTML;
 
-    $_rawHTML = str_replace("[Class]", $_class, $_rawHTML);
+    $_rawHTML = str_replace("[Icon]", $_icon, $_rawHTML);
+    $_rawHTML = str_replace("[FunctionName]", $_functionName, $_rawHTML);
+    $_rawHTML = str_replace("[URL]", $_url, $_rawHTML);
+    
+    $_result = new DOMDocument();
+    $_result->loadXML($_rawHTML, LIBXML_NOEMPTYTAG);
+    return $_result->documentElement;
+}
+
+function GenerateNavigationDropDownParentChild(string $_icon, string $_category, string $_functionName, string $_url)
+{
+    $_rawHTML = <<<RAWHTML
+<li>
+    <div class="nav-link">
+        <a>
+            <i class="[Icon]"></i>
+            <span class="link_name">[Category]</span>
+        </a>
+        <i class='bx bxs-chevron-down arrow'></i>
+    </div>
+    <ul category="[Category]" class="sub-menu">
+        <li><a class="link_name">[Category]</a></li>
+        <li><a href="[URL]">[FunctionName]</a></li>
+    </ul>
+</li>
+RAWHTML;
+
+    $_rawHTML = str_replace("[Icon]", $_icon, $_rawHTML);
     $_rawHTML = str_replace("[Category]", $_category, $_rawHTML);
     $_rawHTML = str_replace("[FunctionName]", $_functionName, $_rawHTML);
     $_rawHTML = str_replace("[URL]", $_url, $_rawHTML);
@@ -61,7 +85,7 @@ RAWHTML;
 function GenerateNavigationDropDownChild(string $_functionName, string $_url)
 {
     $_rawHTML = <<<RAWHTML
-<li><a class="dropdown-item" href="[URL]" onclick="event.preventDefault(); [ChangeFrameFunctionName](this)"></a>[FunctionName]</li>
+<li><a href="[URL]">[FunctionName]</a></li>
 RAWHTML;
 
     $_rawHTML = str_replace("[FunctionName]", $_functionName, $_rawHTML);
@@ -73,7 +97,7 @@ RAWHTML;
 }
 
 $_navigation = new DOMDocument();
-$_navigation->loadXML('<ul class="nav_list"></ul>', LIBXML_NOEMPTYTAG);
+$_navigation->loadXML('<ul class="navigation"></ul>', LIBXML_NOEMPTYTAG);
 
 
 // dynamically load the Function Modules base on user permission
@@ -83,20 +107,29 @@ foreach ($_functions as $_f)
 {
     $_cate = $_f->Category;
 
-    $_xpath = new DOMXPath($_navigation);
-    $_curCat = $_xpath->query("//*[@category='$_cate']");
-
-    if ($_curCat->length > 0)
+    if ($_cate == "")
     {
-        $_catul = $_curCat->item(0);
-        $_li = GenerateNavigationDropDownChild($_f->FunctionName, $_f->URL);
-        $_catul->appendChild($_navigation->importNode($_li, true));
+        $_icon = GetIconByFunctionName($_f->FunctionName);
+        $_mainli = GenerateNavigationWithoutDropDown($_icon, $_f->FunctionName, $_f->URL);
+        $_navigation->documentElement->appendChild($_navigation->importNode($_mainli, true));
     }
     else
     {
-        $_class = GetClassIcon($_cate);
-        $_mainli = GenerateNavigationDropDownParentChild($_class, $_cate, $_f->FunctionName, $_f->URL);
-        $_navigation->documentElement->appendChild($_navigation->importNode($_mainli, true));
+        $_xpath = new DOMXPath($_navigation);
+        $_curCat = $_xpath->query("//*[@category='$_cate']");
+    
+        if ($_curCat->length > 0)
+        {
+            $_catul = $_curCat->item(0);
+            $_li = GenerateNavigationDropDownChild($_f->FunctionName, $_f->URL);
+            $_catul->appendChild($_navigation->importNode($_li, true));
+        }
+        else
+        {
+            $_icon = GetIconByCategory($_cate);
+            $_mainli = GenerateNavigationDropDownParentChild($_icon, $_cate, $_f->FunctionName, $_f->URL);
+            $_navigation->documentElement->appendChild($_navigation->importNode($_mainli, true));
+        }
     }
 }
 

@@ -18,52 +18,74 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
 <head>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-header.php"; ?>
 </head>
-<body class="bg-info">
-    <div class="sidebar">
-        <div class="title">
-            <div class="name">
-                HR Management System
-            </div>
-            <span id="btn"><i class="fa fa-bars"></i></span>
+<body>
+
+    <div class="sidebar close">
+
+        <div class="logo-details">
+            <i class='bx bxl-c-plus-plus'></i>
+            <span class="logo_name">CodingLab</span>
         </div>
-        <div class="profile_content">
-            <div class="profile">
-                <div class="profile_details">
-                    <img src="assets/medium-hr_20software_202.jpg" alt="" />
-                    <div>
-                        <div class="name"><?php echo $_SESSION['COMPANY_NAME']; ?></div>
-                        <div class="email">sokmeankao.me@gmail.com</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <?php include $_SESSION['WEB_ROOTPATH'] . "web-navigation.php" ?>
+
+        <div class="profile-details">
+            <div class="profile-content">
+                <img src="image/profile.jpg" alt="">
+            </div>
+            <div class="name-job">
+                <div class="profile_name">Prem Shahi</div>
+                <div class="job">Web Desginer</div>
+            </div>
+            <i class='bx bx-log-out'></i>
+        </div>
+
     </div>
     
-    <div class="home_content">
+    <section class="home-section">
+        <div class="home-content">
+            <i class='bx bx-menu'></i>
+            <span class="text">Drop Down Sidebar</span>
+        </div>
         <a href="synchronize_table.php" onclick="event.preventDefault(); changeFrame(this)">synchronize table</a><br />
         <a href="test.php" onclick="event.preventDefault(); changeFrame(this)">test</a><br />
         <a href="employment.php?ACTION=VIEW" onclick="event.preventDefault(); changeFrame(this)">employment</a><br />
         <a href="employment.php?ACTION=EDIT" onclick="event.preventDefault(); changeFrame(this)">employment-edit</a><br />
         <iframe id ="frameView" src="" frameborder="0" width="100%" height="100%"></iframe>
-    </div>
+    </section>
 
 
     <script>
 
-        function changeFrame(item) {
-            var frame = document.getElementById("frameView");
-            frame.setAttribute("src", item.getAttribute("href"));
-            frame.reload();
+        let anchors = document.querySelectorAll("a");
+        for (var i = 0; i < anchors.length; i++)
+        {
+            anchors[i].addEventListener("click", (e) =>
+            {
+                e.preventDefault();
+                let href = e.target.getAttribute("href");
+                let frame = document.getElementById("frameView");
+                frame.setAttribute("src", href);
+                frame.reload();
+            });
         }
 
-        let btn = document.querySelector("#btn");
-        let sidebar = document.querySelector(".sidebar")
-
-        btn.onclick = function(){
-            console.log("click")
-            sidebar.classList.toggle("active");
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++)
+        {
+            arrow[i].addEventListener("click", (e) =>
+            {
+                let arrowParent = e.target.parentElement.parentElement;
+                arrowParent.classList.toggle("showMenu");
+            });
         }
+
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        sidebarBtn.addEventListener("click", () =>
+        {
+            sidebar.classList.toggle("close");
+        });
 
     </script>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-footer.php" ?>

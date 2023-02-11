@@ -18,9 +18,10 @@ $_rawscript = <<<RAWSCRIPT
 
 <link rel="stylesheet" type="text/css" href="$_rootSource/bootstrap5/5.3.0/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="$_rootSource/fontawesome/6.3.0/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="$_rootSource/boxicons/2.1.4/css/boxicons.min.css">
 <link rel="stylesheet" type="text/css" href="$_rootSource/DataTables/1.13.2/css/jquery.dataTables.css">
 
-<link rel="stylesheet" type="text/css" href="$_rootSource/style.css">
+<link rel="stylesheet" type="text/css" href="$_rootSource/home.css">
 
 RAWSCRIPT;
 echo $_rawscript;
