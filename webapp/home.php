@@ -47,10 +47,6 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
             <i class='bx bx-menu'></i>
             <span class="text">Drop Down Sidebar</span>
         </div>
-        <a href="synchronize_table.php" onclick="event.preventDefault(); changeFrame(this)">synchronize table</a><br />
-        <a href="test.php" onclick="event.preventDefault(); changeFrame(this)">test</a><br />
-        <a href="employment.php?ACTION=VIEW" onclick="event.preventDefault(); changeFrame(this)">employment</a><br />
-        <a href="employment.php?ACTION=EDIT" onclick="event.preventDefault(); changeFrame(this)">employment-edit</a><br />
         <iframe id ="frameView" src="" frameborder="0" width="100%" height="100%"></iframe>
     </section>
 
@@ -63,10 +59,13 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
             anchors[i].addEventListener("click", (e) =>
             {
                 e.preventDefault();
-                let href = e.target.getAttribute("href");
-                let frame = document.getElementById("frameView");
-                frame.setAttribute("src", href);
-                frame.reload();
+                if (e.target.hasAttribute("href"))
+                {
+                    let href = e.target.getAttribute("href");
+                    let frame = document.getElementById("frameView");
+                    frame.setAttribute("src", href);
+                    frame.reload();
+                }
             });
         }
 

@@ -33,6 +33,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 
 <html>
 <head>
+    <?php include $_SESSION['WEB_ROOTPATH'] . "web-header.php"; ?>
     <style>
         table {
             border: 1px solid black;
@@ -50,25 +51,28 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
     </style>
 </head>
 <body>
-<form id="VIEW" action="" method="post" BaseTableName="Employment">
-    <b>this is a data manipulate test on employment table</b>
-    <gridview id="gvDetails" TableName="Employment" Load="gvDetailsLoad">
-        <column PropertyName="Person->FamilyName" HeaderText="Last Name"></column>
-        <column PropertyName="Person->GivenName" HeaderText="First Name"></column>
-        <column PropertyName="Salary" HeaderText="Salary"></column>
-    </gridview>
-</form>
-<form id="EDIT" action="" method="post" BaseTableName="Employment" DataKey="0xe1eb3a4fa96b11edb45950ebf62b0b36">
-    <label for="fname">Family Name:</label>
-    <input type="text" id="fname" name="Person->FamilyName" value="DOV" /> <br/>
-    <label for="lname">Given Name:</label>
-    <input type="text" id="lname" name="Person->GivenName" value="Ratha" /> <br/>
-    <label for="lname">Salary:</label>
-    <input type="text" id="lname" name="Salary" value="0" /> <br/>
-    <input type="submit" name="BUTTON" value="Add" />
-    <input type="submit" name="BUTTON" value="Add and Close" />
-    <input type="submit" name="BUTTON" value="Save" />
-    <input type="submit" name="BUTTON" value="Save and Close" />
-</form>
+    <form id="VIEW" action="" method="post" BaseTableName="Employment">
+        <b>this is a data manipulate test on employment table</b>
+        <gridview id="gvDetails" TableName="Employment" Load="gvDetailsLoad">
+            <grid-column>
+                <column PropertyName="Person->FamilyName" HeaderText="Last Name"></column>
+                <column PropertyName="Person->GivenName" HeaderText="First Name"></column>
+                <column PropertyName="Salary" HeaderText="Salary"></column>
+            </grid-column>
+        </gridview>
+    </form>
+    <form id="EDIT" action="" method="post" BaseTableName="Employment" DataKey="0xe1eb3a4fa96b11edb45950ebf62b0b36">
+        <label for="fname">Family Name:</label>
+        <input type="text" id="fname" name="Person->FamilyName" value="DOV" /> <br/>
+        <label for="lname">Given Name:</label>
+        <input type="text" id="lname" name="Person->GivenName" value="Ratha" /> <br/>
+        <label for="lname">Salary:</label>
+        <input type="text" id="lname" name="Salary" value="0" /> <br/>
+        <input type="submit" name="BUTTON" value="Add" />
+        <input type="submit" name="BUTTON" value="Add and Close" />
+        <input type="submit" name="BUTTON" value="Save" />
+        <input type="submit" name="BUTTON" value="Save and Close" />
+    </form>
+    <?php include $_SESSION['WEB_ROOTPATH'] . "web-footer.php" ?>
 </body>
 </html>

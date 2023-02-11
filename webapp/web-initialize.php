@@ -20,6 +20,8 @@ $_rooturl .= $_SERVER['HTTP_HOST'];
 
 $_SESSION['WEB_ROOTURL_SERVER'] = $_rooturl . $_SESSION['WEB_ROOTURL_LOCAL'];
 
+$_SESSION['EDIT_BUTTON'] = "bx bxs-edit-alt";
+
 $_SESSION['ISINITIALIZE'] = true;
 
 ?>

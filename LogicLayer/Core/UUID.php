@@ -2,6 +2,7 @@
 
 require_once "Connection.php";
 require_once "Helpers/StringHelper.php";
+require_once "Helpers/PasswordHelper.php";
 
 class UUID
 {
@@ -27,6 +28,11 @@ class UUID
     public function ToBinary() : string
     {
         return $this->ID_Binary;
+    }
+
+    public function Encrypt(string $key) : string
+    {
+        return StringEncryption($this->ID_String, $key);
     }
 
     public static function New() : UUID

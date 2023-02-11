@@ -62,9 +62,8 @@ $_basetablename = '';
 $_basetablename = GetAttribute($_forms->item(0), "BaseTableName");
 if ($_basetablename == null) $_basetablename = '';
 
-$_datakey = '';
-$_datakey = GetAttribute($_forms->item(0), "DataKey");
-if ($_datakey == null) $_datakey = '';
+$_datakeyEncrypted = isset($_GET['DATAKEY']) ? $_GET['DATAKEY'] : '';
+$_datakey = $_datakeyEncrypted != '' ? StringDecryption($_datakeyEncrypted, $_sid) : '';
 
 $_nulltext = $_SESSION['NULL_TEXT'];
 
