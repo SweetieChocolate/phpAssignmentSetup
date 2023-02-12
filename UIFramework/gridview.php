@@ -48,7 +48,7 @@ foreach ($_element as $_ele)
                 // edit button
                 $_editbutton = $_dom->createElement("i");
                 $_editbutton->setAttribute("class", $_SESSION['EDIT_BUTTON']);
-                $_datakey = $_item->ObjectID->Encrypt($_sid);
+                $_datakey = urlencode($_item->ObjectID->Encrypt($_sid));
                 $_onclick = "window.location.href = '$_requestURI?ACTION=EDIT&DATAKEY=$_datakey'";
                 $_editbutton->setAttribute("onclick", $_onclick);
 
