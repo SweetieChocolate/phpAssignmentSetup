@@ -38,11 +38,9 @@ $_domXPath = new DOMXPath($_dom);
 if (!isset($_GET['ACTION']) && $_requestURI != $_SESSION['HOME_PAGE'])
     header("Location: $_requestURI" . "?ACTION=VIEW");
 
-// ALL UI FRAMEWORK MUST START HERE
-
-// xpath query element with id
-// $_ele = $_xpath->query("//*[@id='id_here']")->item(0);
-
+// action on this page
+// action get by $_GET
+// map with id of the form
 $_action = GetAndUnsetGET('ACTION');
 $_button = GetAndUnsetPOST('BUTTON');
 

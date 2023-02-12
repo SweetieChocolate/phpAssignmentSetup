@@ -57,7 +57,7 @@ RAWHTML;
 function GenerateNavigationDropDownParentChild(string $_icon, string $_category, string $_functionName, string $_url)
 {
     $_rawHTML = <<<RAWHTML
-<li>
+<li onclick="if(!this.parentElement.parentElement.classList.contains('close')){this.classList.toggle('showMenu')}">
     <div class="nav-link">
         <a>
             <i class="[Icon]"></i>

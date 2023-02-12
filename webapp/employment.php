@@ -61,13 +61,13 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
             </grid-column>
         </gridview>
     </form>
-    <form id="EDIT" action="" method="post" BaseTableName="Employment" DataKey="0xe1eb3a4fa96b11edb45950ebf62b0b36">
+    <form id="EDIT" action="" method="post" BaseTableName="Employment">
         <label for="fname">Family Name:</label>
-        <input type="text" id="fname" name="Person->FamilyName" value="DOV" /> <br/>
+        <input type="text" id="fname" name="->Person->FamilyName" value="DOV" /> <br/>
         <label for="lname">Given Name:</label>
-        <input type="text" id="lname" name="Person->GivenName" value="Ratha" /> <br/>
+        <input type="text" id="lname" name="->Person->GivenName" value="Ratha" /> <br/>
         <label for="lname">Salary:</label>
-        <input type="text" id="lname" name="Salary" value="0" /> <br/>
+        <input type="text" id="lname" name="->Salary" value="0" /> <br/>
         <input type="submit" name="BUTTON" value="Add" />
         <input type="submit" name="BUTTON" value="Add and Close" />
         <input type="submit" name="BUTTON" value="Save" />
