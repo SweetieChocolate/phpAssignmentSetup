@@ -1,18 +1,7 @@
 /* Google Fonts Import Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-:root {
-    --transition-time: 0.5s;
-    --transition-delay: 0.3s;
-    --sidebar-width-close: 70px;
-    --sidebar-width-open: 370px;
-    --sidebar-background-color: #00ccff;
-    --sidebar-background-color-hover: #00beee;
-    --sidebar-user-background-color: #00beee;
-    --sidebar-fontsize-category: 16px;
-    --sidebar-fontsize-item: 14px;
-    --sidebar-text-color:#ffffff;
-}
+@import url('setting.css');
 
 * {
     margin: 0;
@@ -31,7 +20,7 @@ body {
     left: 0;
     height: 100%;
     width: var(--sidebar-width-open);
-    background: var(--sidebar-background-color);
+    background: var(--theme-color);
     z-index: 100;
     transition: all var(--transition-time) ease;
 }
@@ -89,7 +78,7 @@ body {
 }
 
 .sidebar .navigation li:hover {
-    background: var(--sidebar-background-color-hover);
+    background: var(--theme-sub-color);
 }
 
 .sidebar .navigation li .nav-link {
@@ -144,7 +133,7 @@ body {
     padding: 6px 6px 14px 80px;
     margin-top: -10px;
     display: none;
-    background: var(--sidebar-background-color-hover);
+    background: var(--theme-sub-color);
     transition: all var(--transition-time) ease var(--transition-delay);
 }
 
@@ -214,7 +203,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 12px 0;
-    background: var(--sidebar-user-background-color);
+    background: var(--theme-sub-color);
     width: var(--sidebar-width-open);
     transition: all var(--transition-time) ease;
 }
@@ -235,7 +224,7 @@ body {
     object-fit: cover;
     border-radius: 16px;
     margin: 0 14px 0 12px;
-    background: var(--sidebar-user-background-color);
+    background: var(--theme-sub-color);
     transition: all var(--transition-time) ease;
 }
 

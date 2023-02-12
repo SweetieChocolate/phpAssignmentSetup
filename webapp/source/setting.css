@@ -1,0 +1,11 @@
+:root {
+    --theme-color: #00ccff;
+    --theme-sub-color: #00beee;
+    --transition-time: 0.5s;
+    --transition-delay: 0.3s;
+    --sidebar-width-close: 70px;
+    --sidebar-fontsize-category: 16px;
+    --sidebar-fontsize-item: 14px;
+    --sidebar-width-open: 370px;
+    --sidebar-text-color:#ffffff;
+}
