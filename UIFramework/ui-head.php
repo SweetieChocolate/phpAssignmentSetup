@@ -44,6 +44,7 @@ if (!isset($_GET['ACTION']) && $_requestURI != $_SESSION['HOME_PAGE'])
 $_action = GetAndUnsetGET('ACTION');
 $_button = GetAndUnsetPOST('BUTTON');
 
+
 $_forms = $_domXPath->query("//form");
 foreach ($_forms as $_form)
 {
@@ -55,6 +56,8 @@ foreach ($_forms as $_form)
 }
 $_forms = $_domXPath->query("//form");
 if ($_forms->length <= 0) exit();
+
+$_formedit = $_domXPath->query("//form[@id='EDIT']")->item(0);
 
 $_basetablename = '';
 $_basetablename = GetAttribute($_forms->item(0), "BaseTableName");

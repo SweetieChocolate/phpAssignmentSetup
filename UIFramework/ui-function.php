@@ -11,7 +11,10 @@ function BindFormToObject()
             $_bindProps[substr($_key, 2)] = $_value;
         }
     }
-    $_object = $_basetablename::Load($_datakey);
+    if ($_datakey == '')
+        $_object = $_basetablename::Create();
+    else
+        $_object = $_basetablename::Load($_datakey);
     foreach ($_bindProps as $_key => $_value)
     {
         ODataModel::SetPropertyValue($_object, $_key, $_value);
@@ -19,9 +22,19 @@ function BindFormToObject()
     return $_object;
 }
 
-function BindObjectToForm($object)
+function BindObjectToForm($_object)
 {
-    global $_basetablename, $_datakey;
+    if ($_object == null) return;
+    global $_dom;
+    global $_formedit, $_basetablename, $_datakey;
+    $_xpathEdit = new DOMXPath($_formedit->ownerDocument);
+    $_props = $_xpathEdit->query("//input[contains(@name, '->')]");
+    foreach ($_props as $_prop)
+    {
+        $_name = GetAttribute($_prop, "name");
+        $_value = ODataModel::GetPropertyValue($_object, substr($_name, 2));
+        $_prop->setAttribute("value", $_value);
+    }
 }
 
 ?>

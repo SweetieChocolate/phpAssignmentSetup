@@ -11,6 +11,9 @@ foreach ($_element as $_ele)
         $_columns = GetAllChildNodesByTagName($_grid_column, "column");
     
         $_table = $_dom->createElement("table");
+        $_table->setAttribute("id", "gvDatatable");
+        
+        $_thead = $_dom->createElement("thead");
 
         // append all the header text
         $_row = $_dom->createElement("tr");
@@ -25,8 +28,10 @@ foreach ($_element as $_ele)
             $_col = $_dom->createElement("th", $_headertext);
             $_row->appendChild($_col);
         }
-        $_table->appendChild($_row);
+        $_thead->appendChild($_row);
+        $_table->appendChild($_thead);
     
+        $_tbody = $_dom->createElement("tbody");
         // check if gridview is for any table in database
         if (array_key_exists('TableName', $_attrs) || array_key_exists('Load', $_attrs))
         {
@@ -65,9 +70,10 @@ foreach ($_element as $_ele)
                     $_col = $_dom->createElement("td", $_valuetext);
                     $_row->appendChild($_col);
                 }
-                $_table->appendChild($_row);
+                $_tbody->appendChild($_row);
             }
         }
+        $_table->appendChild($_tbody);
     
         ClearNodeChild($_grid_column);
         $_grid_column->appendChild($_table);

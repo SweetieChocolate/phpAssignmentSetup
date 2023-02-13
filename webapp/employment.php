@@ -63,11 +63,11 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
     </form>
     <form id="EDIT" action="" method="post" BaseTableName="Employment">
         <label for="fname">Family Name:</label>
-        <input type="text" id="fname" name="->Person->FamilyName" value="DOV" /> <br/>
+        <input type="text" id="fname" name="->Person->FamilyName" /> <br/>
         <label for="lname">Given Name:</label>
-        <input type="text" id="lname" name="->Person->GivenName" value="Ratha" /> <br/>
+        <input type="text" id="lname" name="->Person->GivenName" /> <br/>
         <label for="lname">Salary:</label>
-        <input type="text" id="lname" name="->Salary" value="0" /> <br/>
+        <input type="text" id="lname" name="->Salary" /> <br/>
         <input type="submit" name="BUTTON" value="Add" />
         <input type="submit" name="BUTTON" value="Add and Close" />
         <input type="submit" name="BUTTON" value="Save" />

@@ -12,4 +12,13 @@ if ($_button != null)
     }
 }
 
+if ($_action != null)
+{
+    if ($_action == 'EDIT')
+    {
+        $_object = $_basetablename::Load($_datakey);
+        BindObjectToForm($_object);
+    }
+}
+
 ?>
