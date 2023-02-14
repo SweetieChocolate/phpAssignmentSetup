@@ -16,6 +16,12 @@ $_rawscript = <<<RAWSCRIPT
 
 <script type="text/javascript" src="$_rootSource/popper.min.js"></script>
 
+<script>
+$(document).ready( function () {
+    $('#gvDatatable').DataTable();
+} );
+</script>
+
 RAWSCRIPT;
 echo $_rawscript;
 

@@ -43,7 +43,15 @@ class ODataModel
 
     public function __get($name)
     {
-        return $this->obj->$name;
+        switch($name)
+        {
+            case "CreatedDateTimeText":
+                return $this->obj->CreatedDateTime->format("Y/m/d H:i:s");
+            case "LastModifiedDateTimeText":
+                return $this->obj->LastModifiedDateTime->format("Y/m/d H:i:s");
+            default:
+                return $this->obj->$name;
+        }
     }
 
     public function __set($name, $value)
