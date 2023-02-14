@@ -24,11 +24,11 @@ if (isset($_POST['button']))
             $user = OUser::GetUserByUserNamePassword($username, $password);
             if ($user != null)
             {
+                $_SESSION['USERID'] = $user->ObjectID->Encrypt(session_id());
                 $user->LastLoginTime = DateTimeHelper::Now();
                 $con = new DBConnection();
                 $user->save($con);
                 $con->commit();
-                $_SESSION['USERID'] = $user->ObjectID->ToString();
                 header("Refresh:0");
             }
         }

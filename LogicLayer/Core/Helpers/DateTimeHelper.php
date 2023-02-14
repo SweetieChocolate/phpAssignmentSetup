@@ -10,7 +10,7 @@ class DateTimeHelper
     }
     public static function ConvertToString(DateTime $dateTime) : string
     {
-        return $dateTime->format("Y/m/d H:i:s");
+        return $dateTime->format("Y/m/d H:i:s.u");
     }
     public static function FromString(string $dateTime) : DateTime
     {

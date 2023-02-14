@@ -39,12 +39,18 @@ class DataModel
     /** Create an DataModel Object with a new ObjectID and Set flag IsNew to true **/
     public static function Create() : ODataModel
     {
+        $user = User::Load(StringDecryption($_SESSION['USERID'], session_id()));
         $classname = get_called_class();
         $obj = new $classname();
         $obj->IsNew = true;
         $obj->ObjectID = UUID::New();
         $obj->CreatedDateTime = DateTimeHelper::Now();
         $obj->LastModifiedDateTime = DateTimeHelper::Now();
+        if ($user != null)
+        {
+            $obj->CreatedBy = $user->ObjectName;
+            $obj->LastModifiedBy = $user->ObjectName;
+        }
         $oClass = "O" . $classname;
         return new $oClass($obj);
     }
@@ -342,6 +348,12 @@ class DataModel
     
     public function save(DBConnection $connection) : void
     {
+        $user = User::Load(StringDecryption($_SESSION['USERID'], session_id()));
+        if ($user != null)
+        {
+            $this->LastModifiedBy = $user->ObjectName;
+        }
+        $this->LastModifiedDateTime = DateTimeHelper::Now();
         if ($this->IsLock) return;
         $this->IsLock = true;
         array_push($connection->object, $this);
@@ -350,9 +362,7 @@ class DataModel
     public function delete(DBConnection $connection) : void
     {
         $this->IsDeleted = true;
-        if ($this->IsLock) return;
-        $this->IsLock = true;
-        array_push($connection->object, $this);
+        $this->save($connection);
     }
 
     /** Get Raw Sql command that correspond to the object **/
@@ -557,6 +567,7 @@ class DataModel
             case "float": $dbType = "double"; break;
             case "bool": $dbType = "bit"; break;
             case "string": $dbType = "text"; break;
+            case "DateTime": $dbType = "DateTime(6)"; break;
             default: $dbType = $phpType; break;
         }
         return strtoupper($dbType);

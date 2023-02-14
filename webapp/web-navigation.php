@@ -1,9 +1,8 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE)
-    session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 
-require_once $_SESSION['PROJECT_ROOTPATH'] . "LogicLayer/TablesLogic.php";
+require_once $_SESSION['PROJECT_ROOTPATH'] . "LogicLayer/LogicLayer.php";
 
 function GetIconByFunctionName(string $_text)
 {
@@ -101,7 +100,7 @@ $_navigation->loadXML('<ul class="navigation"></ul>', LIBXML_NOEMPTYTAG);
 
 
 // dynamically load the Function Modules base on user permission
-$_functions = OFunctionModule::GetAvailableFunction($_SESSION['USERID']);
+$_functions = OFunctionModule::GetAvailableFunction(StringDecryption($_SESSION['USERID'], session_id()));
 
 foreach ($_functions as $_f)
 {

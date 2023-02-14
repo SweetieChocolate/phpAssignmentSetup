@@ -2,7 +2,6 @@
 
 require_once "Connection.php";
 require_once "Helpers/StringHelper.php";
-require_once "Helpers/PasswordHelper.php";
 
 class UUID
 {
