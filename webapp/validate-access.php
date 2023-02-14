@@ -21,7 +21,7 @@ $_uri = strtok($_SERVER['REQUEST_URI'], '?');
 if ($_requestURI == $_SESSION['HOME_PAGE'])
     return;
 
-$_user = User::Load(StringDecryption($_SESSION['USERID'], $_sid));
+$_user = GetCurrentUser();
 if ($_user == null) RedirectDeny();
 
 if ($_user->IsAdministrator) return;

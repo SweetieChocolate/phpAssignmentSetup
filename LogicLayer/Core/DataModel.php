@@ -4,6 +4,7 @@ require_once "Connection.php";
 require_once "Helpers/Database.php";
 require_once "Helpers/StringHelper.php";
 require_once "Helpers/DateTimeHelper.php";
+require_once "Helpers/SessionHelper.php";
 require_once "UUID.php";
 require_once "DataList.php";
 
@@ -39,7 +40,7 @@ class DataModel
     /** Create an DataModel Object with a new ObjectID and Set flag IsNew to true **/
     public static function Create() : ODataModel
     {
-        $user = User::Load(StringDecryption($_SESSION['USERID'], session_id()));
+        $user = GetCurrentUser();
         $classname = get_called_class();
         $obj = new $classname();
         $obj->IsNew = true;
@@ -50,6 +51,11 @@ class DataModel
         {
             $obj->CreatedBy = $user->ObjectName;
             $obj->LastModifiedBy = $user->ObjectName;
+        }
+        else
+        {
+            $obj->CreatedBy = "--SYSTEM--";
+            $obj->LastModifiedBy = "--SYSTEM--";
         }
         $oClass = "O" . $classname;
         return new $oClass($obj);
@@ -348,10 +354,14 @@ class DataModel
     
     public function save(DBConnection $connection) : void
     {
-        $user = User::Load(StringDecryption($_SESSION['USERID'], session_id()));
+        $user = GetCurrentUser();
         if ($user != null)
         {
             $this->LastModifiedBy = $user->ObjectName;
+        }
+        else
+        {
+            $this->LastModifiedBy = "--SYSTEM--";
         }
         $this->LastModifiedDateTime = DateTimeHelper::Now();
         if ($this->IsLock) return;
