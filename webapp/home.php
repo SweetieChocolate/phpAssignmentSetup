@@ -23,19 +23,19 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
     <div class="sidebar close">
 
         <div class="logo-details">
-            <i class='bx bxl-c-plus-plus'></i>
-            <span class="logo_name">CodingLab</span>
+            <i class='bx bxl-php'></i>
+            <span class="logo_name">HR System</span>
         </div>
 
         <?php include $_SESSION['WEB_ROOTPATH'] . "web-navigation.php" ?>
 
         <div class="profile-details">
             <div class="profile-content">
-                <img src="image/profile.jpg" alt="">
+                <img src="./source/image/profile.png" alt="">
             </div>
             <div class="name-job">
-                <div class="profile_name">Prem Shahi</div>
-                <div class="job">Web Desginer</div>
+                <div class="profile_name">Chan Dara</div>
+                <div class="job">Web Developer</div>
             </div>
             <i class='bx bx-log-out'></i>
         </div>
@@ -45,9 +45,9 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
     <section class="home-section">
         <div class="home-content">
             <i class='bx bx-menu'></i>
-            <span class="text">Drop Down Sidebar</span>
+            <span class="text"></span>
         </div>
-        <iframe id ="frameView" src="" frameborder="0" width="100%" height="100%"></iframe>
+        <iframe id ="frameView" src="" frameborder="10" width="100%" height="100%" style="margin-top: 10px; border-radius: 10px;"></iframe>
     </section>
 
 
@@ -77,6 +77,7 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
         });
 
     </script>
+    </br>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-footer.php" ?>
 </body>
 </html>

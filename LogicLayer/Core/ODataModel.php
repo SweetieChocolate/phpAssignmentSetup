@@ -46,9 +46,9 @@ class ODataModel
         switch($name)
         {
             case "CreatedDateTimeText":
-                return $this->obj->CreatedDateTime->format("Y/m/d H:i:s.u");
+                return $this->obj->CreatedDateTime->format("Y/m/d H:i:s");
             case "LastModifiedDateTimeText":
-                return $this->obj->LastModifiedDateTime->format("Y/m/d H:i:s.u");
+                return $this->obj->LastModifiedDateTime->format("Y/m/d H:i:s");
             default:
                 return $this->obj->$name;
         }

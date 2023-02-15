@@ -8,8 +8,8 @@ function GetIconByFunctionName(string $_text)
 {
     switch ($_text)
     {
-        case "WORKFORCR MANAGEMENT":
-            return "bx bx-collection";
+        case "WORKFORCE MANAGEMENT":
+            return "fa fa-trash";
         case "PAYROLL":
             return "bx bx-collection";
         default:
@@ -21,12 +21,12 @@ function GetIconByCategory(string $_text)
 {
     switch ($_text)
     {
-        case "WORKFORCR MANAGEMENT":
-            return "bx bx-collection";
+        case "WORKFORCE MANAGEMENT":
+            return "fa fa-users";
         case "PAYROLL":
-            return "bx bx-collection";
+            return "fa fa-money-bill";
         default:
-            return "bx bx-collection";
+            return "bx bx-person";
     }
 }
 

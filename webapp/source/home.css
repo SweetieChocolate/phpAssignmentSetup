@@ -11,7 +11,8 @@
 }
 
 body {
-    overflow: hidden;
+    overflow: scroll;
+
 }
 
 .sidebar {

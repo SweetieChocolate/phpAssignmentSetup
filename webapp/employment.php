@@ -51,8 +51,8 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
     </style>
 </head>
 <body>
-    <form id="VIEW" action="" method="post" BaseTableName="Employment">
-        <b>this is a data manipulate test on employment table</b>
+    <form id="VIEW" action="" method="post" BaseTableName="Employment" style="margin: 10px;">
+        <button type="button" class="btn btn-primary" style="margin: 10px;">Add New</button>
         <gridview id="gvDetails" TableName="Employment" Load="gvDetailsLoad">
             <grid-column>
                 <column PropertyName="Person->FamilyName" HeaderText="Last Name"></column>
