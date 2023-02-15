@@ -61,12 +61,14 @@ $_formedit = $_domXPath->query("//form[@id='EDIT']")->item(0);
 
 $_basetablename = '';
 $_basetablename = GetAttribute($_forms->item(0), "BaseTableName");
-if ($_basetablename == null) $_basetablename = '';
+$_basetablename = $_basetablename ?? '';
 
 $_datakeyEncrypted = isset($_GET['DATAKEY']) ? $_GET['DATAKEY'] : '';
 $_datakey = $_datakeyEncrypted != '' ? StringDecryption($_datakeyEncrypted, $_sid) : '';
 
 $_nulltext = $_SESSION['NULL_TEXT'];
+
+$_cookiename = str_replace(".", "", substr(str_replace("/", "_", $_tmpdir . $_requestURI), 1));
 
 require_once "ui-function.php";
 

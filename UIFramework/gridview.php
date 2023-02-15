@@ -75,8 +75,18 @@ foreach ($_element as $_ele)
         }
         $_table->appendChild($_tbody);
     
-        ClearNodeChild($_grid_column);
-        $_grid_column->appendChild($_table);
+        $_grid_column->parentNode->replaceChild($_table, $_grid_column);
+    }
+    
+    $_grid_commands = GetAllChildNodesByTagName($_ele, "grid-command");
+    if (count($_grid_commands) > 0)
+    {
+        $_grid_command = $_grid_commands[0];
+        $_commands = GetAllChildNodesByTagName($_grid_command, "command");
+        foreach ($_commands as $_command)
+        {
+            
+        }
     }
 }
 

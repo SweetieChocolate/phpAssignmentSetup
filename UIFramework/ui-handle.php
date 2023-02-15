@@ -10,13 +10,21 @@ if ($_button != null)
     {
         header("Location: $requestURI" . "?ACTION=VIEW");
     }
+    $_object = BindFormToObject();
+    $_datakey = urlencode($_object->ObjectID->Encrypt($_sid));
+    header("Location: $requestURI" . "?ACTION=EDIT&DATAKEY=$_datakey");
 }
 
 if ($_action != null)
 {
     if ($_action == 'EDIT')
     {
-        $_object = $_basetablename::Load($_datakey);
+        if ($_datakey == '')
+            $_object = $_basetablename::Create();
+        else
+            $_object = $_basetablename::Load($_datakey);
+        if ($_object == null)
+            $_object = $_basetablename::Create();
         BindObjectToForm($_object);
     }
 }
