@@ -2,7 +2,7 @@
 
 function BindFormToObject()
 {
-    global $_formedit, $_basetablename, $_cookiename;
+    global $_sid, $_requestURI, $_formedit, $_basetablename, $_cookiename;
     $_bindProps = array();
     foreach ($_POST as $_key => $_value)
     {
@@ -23,7 +23,7 @@ function BindFormToObject()
 function BindObjectToForm($_object)
 {
     if ($_object == null) return;
-    global $_formedit, $_basetablename, $_cookiename;
+    global $_sid, $_requestURI, $_formedit, $_basetablename, $_cookiename;
     setcookie($_cookiename, serialize($_object), time() + 60*60*24);
     $_xpathEdit = new DOMXPath($_formedit->ownerDocument);
     $_props = $_xpathEdit->query("//input[contains(@name, '->')]");
@@ -34,6 +34,20 @@ function BindObjectToForm($_object)
         $_value = $_value ?? '';
         $_prop->setAttribute("value", $_value);
     }
+}
+
+function RefreshPage()
+{
+    global $_sid, $_requestURI, $_formedit, $_basetablename, $_cookiename;
+    $_object = BindFormToObject();
+    $_datakey = urlencode($_object->ObjectID->Encrypt($_sid));
+    header("Location: $_requestURI" . "?ACTION=EDIT&DATAKEY=$_datakey");
+}
+
+function ClosePage()
+{
+    global $_sid, $_requestURI, $_formedit, $_basetablename, $_cookiename;
+    header("Location: $_requestURI");
 }
 
 ?>

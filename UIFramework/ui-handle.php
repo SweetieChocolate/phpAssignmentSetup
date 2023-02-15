@@ -6,13 +6,11 @@ if ($_button != null)
     {
         call_user_func("Save");
     }
+    RefreshPage();
     if (str_contains($_button, "Close"))
     {
-        header("Location: $requestURI" . "?ACTION=VIEW");
+        ClosePage();
     }
-    $_object = BindFormToObject();
-    $_datakey = urlencode($_object->ObjectID->Encrypt($_sid));
-    header("Location: $requestURI" . "?ACTION=EDIT&DATAKEY=$_datakey");
 }
 
 if ($_action != null)
