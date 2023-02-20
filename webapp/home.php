@@ -18,13 +18,13 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
 <head>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-header.php"; ?>
 </head>
-<body>
+<body style="overflow:hidden">
 
     <div class="sidebar close">
 
         <div class="logo-details">
-            <i class='bx bxl-php'></i>
-            <span class="logo_name">HR System</span>
+            <i id="sidebarBtn" class='bx bx-menu'></i>
+            <span class="logo_name"><?= $_SESSION['COMPANY_NAME'] ?></span>
         </div>
 
         <?php include $_SESSION['WEB_ROOTPATH'] . "web-navigation.php" ?>
@@ -43,11 +43,7 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
     </div>
     
     <section class="home-section">
-        <div class="home-content">
-            <i class='bx bx-menu'></i>
-            <span class="text"></span>
-        </div>
-        <iframe id ="frameView" src="" frameborder="10" width="100%" height="100%" style="margin-top: 10px; border-radius: 10px;"></iframe>
+        <iframe id ="frameView" src="" width="100%" height="100%" style="overflow:scroll;"></iframe>
     </section>
 
 
@@ -70,7 +66,7 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
         }
 
         let sidebar = document.querySelector(".sidebar");
-        let sidebarBtn = document.querySelector(".bx-menu");
+        let sidebarBtn = document.querySelector("#sidebarBtn");
         sidebarBtn.addEventListener("click", () =>
         {
             sidebar.classList.toggle("close");

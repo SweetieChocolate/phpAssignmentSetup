@@ -17,8 +17,14 @@ foreach ($_element as $_ele)
 
         // append all the header text
         $_row = $_dom->createElement("tr");
+        
         // append an empty column for edit button
         $_col = $_dom->createElement("th");
+        $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
+        $_row->appendChild($_col);
+        // append an empty column for delete button
+        $_col = $_dom->createElement("th");
+        $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
         $_row->appendChild($_col);
         foreach ($_columns as $_column)
         {
@@ -50,15 +56,24 @@ foreach ($_element as $_ele)
             {
                 $_row = $_dom->createElement("tr");
 
+                $_datakey = urlencode($_item->ObjectID->Encrypt($_sid));
+
                 // edit button
                 $_editbutton = $_dom->createElement("i");
                 $_editbutton->setAttribute("class", $_SESSION['EDIT_BUTTON']);
-                $_datakey = urlencode($_item->ObjectID->Encrypt($_sid));
-                $_onclick = "window.location.href = '$_requestURI?ACTION=EDIT&DATAKEY=$_datakey'";
-                $_editbutton->setAttribute("onclick", $_onclick);
-
+                $_editonclick = "window.location.href = '$_requestURI?ACTION=EDIT&DATAKEY=$_datakey'";
+                $_editbutton->setAttribute("onclick", $_editonclick);
                 $_col = $_dom->createElement("td");
                 $_col->appendChild($_editbutton);
+                $_row->appendChild($_col);
+                // delete button
+                $_deletebutton = $_dom->createElement("i");
+                $_deletebutton->setAttribute("class", $_SESSION['DELETE_BUTTON']);
+                $_deleteonclick = "if (confirm('Are you sure you want to delete this record?'))
+                    window.location.href = '$_requestURI?ACTION=DELETE&DATAKEY=$_datakey'";
+                $_deletebutton->setAttribute("onclick", $_deleteonclick);
+                $_col = $_dom->createElement("td");
+                $_col->appendChild($_deletebutton);
                 $_row->appendChild($_col);
 
                 foreach ($_columns as $_column)

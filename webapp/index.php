@@ -4,12 +4,6 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once "web-initialize.php";
 
-if (isset($_SESSION['USERID']))
-{
-    $homepageurl = $_SESSION['HOME_PAGE'];
-    header("Location: $homepageurl");
-}
-
 $loginMessage = "please enter username and password";
 
 if (isset($_POST['button']))
@@ -29,7 +23,9 @@ if (isset($_POST['button']))
                 $con = new DBConnection();
                 $user->save($con);
                 $con->commit();
-                header("Refresh:0");
+                
+                $homepageurl = $_SESSION['HOME_PAGE'];
+                header("Location: $homepageurl");
             }
         }
         $loginMessage = "Invalid username or password";

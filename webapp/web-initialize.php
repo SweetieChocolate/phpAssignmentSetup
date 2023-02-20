@@ -20,7 +20,9 @@ $_rooturl .= $_SERVER['HTTP_HOST'];
 
 $_SESSION['WEB_ROOTURL_SERVER'] = $_rooturl . $_SESSION['WEB_ROOTURL_LOCAL'];
 
-$_SESSION['EDIT_BUTTON'] = "bx bxs-edit-alt";
+$_SESSION['EDIT_BUTTON'] = "bx bxs-edit";
+$_SESSION['DELETE_BUTTON'] = "bx bxs-trash";
+$_SESSION['BUTTON_WIDTH_SIZE'] = "10px";
 
 $_SESSION['ISINITIALIZE'] = true;
 

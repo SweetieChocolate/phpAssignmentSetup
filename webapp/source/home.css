@@ -10,11 +10,6 @@
     font-family: 'Poppins', sans-serif;
 }
 
-body {
-    overflow: scroll;
-
-}
-
 .sidebar {
     position: fixed;
     top: 0;
@@ -42,20 +37,21 @@ body {
     text-align: center;
     height: 50px;
     line-height: 50px;
-    color: var(--sidebar-text-color);
+    color: var(--theme-text-color);
     min-width: var(--sidebar-width-close);
 }
 
 .sidebar .logo-details .logo_name {
     font-size: 20px;
     font-weight: 600;
-    color: var(--sidebar-text-color);
+    color: var(--theme-text-color);
     transition: all var(--transition-time) ease var(--transition-delay);
 }
 
 .sidebar.close .logo-details .logo_name {
     opacity: 0;
     pointer-events: none;
+    transition: none;
     transition-delay: 0s;
 }
 
@@ -67,6 +63,8 @@ body {
 
 .sidebar.close .navigation {
     overflow: visible;
+    transition: none;
+    transition-delay: 0s;
 }
 
 .sidebar .navigation::-webkit-scrollbar {
@@ -100,7 +98,7 @@ body {
     cursor: pointer;
     transition: all 0.5s ease;
     min-width: var(--sidebar-width-close);
-    color: var(--sidebar-text-color);
+    color: var(--theme-text-color);
 }
 
 .sidebar .navigation li.showMenu i.arrow {
@@ -120,7 +118,7 @@ body {
 .sidebar .navigation li a .category_name {
     font-weight: 400;
     font-size: var(--sidebar-fontsize-category);
-    color: var(--sidebar-text-color);
+    color: var(--theme-text-color);
     transition: all var(--transition-time) ease var(--transition-delay);
 }
 
@@ -147,7 +145,7 @@ body {
     white-space: nowrap;
     opacity: 0.6;
     font-size: var(--sidebar-fontsize-item);
-    color: var(--sidebar-text-color);
+    color: var(--theme-text-color);
 }
 
 .sidebar .navigation li .sub-menu a:hover {
@@ -240,7 +238,7 @@ body {
     white-space: nowrap;
     font-size: var(--sidebar-fontsize-category);
     min-width: var(--sidebar-width-close);
-    color: var(--sidebar-text-color);
+    color: var(--theme-text-color);
 }
 
 .sidebar.close .profile-details i,
@@ -272,20 +270,4 @@ body {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-}
-
-.home-section .home-content .bx-menu,
-.home-section .home-content .text {
-    color: #11101d;
-    font-size: 35px;
-}
-
-.home-section .home-content .bx-menu {
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.home-section .home-content .text {
-    font-size: 26px;
-    font-weight: 600;
 }

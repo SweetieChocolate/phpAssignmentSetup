@@ -13,12 +13,15 @@ $_rawscript = <<<RAWSCRIPT
 <script type="text/javascript" src="$_rootSource/bootstrap5/5.3.0/js/bootstrap.js"></script>
 <script type="text/javascript" src="$_rootSource/DataTables/1.13.2/js/jquery.dataTables.js"></script>
 
-<script type="text/javascript" src="$_rootSource/popper.min.js"></script>
-
 <script>
-$(document).ready( function () {
-    $('#gvDatatable').DataTable();
-} );
+$(document).ready( function() {
+    $('#gvDatatable').DataTable({
+        'columnDefs': [{
+            'orderable': false,
+            'targets': [0, 1] }],
+        'aaSorting': []
+    });
+});
 </script>
 
 RAWSCRIPT;

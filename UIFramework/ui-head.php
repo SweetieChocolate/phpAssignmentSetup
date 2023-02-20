@@ -43,7 +43,12 @@ if (!isset($_GET['ACTION']) && $_requestURI != $_SESSION['HOME_PAGE'])
 // map with id of the form
 $_action = GetAndUnsetGET('ACTION');
 $_button = GetAndUnsetPOST('BUTTON');
-
+$_isPendingDelete = false;
+if ($_action == 'DELETE')
+{
+    $_isPendingDelete = true;
+    $_action = 'VIEW';
+}
 
 $_forms = $_domXPath->query("//form");
 foreach ($_forms as $_form)
@@ -57,14 +62,29 @@ foreach ($_forms as $_form)
 $_forms = $_domXPath->query("//form");
 if ($_forms->length <= 0) exit();
 
-$_formedit = $_domXPath->query("//form[@id='EDIT']")->item(0);
-
 $_basetablename = '';
 $_basetablename = GetAttribute($_forms->item(0), "BaseTableName");
 $_basetablename = $_basetablename ?? '';
 
 $_datakeyEncrypted = isset($_GET['DATAKEY']) ? $_GET['DATAKEY'] : '';
 $_datakey = $_datakeyEncrypted != '' ? StringDecryption($_datakeyEncrypted, $_sid) : '';
+
+if ($_isPendingDelete)
+{
+    if ($_basetablename != '' && $_datakey != '')
+    {
+        $_object = $_basetablename::Load($_datakey);
+        if ($_object != null)
+        {
+            $_con = new DBConnection();
+            $_object->delete($_con);
+            $_con->commit();
+            header("Location: $_requestURI" . "?ACTION=VIEW");
+        }
+    }
+}
+
+$_formedit = $_domXPath->query("//form[@id='EDIT']")->item(0);
 
 $_nulltext = $_SESSION['NULL_TEXT'];
 

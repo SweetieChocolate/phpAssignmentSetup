@@ -34,31 +34,6 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 <html>
 <head>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-header.php"; ?>
-    <style>
-         table {
-            border: 1px solid black;
-            border: 1px solid gray;
-            border-collapse: collapse;
-            width: 100%;
-        }
-        table tr th {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-        table thead tr{
-            background-color: var(--theme-color);
-        }
-        table tr td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-        table tbody tr:nth-child(even){
-            background-color: #f2f2f2;
-        }
-        table tbody tr:hover {
-            background-color: #ddd;
-        } 
-    </style>
 </head>
 <body>
     <form id="VIEW" action="" method="post" BaseTableName="Employment" style="margin: 10px;">

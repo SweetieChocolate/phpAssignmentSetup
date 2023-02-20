@@ -22,6 +22,7 @@ $_rawscript = <<<RAWSCRIPT
 <link rel="stylesheet" type="text/css" href="$_rootSource/DataTables/1.13.2/css/jquery.dataTables.css">
 
 <link rel="stylesheet" type="text/css" href="$_rootSource/home.css">
+<link rel="stylesheet" type="text/css" href="$_rootSource/search.css">
 
 RAWSCRIPT;
 echo $_rawscript;

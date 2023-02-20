@@ -1,0 +1,35 @@
+table {
+    width: 100%;
+}
+
+table thead tr {
+    background-color: var(--theme-color);
+    color: var(--theme-text-color);
+}
+
+table tbody tr td {
+    font-size: 14px;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tbody tr:hover {
+    background-color: #ddd;
+}
+
+.btn-primary {
+    background-color: var(--theme-color) !important;
+    border: none;
+}
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+    background-color: var(--theme-sub-color) !important;
+}
+
+div.dataTables_filter,
+div.dataTables_length {
+    padding: 10px;
+}
