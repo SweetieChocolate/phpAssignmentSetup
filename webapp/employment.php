@@ -37,7 +37,6 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 </head>
 <body>
     <form id="VIEW" action="" method="post" BaseTableName="Employment" style="margin: 10px;">
-        <button type="button" class="btn btn-primary" style="margin: 10px;" onclick="window.location.href='/phpAssignmentSetup/webapp/employment.php?ACTION=EDIT'">Add New</button>
         <gridview id="gvDetails" TableName="Employment" Load="gvDetailsLoad">
             <grid-command>
                 <command CommandName="AddObject"></command>

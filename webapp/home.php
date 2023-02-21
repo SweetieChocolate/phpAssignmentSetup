@@ -37,7 +37,7 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
                 <div class="profile_name">Chan Dara</div>
                 <div class="job">Web Developer</div>
             </div>
-            <i class='bx bx-log-out'></i>
+            <i class='bx bx-log-out' onclick="window.location.href = 'index.php'"></i>
         </div>
 
     </div>

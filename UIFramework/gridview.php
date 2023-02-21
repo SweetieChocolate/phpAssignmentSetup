@@ -96,12 +96,25 @@ foreach ($_element as $_ele)
     $_grid_commands = GetAllChildNodesByTagName($_ele, "grid-command");
     if (count($_grid_commands) > 0)
     {
+        //<button type="button" class="btn btn-primary" style="margin: 10px;" onclick="window.location.href='/phpAssignmentSetup/webapp/employment.php?ACTION=EDIT'">Add New</button>
         $_grid_command = $_grid_commands[0];
         $_commands = GetAllChildNodesByTagName($_grid_command, "command");
         foreach ($_commands as $_command)
         {
-            
+            $_commandname = GetAttribute($_command, "CommandName");
+            if ($_commandname == "AddObject")
+            {
+                $_button = $_dom->createElement("button", "New");
+                $_button->setAttribute("type", "button");
+                $_button->setAttribute("class", "btn btn-primary");
+                $_button->setAttribute("style", "margin: 10px;");
+                $_buttonOnclick = "window.location.href = '$_requestURI?ACTION=EDIT'";
+                $_button->setAttribute("onclick", $_buttonOnclick);
+                $_ele->parentNode->insertBefore($_button, $_ele);
+            }
         }
+
+        RemoveSelfElement($_grid_command);
     }
 }
 
