@@ -39,7 +39,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
     <form id="VIEW" action="" method="post" BaseTableName="Employment" style="margin: 10px;">
         <gridview id="gvDetails" TableName="Employment" Load="gvDetailsLoad">
             <grid-command>
-                <command CommandName="AddObject"></command>
+                <command CommandName="AddObject" CommandText="New"></command>
             </grid-command>
             <grid-column>
                 <column PropertyName="Person->FamilyName" HeaderText="Last Name"></column>
