@@ -17,7 +17,7 @@ $gvDetailsLoad = Employment::LoadList();
 
 // function start here
 
-function Save()
+function SaveObject()
 {
     $emp = BindFormToObject();
     $con = new DBConnection();
@@ -35,34 +35,41 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 <head>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-header.php"; ?>
 </head>
-<body>
-    <form id="VIEW" action="" method="post" BaseTableName="Employment" style="margin: 10px;">
+<body class="frame">
+    <form id="VIEW" action="" method="post" BaseTableName="Employment">
         <gridview id="gvDetails" TableName="Employment" Load="gvDetailsLoad">
             <grid-command>
                 <command CommandName="AddObject" CommandText="New"></command>
             </grid-command>
             <grid-column>
-                <column PropertyName="Person->FamilyName" HeaderText="Last Name"></column>
-                <column PropertyName="Person->GivenName" HeaderText="First Name"></column>
-                <column PropertyName="Salary" HeaderText="Salary"></column>
-                <column PropertyName="CreatedBy" HeaderText="Created By"></column>
-                <column PropertyName="CreatedDateTimeText" HeaderText="Created DateTime"></column>
-                <column PropertyName="LastModifiedBy" HeaderText="Modified By"></column>
-                <column PropertyName="LastModifiedDateTimeText" HeaderText="Modified DateTime"></column>
+                <column PropertyName="->Person->FamilyName" HeaderText="Last Name"></column>
+                <column PropertyName="->Person->GivenName" HeaderText="First Name"></column>
+                <column PropertyName="->Salary" HeaderText="Salary"></column>
+                <column PropertyName="->CreatedBy" HeaderText="Created By"></column>
+                <column PropertyName="->CreatedDateTimeText" HeaderText="Created DateTime"></column>
+                <column PropertyName="->LastModifiedBy" HeaderText="Modified By"></column>
+                <column PropertyName="->LastModifiedDateTimeText" HeaderText="Modified DateTime"></column>
             </grid-column>
         </gridview>
     </form>
-    <form id="EDIT" action="" method="post" BaseTableName="Employment">
+    <form id="EDIT" action="" method="post" BaseTableName="Employment" Save="SaveObject">
+        <button type="submit" class="btn btn-primary" name="BUTTON" value="Save">Save</button>
+        <button type="submit" class="btn btn-primary" name="BUTTON" value="SaveClose">Save and Close</button>
+        <button type="submit" class="btn btn-primary" name="BUTTON" value="Close">Close</button>
+        <br />
+
         <label for="fname">Family Name:</label>
         <input type="text" id="fname" name="->Person->FamilyName" /> <br/>
         <label for="lname">Given Name:</label>
         <input type="text" id="lname" name="->Person->GivenName" /> <br/>
         <label for="lname">Salary:</label>
         <input type="text" id="lname" name="->Salary" /> <br/>
-        <input type="submit" name="BUTTON" value="Add" />
-        <input type="submit" name="BUTTON" value="Add and Close" />
-        <input type="submit" name="BUTTON" value="Save" />
-        <input type="submit" name="BUTTON" value="Save and Close" />
+
+        <onetomany PropertyName="->Person->Phones">
+            <grid-column>
+                <column PropertyName="->ObjectNumber" HeaderText="Phone Number"/>
+            </grid-column>
+        </onetomany>
     </form>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-footer.php" ?>
 </body>

@@ -85,10 +85,22 @@ if ($_isPendingDelete)
 }
 
 $_formedit = $_domXPath->query("//form[@id='EDIT']")->item(0);
+$_methodName = array();
+
+if ($_formedit != null)
+{
+    $_methodName['Save'] = GetAttribute($_formedit, "Save");
+}
 
 $_nulltext = $_SESSION['NULL_TEXT'];
 
 $_cookiename = str_replace(".", "", substr(str_replace("/", "_", $_tmpdir . $_requestURI), 1));
+
+if ($_action == 'VIEW')
+{
+    setcookie($_cookiename, "", time() - 1);
+}
+$_object = isset($_COOKIE[$_cookiename]) ? unserialize($_COOKIE[$_cookiename]) : null;
 
 require_once "ui-function.php";
 

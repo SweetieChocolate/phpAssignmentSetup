@@ -1,7 +1,9 @@
 <?php
 
-$_element = $_dom->getElementsByTagName("gridview");
+$_element = $_dom->getElementsByTagName("onetomany");
 if ($_element->length <= 0) return;
+$_object = isset($_COOKIE[$_cookiename]) ? unserialize($_COOKIE[$_cookiename]) : $_object;
+if ($_object == null) return;
 foreach ($_element as $_ele)
 {
     $_attrs = GetAllAttributes($_ele);
@@ -12,7 +14,7 @@ foreach ($_element as $_ele)
         $_columns = GetAllChildNodesByTagName($_grid_column, "column");
     
         $_table = $_dom->createElement("table");
-        $_table->setAttribute("class", "gridview");
+        $_table->setAttribute("class", "onetomany");
         
         $_thead = $_dom->createElement("thead");
 
@@ -39,19 +41,11 @@ foreach ($_element as $_ele)
         $_table->appendChild($_thead);
     
         $_tbody = $_dom->createElement("tbody");
-        // check if gridview is for any table in database
-        if (array_key_exists('TableName', $_attrs) || array_key_exists('Load', $_attrs))
+        // check if one to many link to any prop
+        if (array_key_exists('PropertyName', $_attrs))
         {
-            if (array_key_exists('Load', $_attrs))
-            {
-                $_varname = $_attrs['Load'];
-                $_list = $$_varname;
-            }
-            else
-            {
-                $_tableName = $_attrs['TableName'];
-                $_list = $_tableName::LoadList();
-            }
+            $_list = ODataModel::GetPropertyValue($_object, substr($_attrs['PropertyName'], 2));
+            if ($_list == null) continue;
             // add every row data to table by property name
             foreach ($_list as $_item)
             {

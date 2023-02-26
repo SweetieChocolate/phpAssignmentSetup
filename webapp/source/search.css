@@ -1,3 +1,6 @@
+
+@import url('setting.css');
+
 table {
     width: 100%;
 }
@@ -21,15 +24,6 @@ table tbody tr:hover {
 
 .btn-primary {
     background-color: var(--theme-color) !important;
-    border: none;
-}
-.btn-primary:hover,
-.btn-primary:active,
-.btn-primary:visited {
-    background-color: var(--theme-sub-color) !important;
-}
-
-div.dataTables_filter,
-div.dataTables_length {
-    padding: 10px;
+    border: none !important;
+    margin: 10px;
 }

@@ -2,8 +2,9 @@
 
 class ODataModel
 {
-    public static function GetPropertyValue(ODataModel $item, string $prop, string $delimiter = "->") : mixed
+    public static function GetPropertyValue(ODataModel $item, string $prop) : mixed
     {
+        $delimiter = "->";
         $ps = explode($delimiter, $prop);
         $temp = $item;
         foreach ($ps as $p)
@@ -15,8 +16,9 @@ class ODataModel
         return $temp;
     }
 
-    public static function SetPropertyValue(ODataModel $item, string $prop, mixed $value, string $delimiter = "->") : bool
+    public static function SetPropertyValue(ODataModel $item, string $prop, mixed $value) : bool
     {
+        $delimiter = "->";
         $ps = explode($delimiter, $prop);
         $count = count($ps);
         $temp = $item;

@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . "/../../LogicLayer.php";
 
 class PersonPhone extends DataModel
 {
-    protected string $PersonID;
+    protected UUID $PersonID;
 }
 
 class OPersonPhone extends ODataModel

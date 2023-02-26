@@ -8,4 +8,16 @@
     --sidebar-fontsize-category: 16px;
     --sidebar-fontsize-item: 14px;
     --sidebar-width-open: 370px;
+    --padding: 10px;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+    background-color: var(--theme-sub-color) !important;
+}
+
+div.dataTables_filter,
+div.dataTables_length {
+    padding: 10px;
 }
