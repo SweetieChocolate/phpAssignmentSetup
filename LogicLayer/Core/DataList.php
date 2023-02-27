@@ -2,7 +2,7 @@
 
 class DataList extends ArrayObject
 {
-    public string $masterID = "-";
+    public UUID $masterID;
     private string $foreignClassName = "-";
     private string $foreignKey = "-";
     
@@ -16,12 +16,13 @@ class DataList extends ArrayObject
         if (!is_subclass_of($foreignClassName, 'DataModel'))
             throw new Exception("DataList support class inherit from DataModel only");
         $obj = new DataList();
+        $obj->masterID = UUID::New();
         $obj->foreignClassName = $foreignClassName;
         $obj->foreignKey = $foreignKey;
         return $obj;
     }
 
-    public static function InitWithMasterID(string $masterID, string $foreignClassName, string $foreignKey) : DataList
+    public static function InitWithMasterID(UUID $masterID, string $foreignClassName, string $foreignKey) : DataList
     {
         if (!is_subclass_of($foreignClassName, 'DataModel'))
             throw new Exception("DataList support class inherit from DataModel only");
@@ -34,7 +35,7 @@ class DataList extends ArrayObject
 
     public function append(mixed $object): void
     {
-        if (!is_subclass_of($object, 'DataModel'))
+        if (!is_subclass_of($object, 'ODataModel'))
             throw new Exception("DataList support class inherit from DataModel only");
         $key = $this->foreignKey;
         $object->$key = $this->masterID;

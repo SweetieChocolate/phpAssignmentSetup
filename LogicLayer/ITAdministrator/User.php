@@ -11,6 +11,8 @@ class User extends DataModel
     protected bool $IsBan;
     protected bool $RequirePasswordChange;
     protected DateTime $LastLoginTime;
+    protected UUID $EmploymentID;
+    protected Employment $Employment;
 }
 
 class OUser extends ODataModel

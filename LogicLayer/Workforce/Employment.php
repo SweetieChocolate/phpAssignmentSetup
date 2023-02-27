@@ -7,6 +7,8 @@ class Employment extends DataModel
     protected UUID $PersonID;
     protected Person $Person;
 
+    protected DataList $Users;
+
     protected float $Salary;
 
     // Job Information
@@ -17,12 +19,19 @@ class Employment extends DataModel
     // Time Attendance
     protected UUID $RosterID;
 
+    protected function __construct()
+    {
+        $this->Users = DataList::Init('User', 'EmploymentID');
+    }
+
     public static function Create() : ODataModel
     {
         $obj = parent::Create();
         $per = Person::Create();
+        $user = User::Create();
         $obj->PersonID = $per->ObjectID;
         $obj->Person = $per;
+        $obj->Users->append($user);
         return $obj;
     }
 
@@ -30,6 +39,13 @@ class Employment extends DataModel
     {
         parent::save($con);
         parent::__get("Person")->save($con);
+        if ($this->IsNew())
+        {
+            foreach (parent::__get("Users") as $user)
+            {
+                $user->save($con);
+            }
+        }
     }
 }
 

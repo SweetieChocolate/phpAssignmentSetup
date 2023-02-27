@@ -16,7 +16,8 @@ function BindFormToObject()
     {
         ODataModel::SetPropertyValue($_object, $_key, $_value);
     }
-    setcookie($_cookiename, serialize($_object), time() + 60*60*24);
+    $_SESSION[$_cookiename] = serialize($_object);
+    //setcookie($_cookiename, serialize($_object), time() + 60*60*24);
     return $_object;
 }
 
@@ -24,7 +25,8 @@ function BindObjectToForm($_object)
 {
     if ($_object == null) return;
     global $_sid, $_requestURI, $_formedit, $_basetablename, $_cookiename, $_datakeyEncrypted, $_datakey, $_object;
-    setcookie($_cookiename, serialize($_object), time() + 60*60*24);
+    $_SESSION[$_cookiename] = serialize($_object);
+    //setcookie($_cookiename, serialize($_object), time() + 60*60*24);
     foreach ($_formedit->ownerDocument->getElementsByTagName("input") as $_prop)
     {
         $_name = GetAttribute($_prop, "name");
@@ -38,7 +40,8 @@ function BindObjectToForm($_object)
 function RefreshPage()
 {
     global $_sid, $_requestURI, $_formedit, $_basetablename, $_cookiename, $_datakeyEncrypted, $_datakey, $_object;
-    setcookie($_cookiename, serialize($_object), time() + 60*60*24);
+    $_SESSION[$_cookiename] = serialize($_object);
+    //setcookie($_cookiename, serialize($_object), time() + 60*60*24);
     $_getdatakey = urlencode($_datakeyEncrypted);
     header("Location: $_requestURI" . "?ACTION=EDIT&DATAKEY=$_getdatakey");
 }

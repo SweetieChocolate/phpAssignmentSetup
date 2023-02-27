@@ -98,9 +98,11 @@ $_cookiename = str_replace(".", "", substr(str_replace("/", "_", $_tmpdir . $_re
 
 if ($_action == 'VIEW')
 {
-    setcookie($_cookiename, "", time() - 1);
+    if (isset($_SESSION[$_cookiename])) unset($_SESSION[$_cookiename]);
+    //setcookie($_cookiename, "", time() - 1);
 }
-$_object = isset($_COOKIE[$_cookiename]) ? unserialize($_COOKIE[$_cookiename]) : null;
+$_object = isset($_SESSION[$_cookiename]) ? unserialize($_SESSION[$_cookiename]) : null;
+//$_object = isset($_COOKIE[$_cookiename]) ? unserialize($_COOKIE[$_cookiename]) : null;
 
 require_once "ui-function.php";
 
