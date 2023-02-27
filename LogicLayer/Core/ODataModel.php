@@ -43,6 +43,11 @@ class ODataModel
         $this->obj = $obj;
     }
 
+    public function Get($name)
+    {
+        return $this->__get($name);
+    }
+
     public function __get($name)
     {
         switch($name)

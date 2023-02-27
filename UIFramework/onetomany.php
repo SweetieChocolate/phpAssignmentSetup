@@ -2,7 +2,7 @@
 
 $_element = $_dom->getElementsByTagName("onetomany");
 if ($_element->length <= 0) return;
-$_object = isset($_COOKIE[$_cookiename]) ? unserialize($_COOKIE[$_cookiename]) : $_object;
+$_object = GetCurrentObject();
 if ($_object == null) return;
 foreach ($_element as $_ele)
 {

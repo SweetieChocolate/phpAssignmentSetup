@@ -22,6 +22,7 @@ if ($_action != null)
 {
     if ($_action == 'EDIT')
     {
+        $_object = GetCurrentObject();
         if ($_object == null)
         {
             if ($_datakey == '')

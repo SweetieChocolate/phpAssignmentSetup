@@ -36,7 +36,7 @@ class DataList extends ArrayObject
     public function append(mixed $object): void
     {
         if (!is_subclass_of($object, 'ODataModel'))
-            throw new Exception("DataList support class inherit from DataModel only");
+            throw new Exception("Appending/Adding to DataList support class inherit from ODataModel only");
         $key = $this->foreignKey;
         $object->$key = $this->masterID;
         parent::append($object);

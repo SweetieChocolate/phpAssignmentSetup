@@ -87,22 +87,33 @@ if ($_isPendingDelete)
 $_formedit = $_domXPath->query("//form[@id='EDIT']")->item(0);
 $_methodName = array();
 
+$_editDefaultBtn = <<<RAW
+<button type="submit" class="btn btn-primary" name="BUTTON" value="Save">Save</button>
+<button type="submit" class="btn btn-primary" name="BUTTON" value="SaveClose">Save and Close</button>
+<button type="submit" class="btn btn-primary" name="BUTTON" value="Close">Close</button>
+<br />
+RAW;
+
 if ($_formedit != null)
 {
     $_methodName['Save'] = GetAttribute($_formedit, "Save");
+    $_rawSource = new DOMDocument();
+    $_rawSource->loadHTML($_editDefaultBtn);
+    $_btn = $_dom->importNode($_rawSource->documentElement, true);
+    if ($_form->firstChild != null)
+        $_formedit->insertBefore($_btn, $_form->firstChild);
+    else
+        $_formedit->appendChild($_btn);
 }
 
 $_nulltext = $_SESSION['NULL_TEXT'];
 
-$_cookiename = str_replace(".", "", substr(str_replace("/", "_", $_tmpdir . $_requestURI), 1));
+$_sessionname = str_replace(".", "", substr(str_replace("/", "_", $_tmpdir . $_requestURI), 1));
 
 if ($_action == 'VIEW')
 {
-    if (isset($_SESSION[$_cookiename])) unset($_SESSION[$_cookiename]);
-    //setcookie($_cookiename, "", time() - 1);
+    if (isset($_SESSION[$_sessionname])) unset($_SESSION[$_sessionname]);
 }
-$_object = isset($_SESSION[$_cookiename]) ? unserialize($_SESSION[$_cookiename]) : null;
-//$_object = isset($_COOKIE[$_cookiename]) ? unserialize($_COOKIE[$_cookiename]) : null;
 
 require_once "ui-function.php";
 

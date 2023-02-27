@@ -240,6 +240,11 @@ class DataModel
         }
         return $array;
     }
+
+    public function Get($var)
+    {
+        return $this->__get($var);
+    }
     
     public function __get($var)
     {

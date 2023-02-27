@@ -23,6 +23,7 @@ function SaveObject()
     $con = new DBConnection();
     $emp->save($con);
     $con->commit();
+    BindObjectToForm($emp);
 }
 
 // function end here
@@ -53,11 +54,6 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
         </gridview>
     </form>
     <form id="EDIT" action="" method="post" BaseTableName="Employment" Save="SaveObject">
-        <button type="submit" class="btn btn-primary" name="BUTTON" value="Save">Save</button>
-        <button type="submit" class="btn btn-primary" name="BUTTON" value="SaveClose">Save and Close</button>
-        <button type="submit" class="btn btn-primary" name="BUTTON" value="Close">Close</button>
-        <br />
-
         <label for="fname">Family Name:</label>
         <input type="text" id="fname" name="->Person->FamilyName" /> <br/>
         <label for="lname">Given Name:</label>
