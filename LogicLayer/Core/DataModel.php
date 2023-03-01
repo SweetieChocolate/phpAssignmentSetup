@@ -291,7 +291,7 @@ class DataModel
                     if ($this->ObjectID != $this->$var->masterID)
                     {
                         $this->$var->masterID = $this->ObjectID;
-                        $this->$var->Refresh();
+                        $this->$var->Reload();
                     }
                     return $this->$var;
                 }

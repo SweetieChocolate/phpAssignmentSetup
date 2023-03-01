@@ -54,7 +54,7 @@ $_forms = $_domXPath->query("//form");
 foreach ($_forms as $_form)
 {
     $_formaction = GetAttribute($_form, "id");
-    if ($_formaction != $_action)
+    if ($_formaction != $_action && $_form->parentNode != null && $_form->parentNode->nodeName == "body")
     {
         RemoveSelfNode($_form);
     }

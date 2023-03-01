@@ -47,7 +47,7 @@ class DataList extends ArrayObject
         $this->append($object);
     }
 
-    public function Refresh() : void
+    public function Reload() : void
     {
         $masterID = UUID::ID_FOR_QUERY($this->masterID);
         $array = $this->foreignClassName::LoadList("$this->foreignKey = $masterID");

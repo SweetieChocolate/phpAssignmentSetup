@@ -36,4 +36,14 @@ if ($_action != null)
     }
 }
 
+$_inputs = $_domXPath->query("//input");
+foreach ($_inputs as $_input)
+{
+    $_id = GetAttribute($_input, "id"); $_id = $_id ?? "";
+    $_caption = GetAttribute($_input, "Caption"); $_caption = $_caption ?? "";
+    $_label = $_dom->createElement("label", $_caption.":");
+    $_label->setAttribute("for", $_id);
+    $_input->parentNode->insertBefore($_label, $_input);
+}
+
 ?>

@@ -6,6 +6,8 @@ $_object = GetCurrentObject();
 if ($_object == null) return;
 foreach ($_element as $_ele)
 {
+    $_popup = $_ele->ownerDocument->getElementsByTagName("pop-up");
+    $_popup = $_popup->length > 0 ? $_popup->item(0) : null;
     $_attrs = GetAllAttributes($_ele);
     $_grid_columns = GetAllChildNodesByTagName($_ele, "grid-column");
     if (count($_grid_columns) > 0)
@@ -82,6 +84,13 @@ foreach ($_element as $_ele)
                     $_row->appendChild($_col);
                 }
                 $_tbody->appendChild($_row);
+
+                if ($_popup != null)
+                {
+                    $_popupModal = BindObjectToForm_OTM($_item, $_popup);
+                    $_popupItem = GeneratePopUpForm($_popupModal);
+                    $_tbody->appendChild($_dom->importNode($_popupItem, true));
+                }
             }
         }
         $_table->appendChild($_tbody);

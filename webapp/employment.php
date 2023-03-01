@@ -54,17 +54,17 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
         </gridview>
     </form>
     <form id="EDIT" action="" method="post" BaseTableName="Employment" Save="SaveObject">
-        <label for="fname">Family Name:</label>
-        <input type="text" id="fname" name="->Person->FamilyName" /> <br/>
-        <label for="lname">Given Name:</label>
-        <input type="text" id="lname" name="->Person->GivenName" /> <br/>
-        <label for="lname">Salary:</label>
-        <input type="text" id="lname" name="->Salary" /> <br/>
+        <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name"/> <br/>
+        <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" /> <br/>
+        <input type="text" id="tbSalary" name="->Salary" Caption="Salary" /> <br/>
 
         <onetomany PropertyName="->Person->Phones">
             <grid-column>
                 <column PropertyName="->ObjectNumber" HeaderText="Phone Number"/>
             </grid-column>
+            <pop-up>
+                <input type="text" id="tbPhoneNumber" name="->ObjectNumber" Caption="Phone Number" />
+            </pop-up>
         </onetomany>
     </form>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-footer.php" ?>

@@ -63,11 +63,20 @@ function GetAllAttributes(DOMNode $element) : array
     return $attrs;
 }
 
-function GetAttribute(DOMNode $element, string $attr) : string | null
+function DOMNodeToDOMElement(DOMNode $node) : DOMElement | null
 {
-    $node = $element->attributes->getNamedItem($attr);
-    if ($node != null)
-        return $node->nodeValue;
+    if ($node->nodeType === XML_ELEMENT_NODE)
+        return $node;
+    return null;
+}
+
+function GetAttribute(DOMNode $node, string $attr) : string | null
+{
+    if ($element = DOMNodeToDOMElement($node))
+        return $element->getAttribute($attr);
+    $result = $node->attributes->getNamedItem($attr);
+    if ($result != null)
+        return $result->nodeValue;
     return null;
 }
 
