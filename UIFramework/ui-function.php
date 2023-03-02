@@ -71,9 +71,9 @@ function BindFormToObject_OTM()
 
 function BindObjectToForm_OTM($_objectSource, $_formModal)
 {
-    if ($_objectSource == null) return;
+    if ($_objectSource == null) return null;
     $_formResult = $_formModal->cloneNode(true);
-    foreach ($_formResult->ownerDocument->getElementsByTagName("input") as $_prop)
+    foreach ($_formResult->getElementsByTagName("input") as $_prop)
     {
         $_name = GetAttribute($_prop, "name");
         if (!str_starts_with($_name, "->") || $_prop->parentNode !== $_formResult) continue;
@@ -98,29 +98,59 @@ function ClosePage()
     header("Location: $_requestURI");
 }
 
-$_rawPopUpTop = <<<RAW
-<div class="modal fade" id="[ID]]" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form action="" method="post">
-RAW;
-$_rawPopUpBot = <<<RAW
+function GeneratePopUpForm(DOMNode $_sourceForm, string $_encryptedObjectID, string $_propertyName)
+{
+    global $_requestURIWithGetVar;
+    $_requestURIXML = htmlspecialchars($_requestURIWithGetVar, ENT_QUOTES);
+    $_sourceFormString = $_sourceForm->ownerDocument->saveXML($_sourceForm, LIBXML_NOEMPTYTAG);
+    $_rawPopUp = <<<RAW
+    <div class="modal fade" id="$_encryptedObjectID" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="$_requestURIXML" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" id="_PropertyName" name="PropertyName" value="$_propertyName" />
+                        <input type="hidden" id="_EncryptedObjectID" name="DATAKEY" value="$_encryptedObjectID" />
+                        $_sourceFormString
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" name="BUTTON" value="SaveOTM">Save</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary" name="BUTTON" value="Save">Save</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</div>
-RAW;
-function GeneratePopUpForm(DOMNode $_sourceForm)
+    RAW;
+    $_domDocument = new DOMDocument();
+    $_domDocument->loadXML($_rawPopUp, LIBXML_NOEMPTYTAG);
+    return $_domDocument->documentElement;
+}
+
+function GenerateBlankPopUpForm(DOMNode $_sourceForm, string $_id, string $_propertyName)
 {
-    $_sourceDocument = $_sourceForm->ownerDocument;
-    global $_rawPopUpTop, $_rawPopUpBot;
-    $_rawPopUp = $_rawPopUpTop . $_sourceDocument->saveXML($_sourceDocument->documentElement, LIBXML_NOEMPTYTAG) . $_rawPopUpBot;
+    global $_requestURIWithGetVar;
+    $_requestURIXML = htmlspecialchars($_requestURIWithGetVar, ENT_QUOTES);
+    $_sourceFormString = $_sourceForm->ownerDocument->saveXML($_sourceForm, LIBXML_NOEMPTYTAG);
+    $_rawPopUp = <<<RAW
+    <div class="modal fade" id="$_id" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="$_requestURIXML" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" id="_PropertyName" name="PropertyName" value="$_propertyName" />
+                        <input type="hidden" id="_EncryptedObjectID" name="DATAKEY" value="" />
+                        $_sourceFormString
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" name="BUTTON" value="SaveOTM">Save</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    RAW;
     $_domDocument = new DOMDocument();
     $_domDocument->loadXML($_rawPopUp, LIBXML_NOEMPTYTAG);
     return $_domDocument->documentElement;

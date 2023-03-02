@@ -59,6 +59,9 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
         <input type="text" id="tbSalary" name="->Salary" Caption="Salary" /> <br/>
 
         <onetomany PropertyName="->Person->Phones">
+            <grid-command>
+                <command CommandName="AddObject" CommandText="New"></command>
+            </grid-command>
             <grid-column>
                 <column PropertyName="->ObjectNumber" HeaderText="Phone Number"/>
             </grid-column>

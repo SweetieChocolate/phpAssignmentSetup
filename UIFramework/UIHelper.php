@@ -22,22 +22,9 @@ function GetAndUnsetGET(string $key)
     return null;
 }
 
-function RemoveSelfElement(DOMElement $element)
-{
-    $element->parentNode->removeChild($element);
-}
-
 function RemoveSelfNode(DOMNode $node)
 {
     $node->parentNode->removeChild($node);
-}
-
-function ClearElementChild(DOMElement $parent)
-{
-    while ($parent->hasChildNodes())
-    {
-        $parent->removeChild($parent->firstChild);
-    }
 }
 
 function ClearNodeChild(DOMNode $parent)

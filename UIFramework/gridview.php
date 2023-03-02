@@ -1,11 +1,11 @@
 <?php
 
-$_element = $_dom->getElementsByTagName("gridview");
-if ($_element->length <= 0) return;
-foreach ($_element as $_ele)
+$_gridviews = $_dom->getElementsByTagName("gridview");
+if ($_gridviews->length <= 0) return;
+foreach ($_gridviews as $_gridview)
 {
-    $_attrs = GetAllAttributes($_ele);
-    $_grid_columns = GetAllChildNodesByTagName($_ele, "grid-column");
+    $_attrs = GetAllAttributes($_gridview);
+    $_grid_columns = GetAllChildNodesByTagName($_gridview, "grid-column");
     if (count($_grid_columns) > 0)
     {
         $_grid_column = $_grid_columns[0];
@@ -23,10 +23,12 @@ foreach ($_element as $_ele)
         $_col = $_dom->createElement("th");
         $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
         $_row->appendChild($_col);
+
         // append an empty column for delete button
         $_col = $_dom->createElement("th");
         $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
         $_row->appendChild($_col);
+
         foreach ($_columns as $_column)
         {
             $_headertext = GetAttribute($_column, "HeaderText");
@@ -95,7 +97,7 @@ foreach ($_element as $_ele)
         $_grid_column->parentNode->replaceChild($_table, $_grid_column);
     }
     
-    $_grid_commands = GetAllChildNodesByTagName($_ele, "grid-command");
+    $_grid_commands = GetAllChildNodesByTagName($_gridview, "grid-command");
     if (count($_grid_commands) > 0)
     {
         $_grid_command = $_grid_commands[0];
@@ -114,10 +116,10 @@ foreach ($_element as $_ele)
                 $_buttonOnclick = "window.location.href = '$_requestURI?ACTION=EDIT'";
                 $_button->setAttribute("onclick", $_buttonOnclick);
             }
-            $_ele->parentNode->insertBefore($_button, $_ele);
+            $_gridview->parentNode->insertBefore($_button, $_gridview);
         }
 
-        RemoveSelfElement($_grid_command);
+        RemoveSelfNode($_grid_command);
     }
 }
 

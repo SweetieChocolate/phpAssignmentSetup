@@ -1,15 +1,18 @@
 <?php
 
-$_element = $_dom->getElementsByTagName("onetomany");
-if ($_element->length <= 0) return;
+$_onetomanys = $_dom->getElementsByTagName("onetomany");
+if ($_onetomanys->length <= 0) return;
 $_object = GetCurrentObject();
 if ($_object == null) return;
-foreach ($_element as $_ele)
+foreach ($_onetomanys as $_onetomany)
 {
-    $_popup = $_ele->ownerDocument->getElementsByTagName("pop-up");
+    $_popup = $_onetomany->getElementsByTagName("pop-up");
     $_popup = $_popup->length > 0 ? $_popup->item(0) : null;
-    $_attrs = GetAllAttributes($_ele);
-    $_grid_columns = GetAllChildNodesByTagName($_ele, "grid-column");
+    $_popupblank = null;
+
+    $_attrs = GetAllAttributes($_onetomany);
+    $_grid_columns = GetAllChildNodesByTagName($_onetomany, "grid-column");
+    $_popupArray = array();
     if (count($_grid_columns) > 0)
     {
         $_grid_column = $_grid_columns[0];
@@ -27,10 +30,12 @@ foreach ($_element as $_ele)
         $_col = $_dom->createElement("th");
         $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
         $_row->appendChild($_col);
+
         // append an empty column for delete button
-        $_col = $_dom->createElement("th");
-        $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
-        $_row->appendChild($_col);
+        // $_col = $_dom->createElement("th");
+        // $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
+        // $_row->appendChild($_col);
+
         foreach ($_columns as $_column)
         {
             $_headertext = GetAttribute($_column, "HeaderText");
@@ -46,33 +51,35 @@ foreach ($_element as $_ele)
         // check if one to many link to any prop
         if (array_key_exists('PropertyName', $_attrs))
         {
-            $_list = ODataModel::GetPropertyValue($_object, substr($_attrs['PropertyName'], 2));
+            $_propertyName = $_attrs['PropertyName'];
+            $_popupblank = GenerateBlankPopUpForm($_popup, $_propertyName, $_propertyName);
+            $_list = ODataModel::GetPropertyValue($_object, substr($_propertyName, 2));
             if ($_list == null) continue;
             // add every row data to table by property name
             foreach ($_list as $_item)
             {
                 $_row = $_dom->createElement("tr");
 
-                $_datakey = urlencode($_item->ObjectID->Encrypt($_sid));
+                $_datakey = $_item->ObjectID->Encrypt($_sid);
 
                 // edit button
                 $_editbutton = $_dom->createElement("i");
                 $_editbutton->setAttribute("class", $_SESSION['EDIT_BUTTON']);
-                $_editonclick = "window.location.href = '$_requestURI?ACTION=EDIT&DATAKEY=$_datakey'";
-                $_editbutton->setAttribute("onclick", $_editonclick);
+                $_editbutton->setAttribute("data-bs-toggle", "modal");
+                $_editbutton->setAttribute("data-bs-target", "#".$_datakey);
                 $_col = $_dom->createElement("td");
                 $_col->appendChild($_editbutton);
                 $_row->appendChild($_col);
 
                 // delete button
-                $_deletebutton = $_dom->createElement("i");
-                $_deletebutton->setAttribute("class", $_SESSION['DELETE_BUTTON']);
-                $_deleteonclick = "if (confirm('Are you sure you want to delete this record?'))
-                    window.location.href = '$_requestURI?ACTION=DELETE&DATAKEY=$_datakey'";
-                $_deletebutton->setAttribute("onclick", $_deleteonclick);
-                $_col = $_dom->createElement("td");
-                $_col->appendChild($_deletebutton);
-                $_row->appendChild($_col);
+                // $_deletebutton = $_dom->createElement("i");
+                // $_deletebutton->setAttribute("class", $_SESSION['DELETE_BUTTON']);
+                // $_deleteonclick = "if (confirm('Are you sure you want to delete this record?'))
+                //     window.location.href = '$_requestURI?ACTION=DELETE&DATAKEY=$_datakey'";
+                // $_deletebutton->setAttribute("onclick", $_deleteonclick);
+                // $_col = $_dom->createElement("td");
+                // $_col->appendChild($_deletebutton);
+                // $_row->appendChild($_col);
 
                 foreach ($_columns as $_column)
                 {
@@ -88,17 +95,17 @@ foreach ($_element as $_ele)
                 if ($_popup != null)
                 {
                     $_popupModal = BindObjectToForm_OTM($_item, $_popup);
-                    $_popupItem = GeneratePopUpForm($_popupModal);
-                    $_tbody->appendChild($_dom->importNode($_popupItem, true));
+                    $_popupItem = GeneratePopUpForm($_popupModal, $_datakey, $_propertyName);
+                    $_body->insertBefore($_dom->importNode($_popupItem, true), $_formedit);
                 }
             }
         }
         $_table->appendChild($_tbody);
-    
+        RemoveSelfNode($_popup);
         $_grid_column->parentNode->replaceChild($_table, $_grid_column);
     }
     
-    $_grid_commands = GetAllChildNodesByTagName($_ele, "grid-command");
+    $_grid_commands = GetAllChildNodesByTagName($_onetomany, "grid-command");
     if (count($_grid_commands) > 0)
     {
         $_grid_command = $_grid_commands[0];
@@ -112,15 +119,16 @@ foreach ($_element as $_ele)
             $_button->setAttribute("type", "button");
             $_button->setAttribute("class", "btn btn-primary");
             $_button->setAttribute("style", "margin: 10px;");
-            if ($_commandname == "AddObject")
+            if ($_commandname == "AddObject" && $_popupblank != null)
             {
-                $_buttonOnclick = "window.location.href = '$_requestURI?ACTION=EDIT'";
-                $_button->setAttribute("onclick", $_buttonOnclick);
+                $_button->setAttribute("data-bs-toggle", "modal");
+                $_button->setAttribute("data-bs-target", "#".$_propertyName);
+                $_body->insertBefore($_dom->importNode($_popupblank, true), $_formedit);
             }
-            $_ele->parentNode->insertBefore($_button, $_ele);
+            $_onetomany->parentNode->insertBefore($_button, $_onetomany);
         }
 
-        RemoveSelfElement($_grid_command);
+        RemoveSelfNode($_grid_command);
     }
 }
 

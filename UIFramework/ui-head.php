@@ -23,7 +23,8 @@ if (!is_dir($_tmpdir))
     }
 }
 
-$_requestURI = strtok($_SERVER['REQUEST_URI'], '?');
+$_requestURIWithGetVar = $_SERVER['REQUEST_URI'];
+$_requestURI = strtok($_requestURIWithGetVar, '?');
 $_requestFileName = basename($_requestURI);
 
 if ($_requestURI != $_SESSION['HOME_PAGE'])
@@ -34,6 +35,8 @@ $_dom = new DOMDocument();
 $_dom->formatOutput = true;
 $_dom->load($_path, LIBXML_NOEMPTYTAG);
 $_domXPath = new DOMXPath($_dom);
+$_head = $_domXPath->query("//head")->item(0);
+$_body = $_domXPath->query("//body")->item(0);
 
 if (!isset($_GET['ACTION']) && $_requestURI != $_SESSION['HOME_PAGE'])
     header("Location: $_requestURI" . "?ACTION=VIEW");
