@@ -57,6 +57,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
         <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name"/> <br/>
         <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" /> <br/>
         <input type="text" id="tbSalary" name="->Salary" Caption="Salary" /> <br/>
+        <input type="datetime-local" id="dtCreatedDateTime" name="->CreatedDateTime" Caption="Created DateTime" /> <br/>
 
         <onetomany PropertyName="->Person->Phones">
             <grid-command>
@@ -65,7 +66,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
             <grid-column>
                 <column PropertyName="->ObjectNumber" HeaderText="Phone Number"/>
             </grid-column>
-            <pop-up>
+            <pop-up Caption="Phone">
                 <input type="text" id="tbPhoneNumber" name="->ObjectNumber" Caption="Phone Number" />
             </pop-up>
         </onetomany>

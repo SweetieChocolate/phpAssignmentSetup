@@ -31,6 +31,8 @@ function BindFormToObject()
     if ($_object == null) return null;
     foreach ($_bindProps as $_key => $_value)
     {
+        $_type = $_object->GetPropertyType($_key);
+        $_value = GetApplicableValueFromFormToObject($_value, $_type);
         ODataModel::SetPropertyValue($_object, $_key, $_value);
     }
     $_SESSION[$_sessionname] = serialize($_object);
@@ -47,7 +49,8 @@ function BindObjectToForm($_objectSource)
         $_name = GetAttribute($_prop, "name");
         if (!str_starts_with($_name, "->") || $_prop->parentNode !== $_formedit) continue;
         $_value = ODataModel::GetPropertyValue($_objectSource, substr($_name, 2));
-        $_value = $_value ?? '';
+        $_type = GetAttribute($_prop, "type") ?? "";
+        $_value = GetApplicableValueFromObjetToForm($_value, $_type);
         $_prop->setAttribute("value", $_value);
     }
 }
@@ -98,7 +101,7 @@ function ClosePage()
     header("Location: $_requestURI");
 }
 
-function GeneratePopUpForm(DOMNode $_sourceForm, string $_encryptedObjectID, string $_propertyName)
+function GeneratePopUpForm(DOMNode $_sourceForm, string $_encryptedObjectID, string $_propertyName, string $_caption)
 {
     global $_requestURIWithGetVar;
     $_requestURIXML = htmlspecialchars($_requestURIWithGetVar, ENT_QUOTES);
@@ -108,6 +111,10 @@ function GeneratePopUpForm(DOMNode $_sourceForm, string $_encryptedObjectID, str
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form action="$_requestURIXML" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">$_caption</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body">
                         <input type="hidden" id="_PropertyName" name="PropertyName" value="$_propertyName" />
                         <input type="hidden" id="_EncryptedObjectID" name="DATAKEY" value="$_encryptedObjectID" />
@@ -115,7 +122,6 @@ function GeneratePopUpForm(DOMNode $_sourceForm, string $_encryptedObjectID, str
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" name="BUTTON" value="SaveOTM">Save</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -127,7 +133,7 @@ function GeneratePopUpForm(DOMNode $_sourceForm, string $_encryptedObjectID, str
     return $_domDocument->documentElement;
 }
 
-function GenerateBlankPopUpForm(DOMNode $_sourceForm, string $_id, string $_propertyName)
+function GenerateBlankPopUpForm(DOMNode $_sourceForm, string $_id, string $_propertyName, string $_caption)
 {
     global $_requestURIWithGetVar;
     $_requestURIXML = htmlspecialchars($_requestURIWithGetVar, ENT_QUOTES);
@@ -137,6 +143,10 @@ function GenerateBlankPopUpForm(DOMNode $_sourceForm, string $_id, string $_prop
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form action="$_requestURIXML" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">$_caption</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body">
                         <input type="hidden" id="_PropertyName" name="PropertyName" value="$_propertyName" />
                         <input type="hidden" id="_EncryptedObjectID" name="DATAKEY" value="" />

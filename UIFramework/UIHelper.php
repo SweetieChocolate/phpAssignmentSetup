@@ -85,4 +85,33 @@ function GetAllChildNodesByTagName(DOMNode $element, string $tagName) : array
     return $children;
 }
 
+function GetApplicableValueFromObjetToForm($_value, string $_type) : string
+{
+    if ($_value == null) return "";
+
+    if (is_a($_value, "DateTime"))
+    {
+        if ($_type == "date")
+            $_value = DateTimeHelper::ConvertForFormDate($_value);
+        if ($_type == "datetime-local")
+            $_value = DateTimeHelper::ConvertForFormDateTime($_value);
+    }
+
+    return $_value;
+}
+
+function GetApplicableValueFromFormToObject(string $_value, string $_type) : mixed
+{
+    if ($_value == null) return null;
+
+    echo $_type;
+
+    switch ($_type)
+    {
+        case "DateTime": $_value = DateTimeHelper::FromString($_value);
+    }
+
+    return $_value;
+}
+
 ?>

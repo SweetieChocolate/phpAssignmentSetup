@@ -8,6 +8,7 @@ foreach ($_onetomanys as $_onetomany)
 {
     $_popup = $_onetomany->getElementsByTagName("pop-up");
     $_popup = $_popup->length > 0 ? $_popup->item(0) : null;
+    $_popupCaption = "";
     $_popupblank = null;
 
     $_attrs = GetAllAttributes($_onetomany);
@@ -52,9 +53,14 @@ foreach ($_onetomanys as $_onetomany)
         if (array_key_exists('PropertyName', $_attrs))
         {
             $_propertyName = $_attrs['PropertyName'];
-            $_popupblank = GenerateBlankPopUpForm($_popup, $_propertyName, $_propertyName);
             $_list = ODataModel::GetPropertyValue($_object, substr($_propertyName, 2));
             if ($_list == null) continue;
+            if ($_popup != null)
+            {
+                $_popupCaption = GetAttribute($_popup, "Caption");
+                $_popupCaption = $_popupCaption ?? "";
+                $_popupblank = GenerateBlankPopUpForm($_popup, $_propertyName, $_propertyName, $_popupCaption);
+            }
             // add every row data to table by property name
             foreach ($_list as $_item)
             {
@@ -95,13 +101,13 @@ foreach ($_onetomanys as $_onetomany)
                 if ($_popup != null)
                 {
                     $_popupModal = BindObjectToForm_OTM($_item, $_popup);
-                    $_popupItem = GeneratePopUpForm($_popupModal, $_datakey, $_propertyName);
+                    $_popupItem = GeneratePopUpForm($_popupModal, $_datakey, $_propertyName, $_popupCaption);
                     $_body->insertBefore($_dom->importNode($_popupItem, true), $_formedit);
                 }
             }
         }
         $_table->appendChild($_tbody);
-        RemoveSelfNode($_popup);
+        if ($_popup != null) RemoveSelfNode($_popup);
         $_grid_column->parentNode->replaceChild($_table, $_grid_column);
     }
     

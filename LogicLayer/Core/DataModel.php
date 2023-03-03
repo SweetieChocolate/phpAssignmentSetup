@@ -330,8 +330,6 @@ class DataModel
             $reflectionProperty = new ReflectionProperty($classname, $var);
             //if ($reflectionProperty->isPrivate()) return;
             $type = $reflectionProperty->getType()->getName();
-            $reflectionProperty = new ReflectionProperty($classname, $var);
-            $type = $reflectionProperty->getType()->getName();
             if (is_subclass_of($type, 'DataModel'))
             {
                 $varID = $var."ID";
@@ -378,6 +376,32 @@ class DataModel
     {
         $this->IsDeleted = true;
         $this->save($connection);
+    }
+
+    public function GetPropertyType(string $property) : string
+    {
+        $prop = strtok($property, '->');
+        if ($prop == "") return $this->GetPropertyType(substr($property, strlen($prop) + 2));
+
+        $classname = get_called_class();
+        if (property_exists($classname, $prop))
+        {
+            $reflectionProperty = new ReflectionProperty($classname, $prop);
+            //if ($reflectionProperty->isPrivate()) return;
+            $type = $reflectionProperty->getType()->getName();
+            if (is_subclass_of($type, 'DataModel'))
+            {
+                return $this->GetPropertyType(substr($property, strlen($prop) + 2));
+            }
+            else
+            {
+                return $type;
+            }
+        }
+        else
+        {
+            return "";
+        }
     }
 
     /** Get Raw Sql command that correspond to the object **/

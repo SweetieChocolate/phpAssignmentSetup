@@ -16,6 +16,14 @@ class DateTimeHelper
     {
         return (new DateTime($dateTime));
     }
+    public static function ConvertForFormDateTime(DateTime $dateTime) : string
+    {
+        return $dateTime->format('Y-m-d\TH:i:s');
+    }
+    public static function ConvertForFormDate(DateTime $dateTime) : string
+    {
+        return $dateTime->format('Y-m-d');
+    }
 }
 
 ?>

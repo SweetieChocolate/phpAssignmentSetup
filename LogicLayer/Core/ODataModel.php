@@ -80,6 +80,11 @@ class ODataModel
     {
         $this->obj->delete($connection);
     }
+
+    public function GetPropertyType(string $property) : string
+    {
+        return $this->obj->GetPropertyType($property);
+    }
 }
 
 ?>
