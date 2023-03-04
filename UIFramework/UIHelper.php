@@ -104,8 +104,6 @@ function GetApplicableValueFromFormToObject(string $_value, string $_type) : mix
 {
     if ($_value == null) return null;
 
-    echo $_type;
-
     switch ($_type)
     {
         case "DateTime": $_value = DateTimeHelper::FromString($_value);

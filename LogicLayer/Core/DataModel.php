@@ -15,7 +15,9 @@ class DataModel
     // private property is work with current class only and will not store to database
     private bool $IsLock = false;
     private bool $IsNew = false;
+    private bool $IsModified = false;
     public function IsNew() : bool { return $this->IsNew; }
+    public function IsModified() : bool { return $this->IsModified; }
 
     // every property that need to map with database must be protected
     // default database field
@@ -348,6 +350,8 @@ class DataModel
                 throw new Exception("Property with DataList type is not accept any value, use Add() instead");
             }
             else $this->$var = $val;
+
+            $this->IsModified = true;
         }
         else
         {
@@ -370,6 +374,46 @@ class DataModel
         if ($this->IsLock) return;
         $this->IsLock = true;
         array_push($connection->object, $this);
+        $this->SaveRelation($connection);
+    }
+
+    private function SaveRelation(DBConnection $connection) : void
+    {
+        $props = $this->GetPropertiesAsReflectionProperty();
+
+        foreach ($props as $prop)
+        {
+            $prop->setAccessible(true); // only required prior to PHP 8.1.0
+            
+            $proName = $prop->getName();
+            $isInit = $prop->isInitialized($this);
+            $type = $prop->getType()->getName();
+
+            $isDataModel = is_subclass_of($type, "DataModel");
+            $isDataList = $type == "DataList";
+
+            if (!$isInit && !$isDataModel && !$isDataList) continue;
+
+            $value = $prop->getValue($this);
+
+            if ($isDataModel)
+            {
+                if ($value->IsModified())
+                {
+                    $value->save($connection);
+                }
+            }
+            else if ($isDataList)
+            {
+                foreach ($value as $v)
+                {
+                    if ($v->IsModified())
+                    {
+                        $v->save($connection);
+                    }
+                }
+            }
+        }
     }
 
     public function delete(DBConnection $connection) : void

@@ -16,6 +16,11 @@ if ($_button != null)
     {
         ClosePage();
     }
+    else if ($_button == "SaveOTM")
+    {
+        BindFormToObject_OTM();
+        RefreshPage();
+    }
 }
 
 if ($_action != null)

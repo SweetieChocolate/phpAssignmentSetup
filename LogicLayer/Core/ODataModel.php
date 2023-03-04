@@ -43,6 +43,9 @@ class ODataModel
         $this->obj = $obj;
     }
 
+    public function IsNew() : bool { return $this->obj->IsNew(); }
+    public function IsModified() : bool { return $this->obj->IsModified(); }
+
     public function Get($name)
     {
         return $this->__get($name);

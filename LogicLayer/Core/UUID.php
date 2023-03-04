@@ -34,6 +34,16 @@ class UUID
         return StringEncryption($this->ID_String, $key);
     }
 
+    public function EqualString(string $ObjectID) : bool
+    {
+        return $this->ID_String == $ObjectID;
+    }
+
+    public function EqualUUID(UUID $ObjectID) : bool
+    {
+        return $this->ID_String == $ObjectID->ToString();
+    }
+
     public static function New() : UUID
     {
         $obj = new UUID();

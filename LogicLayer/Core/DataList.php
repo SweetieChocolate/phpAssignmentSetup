@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__) . "/../LogicLayer.php";
+
 class DataList extends ArrayObject
 {
     public UUID $masterID;
@@ -55,6 +57,41 @@ class DataList extends ArrayObject
         {
             parent::append($a);
         }
+    }
+
+    public function CreateNewObject()
+    {
+        if ($this->foreignClassName == "-" || $this->foreignKey == "-")
+            return null;
+        $className = $this->foreignClassName;
+        $foreignKey = $this->foreignKey;
+        $obj = $className::Create();
+        $obj->$foreignKey = $this->masterID;
+        return $obj;
+    }
+
+    public function FindWithUUID(UUID $ObjectID)
+    {
+        foreach ($this as $o)
+        {
+            if ($o->ObjectID->EqualUUID($ObjectID))
+            {
+                return $o;
+            }
+        }
+        return null;
+    }
+
+    public function FindWithID(string $ObjectID)
+    {
+        foreach ($this as $o)
+        {
+            if ($o->ObjectID->EqualString($ObjectID))
+            {
+                return $o;
+            }
+        }
+        return null;
     }
 }
 
