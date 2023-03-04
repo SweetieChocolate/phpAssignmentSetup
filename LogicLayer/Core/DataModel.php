@@ -392,12 +392,11 @@ class DataModel
             $isDataModel = is_subclass_of($type, "DataModel");
             $isDataList = $type == "DataList";
 
-            if (!$isInit && !$isDataModel && !$isDataList) continue;
-
-            $value = $prop->getValue($this);
+            if (!$isInit) continue;
 
             if ($isDataModel)
             {
+                $value = $prop->getValue($this);
                 if ($value->IsModified())
                 {
                     $value->save($connection);
@@ -405,6 +404,7 @@ class DataModel
             }
             else if ($isDataList)
             {
+                $value = $prop->getValue($this);
                 foreach ($value as $v)
                 {
                     if ($v->IsModified())

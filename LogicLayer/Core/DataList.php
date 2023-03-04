@@ -74,6 +74,7 @@ class DataList extends ArrayObject
     {
         foreach ($this as $o)
         {
+            if ($o->IsDeleted == true) continue;
             if ($o->ObjectID->EqualUUID($ObjectID))
             {
                 return $o;
@@ -86,12 +87,37 @@ class DataList extends ArrayObject
     {
         foreach ($this as $o)
         {
+            if ($o->IsDeleted == true) continue;
             if ($o->ObjectID->EqualString($ObjectID))
             {
                 return $o;
             }
         }
         return null;
+    }
+
+    public function RemoveWithUUID(UUID $ObjectID)
+    {
+        foreach ($this as $o)
+        {
+            if ($o->IsDeleted == true) continue;
+            if ($o->ObjectID->EqualUUID($ObjectID))
+            {
+                $o->IsDeleted = true;
+            }
+        }
+    }
+
+    public function RemoveWithID(string $ObjectID)
+    {
+        foreach ($this as $o)
+        {
+            if ($o->IsDeleted == true) continue;
+            if ($o->ObjectID->EqualString($ObjectID))
+            {
+                $o->IsDeleted = true;
+            }
+        }
     }
 }
 

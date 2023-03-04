@@ -21,12 +21,12 @@ foreach ($_gridviews as $_gridview)
         
         // append an empty column for edit button
         $_col = $_dom->createElement("th");
-        $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
+        $_col->setAttribute("width", $_buttonWidth);
         $_row->appendChild($_col);
 
         // append an empty column for delete button
         $_col = $_dom->createElement("th");
-        $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
+        $_col->setAttribute("width", $_buttonWidth);
         $_row->appendChild($_col);
 
         foreach ($_columns as $_column)
@@ -54,6 +54,7 @@ foreach ($_gridviews as $_gridview)
                 $_tableName = $_attrs['TableName'];
                 $_list = $_tableName::LoadList();
             }
+
             // add every row data to table by property name
             foreach ($_list as $_item)
             {
@@ -63,7 +64,7 @@ foreach ($_gridviews as $_gridview)
 
                 // edit button
                 $_editbutton = $_dom->createElement("i");
-                $_editbutton->setAttribute("class", $_SESSION['EDIT_BUTTON']);
+                $_editbutton->setAttribute("class", $_editButton);
                 $_editonclick = "window.location.href = '$_requestURI?ACTION=EDIT&DATAKEY=$_datakey'";
                 $_editbutton->setAttribute("onclick", $_editonclick);
                 $_col = $_dom->createElement("td");
@@ -72,8 +73,8 @@ foreach ($_gridviews as $_gridview)
 
                 // delete button
                 $_deletebutton = $_dom->createElement("i");
-                $_deletebutton->setAttribute("class", $_SESSION['DELETE_BUTTON']);
-                $_deleteonclick = "if (confirm('Are you sure you want to delete this record?'))
+                $_deletebutton->setAttribute("class", $_deleteButton);
+                $_deleteonclick = "if (confirm('$_deleteConfirmMsg'))
                     window.location.href = '$_requestURI?ACTION=DELETE&DATAKEY=$_datakey'";
                 $_deletebutton->setAttribute("onclick", $_deleteonclick);
                 $_col = $_dom->createElement("td");

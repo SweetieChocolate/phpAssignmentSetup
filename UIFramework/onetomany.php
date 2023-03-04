@@ -29,13 +29,13 @@ foreach ($_onetomanys as $_onetomany)
         
         // append an empty column for edit button
         $_col = $_dom->createElement("th");
-        $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
+        $_col->setAttribute("width", $_buttonWidth);
         $_row->appendChild($_col);
 
         // append an empty column for delete button
-        // $_col = $_dom->createElement("th");
-        // $_col->setAttribute("width", $_SESSION['BUTTON_WIDTH_SIZE']);
-        // $_row->appendChild($_col);
+        $_col = $_dom->createElement("th");
+        $_col->setAttribute("width", $_buttonWidth);
+        $_row->appendChild($_col);
 
         foreach ($_columns as $_column)
         {
@@ -59,33 +59,33 @@ foreach ($_onetomanys as $_onetomany)
             {
                 $_popupCaption = GetAttribute($_popup, "Caption");
                 $_popupCaption = $_popupCaption ?? "";
-                $_popupblank = GenerateBlankPopUpForm($_popup, $_propertyName, $_propertyName, $_popupCaption);
+                $_popupblank = GenerateBlankPopUpEditForm($_popup, $_propertyName, $_propertyName, $_popupCaption);
             }
             // add every row data to table by property name
             foreach ($_list as $_item)
             {
+                if ($_item->IsDeleted == true) continue;
                 $_row = $_dom->createElement("tr");
 
                 $_datakey = $_item->ObjectID->Encrypt($_sid);
 
                 // edit button
                 $_editbutton = $_dom->createElement("i");
-                $_editbutton->setAttribute("class", $_SESSION['EDIT_BUTTON']);
+                $_editbutton->setAttribute("class", $_editButton);
                 $_editbutton->setAttribute("data-bs-toggle", "modal");
-                $_editbutton->setAttribute("data-bs-target", "#".$_datakey);
+                $_editbutton->setAttribute("data-bs-target", "#EDIT".$_datakey);
                 $_col = $_dom->createElement("td");
                 $_col->appendChild($_editbutton);
                 $_row->appendChild($_col);
 
                 // delete button
-                // $_deletebutton = $_dom->createElement("i");
-                // $_deletebutton->setAttribute("class", $_SESSION['DELETE_BUTTON']);
-                // $_deleteonclick = "if (confirm('Are you sure you want to delete this record?'))
-                //     window.location.href = '$_requestURI?ACTION=DELETE&DATAKEY=$_datakey'";
-                // $_deletebutton->setAttribute("onclick", $_deleteonclick);
-                // $_col = $_dom->createElement("td");
-                // $_col->appendChild($_deletebutton);
-                // $_row->appendChild($_col);
+                $_deletebutton = $_dom->createElement("i");
+                $_deletebutton->setAttribute("class", $_deleteButton);
+                $_deletebutton->setAttribute("data-bs-toggle", "modal");
+                $_deletebutton->setAttribute("data-bs-target", "#DELETE".$_datakey);
+                $_col = $_dom->createElement("td");
+                $_col->appendChild($_deletebutton);
+                $_row->appendChild($_col);
 
                 foreach ($_columns as $_column)
                 {
@@ -101,9 +101,12 @@ foreach ($_onetomanys as $_onetomany)
                 if ($_popup != null)
                 {
                     $_popupModal = BindObjectToForm_OTM($_item, $_popup);
-                    $_popupItem = GeneratePopUpForm($_popupModal, $_datakey, $_propertyName, $_popupCaption);
-                    $_body->insertBefore($_dom->importNode($_popupItem, true), $_formedit);
+                    $_popupEditItem = GeneratePopUpEditForm($_popupModal, $_datakey, $_propertyName, $_popupCaption);
+                    $_body->insertBefore($_dom->importNode($_popupEditItem, true), $_formedit);
                 }
+
+                $_popupDeleteItem = GeneratePopUpDeleteForm($_datakey, $_propertyName);
+                $_body->insertBefore($_dom->importNode($_popupDeleteItem, true), $_formedit);
             }
         }
         $_table->appendChild($_tbody);

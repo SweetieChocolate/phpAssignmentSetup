@@ -24,6 +24,8 @@ $_SESSION['EDIT_BUTTON'] = "bx bxs-edit";
 $_SESSION['DELETE_BUTTON'] = "bx bxs-trash";
 $_SESSION['BUTTON_WIDTH_SIZE'] = "10px";
 
+$_SESSION['DELETE_MESSAGE'] = "Are you sure you want to delete this record?";
+
 $_SESSION['ISINITIALIZE'] = true;
 
 ?>

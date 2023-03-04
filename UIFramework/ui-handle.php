@@ -21,6 +21,11 @@ if ($_button != null)
         BindFormToObject_OTM();
         RefreshPage();
     }
+    else if ($_button == "DeleteOTM")
+    {
+        DeleteObjectFromForm_OTM();
+        RefreshPage();
+    }
 }
 
 if ($_action != null)

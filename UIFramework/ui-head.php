@@ -110,6 +110,10 @@ if ($_formedit != null)
 }
 
 $_nulltext = $_SESSION['NULL_TEXT'];
+$_deleteConfirmMsg = $_SESSION['DELETE_MESSAGE'];
+$_buttonWidth = $_SESSION['BUTTON_WIDTH_SIZE'];
+$_editButton = $_SESSION['EDIT_BUTTON'];
+$_deleteButton = $_SESSION['DELETE_BUTTON'];
 
 $_sessionname = str_replace(".", "", substr(str_replace("/", "_", $_tmpdir . $_requestURI), 1));
 
