@@ -38,14 +38,7 @@ class Employment extends DataModel
     public function save(DBConnection $con) : void
     {
         parent::save($con);
-        $this->Get("Person")->save($con);
-        if ($this->IsNew())
-        {
-            foreach ($this->Get("Users") as $user)
-            {
-                $user->save($con);
-            }
-        }
+        
     }
 }
 

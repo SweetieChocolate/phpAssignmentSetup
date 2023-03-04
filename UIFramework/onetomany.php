@@ -9,6 +9,7 @@ foreach ($_onetomanys as $_onetomany)
     $_popup = $_onetomany->getElementsByTagName("pop-up");
     $_popup = $_popup->length > 0 ? $_popup->item(0) : null;
     $_popupCaption = "";
+    $_popupSize = "";
     $_popupblank = null;
 
     $_attrs = GetAllAttributes($_onetomany);
@@ -57,9 +58,9 @@ foreach ($_onetomanys as $_onetomany)
             if ($_list == null) continue;
             if ($_popup != null)
             {
-                $_popupCaption = GetAttribute($_popup, "Caption");
-                $_popupCaption = $_popupCaption ?? "";
-                $_popupblank = GenerateBlankPopUpEditForm($_popup, $_propertyName, $_propertyName, $_popupCaption);
+                $_popupCaption = GetAttribute($_popup, "Caption") ?? "";
+                $_popupSize = GetAttribute($_popup, "Size") ?? "";
+                $_popupblank = GenerateBlankPopUpEditForm($_popup, $_propertyName, $_propertyName, $_popupCaption, $_popupSize);
             }
             // add every row data to table by property name
             foreach ($_list as $_item)
@@ -101,7 +102,7 @@ foreach ($_onetomanys as $_onetomany)
                 if ($_popup != null)
                 {
                     $_popupModal = BindObjectToForm_OTM($_item, $_popup);
-                    $_popupEditItem = GeneratePopUpEditForm($_popupModal, $_datakey, $_propertyName, $_popupCaption);
+                    $_popupEditItem = GeneratePopUpEditForm($_popupModal, $_datakey, $_propertyName, $_popupCaption, $_popupSize);
                     $_body->insertBefore($_dom->importNode($_popupEditItem, true), $_formedit);
                 }
 

@@ -424,28 +424,27 @@ class DataModel
 
     public function GetPropertyType(string $property) : string
     {
-        $prop = strtok($property, '->');
-        if ($prop == "") return $this->GetPropertyType(substr($property, strlen($prop) + 2));
+        $delimiter = "->";
+        $prop = $property;
+        if (str_starts_with($prop, "->")) $prop = substr($prop, 2);
 
-        $classname = get_called_class();
-        if (property_exists($classname, $prop))
+        $ps = explode($delimiter, $prop);
+        $objectname = get_called_class();
+        
+        foreach ($ps as $p)
         {
-            $reflectionProperty = new ReflectionProperty($classname, $prop);
-            //if ($reflectionProperty->isPrivate()) return;
-            $type = $reflectionProperty->getType()->getName();
-            if (is_subclass_of($type, 'DataModel'))
+            if (property_exists($objectname, $p))
             {
-                return $this->GetPropertyType(substr($property, strlen($prop) + 2));
+                $reflectionProperty = new ReflectionProperty($objectname, $p);
+                $objectname = $reflectionProperty->getType()->getName();
             }
             else
             {
-                return $type;
+                return "";
             }
         }
-        else
-        {
-            return "";
-        }
+
+        return $objectname;
     }
 
     /** Get Raw Sql command that correspond to the object **/

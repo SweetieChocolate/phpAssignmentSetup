@@ -16,6 +16,16 @@ if ($_datakey == '' && $_datakeyEncrypted == '')
     }
 }
 
+function NeedBindingObjectToForm(string $type) : bool
+{
+    switch ($type)
+    {
+        case null: case "": return false;
+        case "DataList": return false;
+        default: return true;
+    }
+}
+
 function BindFormToObject()
 {
     global $_sid, $_requestURI, $_formedit, $_basetablename, $_sessionname, $_datakeyEncrypted, $_datakey;
@@ -31,8 +41,8 @@ function BindFormToObject()
     if ($_object == null) return null;
     foreach ($_bindProps as $_key => $_value)
     {
-        $_type = $_object->GetPropertyType($_key);
-        $_value = GetApplicableValueFromFormToObject($_value, $_type);
+        $_otype = $_object->GetPropertyType($_key);
+        $_value = GetApplicableValueFromFormToObject($_value, $_otype);
         ODataModel::SetPropertyValue($_object, $_key, $_value);
     }
     $_SESSION[$_sessionname] = serialize($_object);
@@ -47,10 +57,15 @@ function BindObjectToForm($_objectSource)
     foreach ($_formedit->ownerDocument->getElementsByTagName("input") as $_prop)
     {
         $_name = GetAttribute($_prop, "name");
-        if (!str_starts_with($_name, "->") || $_prop->parentNode !== $_formedit) continue;
-        $_value = ODataModel::GetPropertyValue($_objectSource, substr($_name, 2));
-        $_type = GetAttribute($_prop, "type") ?? "";
-        $_value = GetApplicableValueFromObjetToForm($_value, $_type);
+        if (!str_starts_with($_name, "->")) continue;
+
+        $_name = substr($_name, 2);
+        $_otype = $_objectSource->GetPropertyType($_name);
+        if (!NeedBindingObjectToForm($_otype)) continue;
+
+        $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
+        $_ftype = GetAttribute($_prop, "type") ?? "";
+        $_value = GetApplicableValueFromObjetToForm($_value, $_ftype);
         $_prop->setAttribute("value", $_value);
     }
 }
@@ -91,8 +106,8 @@ function BindFormToObject_OTM()
     }
     foreach ($_bindProps as $_key => $_value)
     {
-        $_type = $_otmObject->GetPropertyType($_key);
-        $_value = GetApplicableValueFromFormToObject($_value, $_type);
+        $_otype = $_otmObject->GetPropertyType($_key);
+        $_value = GetApplicableValueFromFormToObject($_value, $_otype);
         ODataModel::SetPropertyValue($_otmObject, $_key, $_value);
     }
 
@@ -109,9 +124,15 @@ function BindObjectToForm_OTM($_objectSource, $_formModal)
     foreach ($_formResult->getElementsByTagName("input") as $_prop)
     {
         $_name = GetAttribute($_prop, "name");
-        if (!str_starts_with($_name, "->") || $_prop->parentNode !== $_formResult) continue;
-        $_value = ODataModel::GetPropertyValue($_objectSource, substr($_name, 2));
-        $_value = $_value ?? '';
+        if (!str_starts_with($_name, "->")) continue;
+        
+        $_name = substr($_name, 2);
+        $_otype = $_objectSource->GetPropertyType($_name);
+        if (!NeedBindingObjectToForm($_otype)) continue;
+
+        $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
+        $_ftype = GetAttribute($_prop, "type") ?? "";
+        $_value = GetApplicableValueFromObjetToForm($_value, $_ftype);
         $_prop->setAttribute("value", $_value);
     }
     return $_formResult;
@@ -147,14 +168,14 @@ function ClosePage()
     header("Location: $_requestURI");
 }
 
-function GeneratePopUpEditForm(DOMNode $_sourceForm, string $_encryptedObjectID, string $_propertyName, string $_caption)
+function GeneratePopUpEditForm(DOMNode $_sourceForm, string $_encryptedObjectID, string $_propertyName, string $_caption, string $_size = "")
 {
     global $_requestURIWithGetVar;
     $_requestURIXML = htmlspecialchars($_requestURIWithGetVar, ENT_QUOTES);
     $_sourceFormString = $_sourceForm->ownerDocument->saveXML($_sourceForm, LIBXML_NOEMPTYTAG);
     $_rawPopUp = <<<RAW
     <div class="modal fade" id="EDIT$_encryptedObjectID" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered $_size">
             <div class="modal-content">
                 <form action="$_requestURIXML" method="post">
                     <div class="modal-header">
@@ -168,6 +189,7 @@ function GeneratePopUpEditForm(DOMNode $_sourceForm, string $_encryptedObjectID,
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" name="BUTTON" value="SaveOTM">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -179,13 +201,13 @@ function GeneratePopUpEditForm(DOMNode $_sourceForm, string $_encryptedObjectID,
     return $_domDocument->documentElement;
 }
 
-function GeneratePopUpDeleteForm(string $_encryptedObjectID, string $_propertyName)
+function GeneratePopUpDeleteForm(string $_encryptedObjectID, string $_propertyName, string $_size = "")
 {
     global $_requestURIWithGetVar, $_deleteConfirmMsg;
     $_requestURIXML = htmlspecialchars($_requestURIWithGetVar, ENT_QUOTES);
     $_rawPopUp = <<<RAW
     <div class="modal fade" id="DELETE$_encryptedObjectID" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered $_size">
             <div class="modal-content">
                 <form action="$_requestURIXML" method="post">
                     <div class="modal-header">
@@ -198,6 +220,7 @@ function GeneratePopUpDeleteForm(string $_encryptedObjectID, string $_propertyNa
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" name="BUTTON" value="DeleteOTM">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -209,14 +232,14 @@ function GeneratePopUpDeleteForm(string $_encryptedObjectID, string $_propertyNa
     return $_domDocument->documentElement;
 }
 
-function GenerateBlankPopUpEditForm(DOMNode $_sourceForm, string $_id, string $_propertyName, string $_caption)
+function GenerateBlankPopUpEditForm(DOMNode $_sourceForm, string $_id, string $_propertyName, string $_caption, string $_size = "")
 {
     global $_requestURIWithGetVar;
     $_requestURIXML = htmlspecialchars($_requestURIWithGetVar, ENT_QUOTES);
     $_sourceFormString = $_sourceForm->ownerDocument->saveXML($_sourceForm, LIBXML_NOEMPTYTAG);
     $_rawPopUp = <<<RAW
     <div class="modal fade" id="$_id" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered $_size">
             <div class="modal-content">
                 <form action="$_requestURIXML" method="post">
                     <div class="modal-header">
@@ -229,7 +252,7 @@ function GenerateBlankPopUpEditForm(DOMNode $_sourceForm, string $_id, string $_
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" name="BUTTON" value="SaveOTM">Save</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
