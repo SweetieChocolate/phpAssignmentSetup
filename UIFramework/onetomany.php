@@ -8,6 +8,7 @@ foreach ($_onetomanys as $_onetomany)
 {
     $_popup = $_onetomany->getElementsByTagName("pop-up");
     $_popup = $_popup->length > 0 ? $_popup->item(0) : null;
+    $_popupClean = null;
     $_popupCaption = "";
     $_popupSize = "";
     $_popupblank = null;
@@ -22,6 +23,10 @@ foreach ($_onetomanys as $_onetomany)
     
         $_table = $_dom->createElement("table");
         $_table->setAttribute("class", "onetomany");
+        foreach ($_attrs as $_key => $_value)
+        {
+            $_table->setAttribute($_key, $_value);
+        }
         
         $_thead = $_dom->createElement("thead");
 
@@ -58,9 +63,11 @@ foreach ($_onetomanys as $_onetomany)
             if ($_list == null) continue;
             if ($_popup != null)
             {
+                $_popupClean = ClearFormValue($_popup);
+                RemoveSelfNode($_popup);
                 $_popupCaption = GetAttribute($_popup, "Caption") ?? "";
                 $_popupSize = GetAttribute($_popup, "Size") ?? "";
-                $_popupblank = GenerateBlankPopUpEditForm($_popup, $_propertyName, $_propertyName, $_popupCaption, $_popupSize);
+                $_popupblank = GenerateBlankPopUpEditForm($_popupClean, $_propertyName, $_propertyName, $_popupCaption, $_popupSize);
             }
             // add every row data to table by property name
             foreach ($_list as $_item)
@@ -99,9 +106,9 @@ foreach ($_onetomanys as $_onetomany)
                 }
                 $_tbody->appendChild($_row);
 
-                if ($_popup != null)
+                if ($_popupClean != null)
                 {
-                    $_popupModal = BindObjectToForm_OTM($_item, $_popup);
+                    $_popupModal = BindObjectToForm_OTM($_item, $_popupClean);
                     $_popupEditItem = GeneratePopUpEditForm($_popupModal, $_datakey, $_propertyName, $_popupCaption, $_popupSize);
                     $_body->insertBefore($_dom->importNode($_popupEditItem, true), $_formedit);
                 }
@@ -111,7 +118,6 @@ foreach ($_onetomanys as $_onetomany)
             }
         }
         $_table->appendChild($_tbody);
-        if ($_popup != null) RemoveSelfNode($_popup);
         $_grid_column->parentNode->replaceChild($_table, $_grid_column);
     }
     

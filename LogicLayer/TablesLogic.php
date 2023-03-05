@@ -14,6 +14,7 @@ require_once "ITAdministrator/FunctionRoleDetail.php";
 require_once "Workforce/Employment.php";
 require_once "Workforce/Person/Person.php";
 require_once "Workforce/Person/PersonPhone.php";
+require_once "Workforce/Person/PersonEmail.php";
 
 class TablesLogic
 {
@@ -26,7 +27,8 @@ class TablesLogic
         // Workforce
         "Employment",
         "Person",
-        "PersonPhone"
+        "PersonPhone",
+        "PersonEmail"
     ];
 
     public static function GetSynchronizeDB() : string

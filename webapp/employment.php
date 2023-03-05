@@ -54,21 +54,54 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
         </gridview>
     </form>
     <form id="EDIT" action="" method="post" BaseTableName="Employment" Save="SaveObject">
-        <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name"/>
-        <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" /> <br/>
-        <input type="date" id="dtBirthday" name="->Person->BirthDay" Caption="Birthday" /> <br/>
-        <input type="text" id="tbSalary" name="->Salary" Caption="Salary" /> <br/>
-        <onetomany PropertyName="->Person->Phones">
-            <grid-command>
-                <command CommandName="AddObject" CommandText="New"></command>
-            </grid-command>
-            <grid-column>
-                <column PropertyName="->ObjectNumber" HeaderText="Phone Number"/>
-            </grid-column>
-            <pop-up Size="modal-lg" Caption="Phone">
-                <input type="text" id="tbPhoneNumber" name="->ObjectNumber" Caption="Phone Number" />
-            </pop-up>
-        </onetomany>
+        <table>
+            <tr>
+                <td>
+                    <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name" />
+                </td>
+                <td>
+                    <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="date" id="tbBirthday" name="->Person->BirthDay" Caption="Birthday" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" id="tbSalary" name="->Salary" Caption="Salary" />
+                </td>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col2">
+                <onetomany PropertyName="->Person->Phones">
+                    <grid-command>
+                        <command CommandName="AddObject" CommandText="New"></command>
+                    </grid-command>
+                    <grid-column>
+                        <column PropertyName="->ObjectNumber" HeaderText="Phone Number"/>
+                    </grid-column>
+                    <pop-up Size="modal-lg" Caption="Phone">
+                        <input type="text" id="tbPhoneNumber" name="->ObjectNumber" Caption="Phone Number" />
+                    </pop-up>
+                </onetomany>
+            </div>
+            <div class="col2">
+                <onetomany PropertyName="->Person->Emails">
+                    <grid-command>
+                        <command CommandName="AddObject" CommandText="New"></command>
+                    </grid-command>
+                    <grid-column>
+                        <column PropertyName="->ObjectNumber" HeaderText="Phone Number"/>
+                    </grid-column>
+                    <pop-up Size="modal-lg" Caption="Email">
+                        <input type="text" id="tbEmail" name="->ObjectNumber" Caption="Email" />
+                    </pop-up>
+                </onetomany>
+            </div>
+        </div>
     </form>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-footer.php" ?>
 </body>

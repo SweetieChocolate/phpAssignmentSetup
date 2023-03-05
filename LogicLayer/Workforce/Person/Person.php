@@ -12,9 +12,11 @@ class Person extends DataModel
     protected function __construct()
     {
         $this->Phones = DataList::Init('PersonPhone', 'PersonID');
+        $this->Emails = DataList::Init('PersonEmail', 'PersonID');
     }
 
     protected DataList $Phones;
+    protected DataList $Emails;
 }
 
 class OPerson extends ODataModel
