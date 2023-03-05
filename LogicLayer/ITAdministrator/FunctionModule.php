@@ -26,6 +26,8 @@ class OFunctionModule extends ODataModel
     {
         switch($name)
         {
+            case "IsEnabledText":
+                return $this->Get("IsEnable") == true ? "Yes" : "No";
             default:
                 return parent::__get($name);
         }

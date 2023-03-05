@@ -9,11 +9,13 @@ function GetIconByFunctionName(string $_text)
     switch ($_text)
     {
         case "WORKFORCE MANAGEMENT":
-            return "fa fa-trash";
+            return "fa fa-users";
         case "PAYROLL":
-            return "bx bx-collection";
+            return "fa fa-money-bill";
+        case "IT ADMINISTATION":
+            return "fa-solid fa-gear";
         default:
-            return "bx bx-collection";
+            return "fa-solid fa-gear";
     }
 }
 
@@ -25,8 +27,10 @@ function GetIconByCategory(string $_text)
             return "fa fa-users";
         case "PAYROLL":
             return "fa fa-money-bill";
+        case "IT ADMINISTATION":
+            return "fa-solid fa-gear";
         default:
-            return "bx bx-person";
+            return "fa-solid fa-gear";
     }
 }
 

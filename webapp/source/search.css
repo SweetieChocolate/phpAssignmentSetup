@@ -26,24 +26,6 @@ table.dataTable tbody tr:hover {
     background-color: #ddd;
 }
 
-table tr {
-    width: 100%;
-}
-
-table tr td {
-    width: 50%;
-}
-
-table tr td label {
-    width: 150px;
-    margin: 5px;
-}
-
-table tr td input {
-    width: 300px;
-    margin: 5px;
-}
-
 .btn-primary {
     background-color: var(--theme-color) !important;
     border: none !important;
@@ -65,19 +47,29 @@ div.row {
     display: flex;
 }
 
-div.col2 {
+div.one-col {
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
 }
 
-div.col2 {
+div.one-col > label {
+    width: 150px;
+    margin: 5px;
+}
+
+div.one-col > input {
+    width: 300px;
+    margin: 5px;
+}
+
+div.two-col {
     width: 50%;
     padding-left: 10px;
     padding-right: 10px;
 }
 
-div.col3 {
+div.three-col {
     width: 33%;
     padding-left: 10px;
     padding-right: 10px;

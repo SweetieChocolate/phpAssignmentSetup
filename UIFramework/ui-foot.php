@@ -16,7 +16,7 @@ require_once "onetomany.php";
 // store raw html into a string
 $_result = $_dom->saveXML($_dom->documentElement, LIBXML_NOEMPTYTAG);
 $_result = str_replace("</br>", "", $_result);
-$_result = str_replace("~/", $_SESSION['WEB_ROOTURL_LOCAL'], $_result);
+//$_result = str_replace("~/", $_SESSION['WEB_ROOTURL_LOCAL'], $_result);
 
 // save the result html to a temp file
 $_tmpfile = substr(str_replace("/", "_", $_requestURI), 1);

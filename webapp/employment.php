@@ -75,7 +75,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
             </tr>
         </table>
         <div class="row">
-            <div class="col2">
+            <div class="two-col">
                 <onetomany PropertyName="->Person->Phones">
                     <grid-command>
                         <command CommandName="AddObject" CommandText="New"></command>
@@ -88,7 +88,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                     </pop-up>
                 </onetomany>
             </div>
-            <div class="col2">
+            <div class="two-col">
                 <onetomany PropertyName="->Person->Emails">
                     <grid-command>
                         <command CommandName="AddObject" CommandText="New"></command>

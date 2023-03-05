@@ -55,9 +55,9 @@ function BindObjectToForm($_objectSource)
     if ($_objectSource == null) return;
     global $_sid, $_requestURI, $_formedit, $_basetablename, $_sessionname, $_datakeyEncrypted, $_datakey;
     $_SESSION[$_sessionname] = serialize($_objectSource);
-    foreach ($_formedit->ownerDocument->getElementsByTagName("input") as $_prop)
+    foreach ($_formedit->ownerDocument->getElementsByTagName("input") as $_input)
     {
-        $_name = GetAttribute($_prop, "name");
+        $_name = GetAttribute($_input, "name");
         if (!str_starts_with($_name, "->")) continue;
 
         $_name = substr($_name, 2);
@@ -66,9 +66,16 @@ function BindObjectToForm($_objectSource)
 
         $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
         if ($_value == null) continue;
-        $_ftype = GetAttribute($_prop, "type") ?? "";
+        $_ftype = GetAttribute($_input, "type") ?? "";
         $_value = GetApplicableValueFromObjetToForm($_value, $_ftype);
-        $_prop->setAttribute("value", $_value);
+        $_input->setAttribute("value", $_value);
+        if ($_ftype == "checkbox")
+        {
+            if ($_value != null && $_value == true)
+            {
+                $_input->setAttribute("checked", "");
+            }
+        }
     }
 }
 

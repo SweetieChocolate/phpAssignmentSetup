@@ -86,6 +86,10 @@ class DBConnection
             $isNew = $dataModel->getProperty('IsNew');
             $isNew->setAccessible(true); // only required prior to PHP 8.1.0
             $isNew->setValue($o, false);
+            // IsModified property
+            $isNew = $dataModel->getProperty('IsModified');
+            $isNew->setAccessible(true); // only required prior to PHP 8.1.0
+            $isNew->setValue($o, false);
         }
         // execute sql
         $this->ExecuteMultipleQuery($sql);

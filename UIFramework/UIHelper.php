@@ -87,6 +87,9 @@ function GetAllChildNodesByTagName(DOMNode $element, string $tagName) : array
 
 function GetApplicableValueFromObjetToForm($_value, string $_type) : string
 {
+    if ($_type == "checkbox")
+        return "1";
+        
     if ($_value == null) return "";
 
     if (is_a($_value, "DateTime"))
