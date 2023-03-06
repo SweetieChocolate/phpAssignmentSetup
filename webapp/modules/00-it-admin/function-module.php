@@ -79,6 +79,19 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                 <input type="checkbox" id="cbIsEnable" name="->IsEnable" Caption="Is Enable?" />
             </div>
         </div>
+
+        <div class="row">
+            <div class="two-col">
+                <onetomany PropertyName="->FunctionRoleDetails">
+                    <grid-command>
+                        <command CommandName="AddObject" CommandText="New"></command>
+                    </grid-command>
+                    <grid-column>
+                        <column PropertyName="->RoleModule->ObjectName" HeaderText="Role Name"/>
+                    </grid-column>
+                </onetomany>
+            </div>
+        </div>
     </form>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-footer.php" ?>
 </body>

@@ -54,26 +54,28 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
         </gridview>
     </form>
     <form id="EDIT" action="" method="post" BaseTableName="Employment" Save="SaveObject">
-        <table>
-            <tr>
-                <td>
-                    <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name" />
-                </td>
-                <td>
-                    <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="date" id="tbBirthday" name="->Person->BirthDay" Caption="Birthday" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" id="tbSalary" name="->Salary" Caption="Salary" />
-                </td>
-            </tr>
-        </table>
+
+        <div class="row">
+            <div class="two-col">
+                <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name" />
+            </div>
+            <div class="two-col">
+                <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="one-col">
+                <input type="date" id="tbBirthday" name="->Person->BirthDay" Caption="Birthday" />
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="one-col">
+                <input type="text" id="tbSalary" name="->Salary" Caption="Salary" />
+            </div>
+        </div>
+        
         <div class="row">
             <div class="two-col">
                 <onetomany PropertyName="->Person->Phones">
@@ -102,6 +104,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                 </onetomany>
             </div>
         </div>
+
     </form>
     <?php include $_SESSION['WEB_ROOTPATH'] . "web-footer.php" ?>
 </body>
