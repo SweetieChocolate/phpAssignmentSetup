@@ -77,6 +77,22 @@ function BindObjectToForm($_objectSource)
             }
         }
     }
+    
+    foreach ($_formedit->ownerDocument->getElementsByTagName("dropdown") as $_dropdown)
+    {
+        $_name = GetAttribute($_dropdown, "name");
+        if (!str_starts_with($_name, "->")) continue;
+
+        $_name = substr($_name, 2);
+        $_otype = $_objectSource->GetPropertyType($_name);
+        if (!NeedBindingObjectToForm($_otype)) continue;
+
+        $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
+        if ($_value == null) continue;
+
+        if ($_otype == "UUID") $_value = $_value->Encrypt($_sid);
+        $_dropdown->setAttribute("selected", $_value);
+    }
 }
 
 $_OTMProperty = GetAndUnsetPOST('PropertyName');
