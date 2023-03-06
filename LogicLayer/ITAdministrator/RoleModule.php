@@ -23,6 +23,19 @@ class ORoleModule extends ODataModel
                 return parent::__get($name);
         }
     }
+
+    public static function GetAllRoles(string $_sid) : array
+    {
+        $roles = array();
+        $list = RoleModule::LoadList("1", "ObjectNumber");
+        $roles[''] = "";
+        foreach ($list as $item)
+        {
+            $roles[$item->ObjectID->Encrypt($_sid)] = $item->ObjectName;
+        }
+
+        return $roles;
+    }
 }
 
 ?>

@@ -12,10 +12,12 @@ function GetIconByFunctionName(string $_text)
             return "fa fa-users";
         case "PAYROLL":
             return "fa fa-money-bill";
+        case "SYSTEM SETTING":
+            return "fa-solid fa-gear";
         case "IT ADMINISTATION":
-            return "fa-solid fa-gear";
+            return "fa-solid fa-gears";
         default:
-            return "fa-solid fa-gear";
+            return "fa-solid fa-gears";
     }
 }
 
@@ -27,10 +29,12 @@ function GetIconByCategory(string $_text)
             return "fa fa-users";
         case "PAYROLL":
             return "fa fa-money-bill";
+        case "SYSTEM SETTING":
+            return "fa-solid fa-gear";
         case "IT ADMINISTATION":
-            return "fa-solid fa-gear";
+            return "fa-solid fa-gears";
         default:
-            return "fa-solid fa-gear";
+            return "fa-solid fa-gears";
     }
 }
 

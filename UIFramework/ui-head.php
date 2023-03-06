@@ -10,6 +10,7 @@ require_once "UIHelper.php";
 require_once $_SESSION['PROJECT_ROOTPATH'] . "LogicLayer/LogicLayer.php";
 
 $_sid = session_id();
+$sessionId = $_sid;
 
 // $_tmpdir = $_SESSION['PROJECT_ROOTPATH'] . "tmp/" . $_sid . "/";
 // $_tmpdir = $_SESSION['WEB_ROOTPATH'] . "tmp/" . $_sid . "/";

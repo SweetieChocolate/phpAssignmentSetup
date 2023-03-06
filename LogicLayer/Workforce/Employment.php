@@ -34,15 +34,9 @@ class Employment extends DataModel
         $obj->Users->append($user);
         return $obj;
     }
-
-    public function save(DBConnection $con) : void
-    {
-        parent::save($con);
-        
-    }
 }
 
-class OEmployment extends ODataModel
+class OEmployment extends ODataModel implements IAutoNumber
 {
     public function __get($name) : mixed
     {
@@ -51,6 +45,28 @@ class OEmployment extends ODataModel
             default:
                 return parent::__get($name);
         }
+    }
+
+    public function save(DBConnection $con) : void
+    {
+        parent::save($con);
+        if ($this->obj->IsNew())
+        {
+
+        }
+    }
+
+    public static function GetAllEmployments(string $_sid) : array
+    {
+        $emps = array();
+        $emps = RoleModule::LoadList("1", "ObjectNumber");
+        $emps[''] = "";
+        foreach ($emps as $item)
+        {
+            $emps[$item->ObjectID->Encrypt($_sid)] = $item->ObjectName;
+        }
+
+        return $emps;
     }
 }
 

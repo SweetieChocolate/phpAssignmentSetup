@@ -11,7 +11,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-head.php";
 
 // data manipulate start here
 
-
+$ddlRole = ORoleModule::GetAllRoles($sessionId);
 
 // data manupulate end here
 
@@ -89,6 +89,9 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                     <grid-column>
                         <column PropertyName="->RoleModule->ObjectName" HeaderText="Role Name"/>
                     </grid-column>
+                    <pop-up Size="modal-lg" Caption="Email">
+                        <dropdownlist id="ddlRole" name="->RoleModuleID" Caption="Role" Load="ddlRole" />
+                    </pop-up>
                 </onetomany>
             </div>
         </div>

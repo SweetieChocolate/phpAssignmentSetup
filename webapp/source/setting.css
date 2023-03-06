@@ -9,6 +9,11 @@
     --sidebar-fontsize-item: 14px;
     --sidebar-width-open: 370px;
     --padding: 10px;
+    --label-input-margin: 5px;
+    --label-width: 150px;
+    --input-width: 300px;
+    --pop-up-label-width: 20%;
+    --pop-up-input-width: 70%;
 }
 
 .btn-primary:hover,

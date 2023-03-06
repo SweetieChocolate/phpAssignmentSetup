@@ -11,6 +11,7 @@ require_once "ITAdministrator/FunctionModule.php";
 require_once "ITAdministrator/RoleModule.php";
 require_once "ITAdministrator/FunctionRoleDetail.php";
 require_once "ITAdministrator/CodeField.php";
+require_once "ITAdministrator/AutoNumber.php";
 
 require_once "Workforce/Employment.php";
 require_once "Workforce/Person/Person.php";
@@ -26,6 +27,7 @@ class TablesLogic
         "RoleModule",
         "FunctionRoleDetail",
         "CodeField",
+        "AutoNumber",
         // Workforce
         "Employment",
         "Person",

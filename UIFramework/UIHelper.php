@@ -106,10 +106,11 @@ function GetApplicableValueFromObjetToForm($_value, string $_type) : string
 function GetApplicableValueFromFormToObject(string $_value, string $_type) : mixed
 {
     if ($_value == null) return null;
-
+    global $_sid;
     switch ($_type)
     {
-        case "DateTime": $_value = DateTimeHelper::FromString($_value);
+        case "UUID": $_value = UUID::FromString(StringDecryption($_value, $_sid)); break;
+        case "DateTime": $_value = DateTimeHelper::FromString($_value); break;
     }
 
     return $_value;

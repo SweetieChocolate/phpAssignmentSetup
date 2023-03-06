@@ -76,6 +76,18 @@ class ODataModel
 
     public function save(DBConnection $connection) : void
     {
+        $oclass = get_called_class();
+        if (is_subclass_of($oclass, "IAutoNumber"))
+        {
+            $autoNumber = AutoNumber::Where("ObjectClassType = '$oclass'");
+            if ($autoNumber != null && ($this->obj->ObjectNumber == null || $this->obj->ObjectNumber == ""))
+            {
+                $con = new DBConnection();
+                $this->obj->ObjectNumber = $autoNumber->GetNextNumber();
+                $autoNumber->save($con);
+                $con->commit();
+            }
+        }
         $this->obj->save($connection);
     }
 

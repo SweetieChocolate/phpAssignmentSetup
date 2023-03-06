@@ -11,7 +11,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-head.php";
 
 // data manipulate start here
 
-$gvDetailsLoad = Employment::LoadList();
+
 
 // data manupulate end here
 
@@ -38,7 +38,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 </head>
 <body class="frame">
     <form id="VIEW" action="" method="post" BaseTableName="Employment">
-        <gridview id="gvDetails" TableName="Employment" Load="gvDetailsLoad">
+        <gridview id="gvDetails" TableName="Employment">
             <grid-command>
                 <command CommandName="AddObject" CommandText="New"></command>
             </grid-command>

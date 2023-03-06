@@ -68,4 +68,37 @@ foreach ($_cbInputs as $_cbInput)
     $_cbInput->parentNode->insertBefore($_cbHidden, $_cbInput);
 }
 
+$_ddlInputs = $_domXPath->query("//dropdownlist");
+foreach ($_ddlInputs as $_input)
+{
+    $_select = $_dom->createElement("select", "");
+
+    $_attrs = GetAllAttributes($_input);
+    foreach ($_attrs as $_key => $_value)
+    {
+        $_select->setAttribute($_key, $_value);
+    }
+
+    if (array_key_exists('Load', $_attrs))
+    {
+        $_varname = $_attrs['Load'];
+        $_list = $$_varname;
+        foreach ($_list as $_key => $_value)
+        {
+            $_option = $_dom->createElement("Option", $_value);
+            $_option->setAttribute("value", $_key);
+            $_select->appendChild($_option);
+        }
+    }
+    
+    $_input->parentNode->replaceChild($_select, $_input);
+
+    $_id = GetAttribute($_select, "id"); $_id = $_id ?? "";
+    $_caption = GetAttribute($_select, "Caption");
+    $_caption = $_caption != null ? "$_caption:" : "";
+    $_label = $_dom->createElement("label", $_caption);
+    $_label->setAttribute("for", $_id);
+    $_select->parentNode->insertBefore($_label, $_select);
+}
+
 ?>
