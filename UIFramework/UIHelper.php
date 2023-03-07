@@ -231,7 +231,7 @@ function SetDropDownSelected(DOMElement $_dropdown, string $_selected)
         $_value = GetAttribute($_option, "value") ?? "";
         if ($_value == $_selected)
         {
-            $_option->setAttribute("selected", "");
+            $_option->setAttribute("selected", "true");
             break;
         }
     }

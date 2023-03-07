@@ -78,7 +78,7 @@ function BindObjectToForm($_objectSource)
         }
     }
     
-    foreach ($_formedit->ownerDocument->getElementsByTagName("dropdown") as $_dropdown)
+    foreach ($_formedit->ownerDocument->getElementsByTagName("select") as $_dropdown)
     {
         $_name = GetAttribute($_dropdown, "name");
         if (!str_starts_with($_name, "->")) continue;
@@ -91,7 +91,8 @@ function BindObjectToForm($_objectSource)
         if ($_value == null) continue;
 
         if ($_otype == "UUID") $_value = $_value->Encrypt($_sid);
-        $_dropdown->setAttribute("selected", $_value);
+        
+        SetDropDownSelected($_dropdown, $_value);
     }
 }
 
@@ -146,6 +147,7 @@ function BindFormToObject_OTM()
 function BindObjectToForm_OTM($_objectSource, $_formModal) : DOMNode | null
 {
     if ($_objectSource == null) return null;
+    global $_sid, $_requestURI, $_formedit, $_basetablename, $_sessionname, $_datakeyEncrypted, $_datakey;
     $_formResult = $_formModal->cloneNode(true);
     foreach ($_formResult->getElementsByTagName("input") as $_prop)
     {
@@ -161,6 +163,22 @@ function BindObjectToForm_OTM($_objectSource, $_formModal) : DOMNode | null
         $_value = GetApplicableValueFromObjetToForm($_value, $_ftype);
         if ($_value == null) continue;
         $_prop->setAttribute("value", $_value);
+    }
+    
+    foreach ($_formResult->getElementsByTagName("select") as $_dropdown)
+    {
+        $_name = GetAttribute($_dropdown, "name");
+        if (!str_starts_with($_name, "->")) continue;
+
+        $_name = substr($_name, 2);
+        $_otype = $_objectSource->GetPropertyType($_name);
+        if (!NeedBindingObjectToForm($_otype)) continue;
+
+        $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
+        if ($_value == null) continue;
+        if ($_otype == "UUID") $_value = $_value->Encrypt($_sid);
+        
+        SetDropDownSelected($_dropdown, $_value);
     }
     return $_formResult;
 }
