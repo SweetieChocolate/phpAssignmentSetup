@@ -47,7 +47,6 @@ class OAutoNumber extends ODataModel
     public static function GetAllClassWithAutoNumber() : array
     {
         $classArray = array();
-        $classArray[''] = "";
         
         foreach (TablesLogic::$tables as $class)
         {

@@ -58,15 +58,15 @@ class OEmployment extends ODataModel implements IAutoNumber
 
     public static function GetAllEmployments(string $_sid) : array
     {
-        $emps = array();
-        $emps = RoleModule::LoadList("1", "ObjectNumber");
-        $emps[''] = "";
+        $empslist = array();
+        $emps = Employment::LoadList("1", "ObjectNumber");
+        
         foreach ($emps as $item)
         {
-            $emps[$item->ObjectID->Encrypt($_sid)] = $item->ObjectName;
+            $empslist[$item->ObjectID->Encrypt($_sid)] = $item->ObjectName;
         }
 
-        return $emps;
+        return $empslist;
     }
 }
 

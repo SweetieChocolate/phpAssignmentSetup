@@ -53,7 +53,9 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
     <form id="EDIT" action="" method="post" BaseTableName="AutoNumber" Save="SaveObject">
         <div class="row">
             <div class="one-col">
-                <dropdownlist id="ddlClass" name="->ObjectClassType" Caption="Object Type" Load="ddlClassType" />
+                <dropdownlist id="ddlClass" name="->ObjectClassType" Caption="Object Type" Load="ddlClassType">
+                    <option value=""></option>
+                </dropdownlist>
             </div>
         </div>
         <div class="row">

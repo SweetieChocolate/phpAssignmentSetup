@@ -28,7 +28,7 @@ class ORoleModule extends ODataModel
     {
         $roles = array();
         $list = RoleModule::LoadList("1", "ObjectNumber");
-        $roles[''] = "";
+        
         foreach ($list as $item)
         {
             $roles[$item->ObjectID->Encrypt($_sid)] = $item->ObjectName;

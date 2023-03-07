@@ -90,7 +90,9 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                         <column PropertyName="->RoleModule->ObjectName" HeaderText="Role Name"/>
                     </grid-column>
                     <pop-up Size="modal-lg" Caption="Email">
-                        <dropdownlist id="ddlRole" name="->RoleModuleID" Caption="Role" Load="ddlRole" />
+                        <dropdownlist id="ddlRole" name="->RoleModuleID" Caption="Role" Load="ddlRole">
+                            <option value=""></option>
+                        </dropdownlist>
                     </pop-up>
                 </onetomany>
             </div>

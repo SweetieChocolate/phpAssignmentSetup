@@ -224,4 +224,17 @@ function GenerateBlankPopUpEditForm(DOMNode $_sourceForm, string $_id, string $_
     return $_domDocument->documentElement;
 }
 
+function SetDropDownSelected(DOMElement $_dropdown, string $_selected)
+{
+    foreach ($_dropdown->getElementsByTagName("option") as $_option)
+    {
+        $_value = GetAttribute($_option, "value") ?? "";
+        if ($_value == $_selected)
+        {
+            $_option->setAttribute("selected", "");
+            break;
+        }
+    }
+}
+
 ?>
