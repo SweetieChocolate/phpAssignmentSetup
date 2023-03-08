@@ -14,6 +14,7 @@ require_once "ITAdministrator/CodeField.php";
 require_once "ITAdministrator/AutoNumber.php";
 
 require_once "Workforce/Employment.php";
+require_once "Workforce/CareerHistory.php";
 require_once "Workforce/Person/Person.php";
 require_once "Workforce/Person/PersonPhone.php";
 require_once "Workforce/Person/PersonEmail.php";
@@ -30,6 +31,7 @@ class TablesLogic
         "AutoNumber",
         // Workforce
         "Employment",
+        "CareerHistory",
         "Person",
         "PersonPhone",
         "PersonEmail"

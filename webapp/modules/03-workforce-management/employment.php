@@ -43,13 +43,9 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                 <command CommandName="AddObject" CommandText="New"></command>
             </grid-command>
             <grid-column>
-                <column PropertyName="->Person->FamilyName" HeaderText="Last Name"></column>
-                <column PropertyName="->Person->GivenName" HeaderText="First Name"></column>
-                <column PropertyName="->Salary" HeaderText="Salary"></column>
-                <column PropertyName="->CreatedBy" HeaderText="Created By"></column>
-                <column PropertyName="->CreatedDateTimeText" HeaderText="Created DateTime"></column>
-                <column PropertyName="->LastModifiedBy" HeaderText="Modified By"></column>
-                <column PropertyName="->LastModifiedDateTimeText" HeaderText="Modified DateTime"></column>
+                <column PropertyName="->ObjectNumber" HeaderText="Code" />
+                <column PropertyName="->ObjectName" HeaderText="Name" />
+                <column PropertyName="->Salary" HeaderText="Salary" />
             </grid-column>
         </gridview>
     </form>

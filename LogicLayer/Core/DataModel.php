@@ -358,8 +358,13 @@ class DataModel
             throw new Exception("Property '$var' is not exist in class $classname");
         }
     }
-    
-    public function save(DBConnection $connection) : void
+
+    public function PreSave() : void
+    {
+
+    }
+
+    public function Saving(DBConnection $connection) : void
     {
         $user = GetCurrentUser();
         if ($user != null)
@@ -375,6 +380,18 @@ class DataModel
         $this->IsLock = true;
         array_push($connection->object, $this);
         $this->SaveRelation($connection);
+    }
+
+    public function PostSave() : void
+    {
+
+    }
+    
+    public function save(DBConnection $connection) : void
+    {
+        $this->PreSave();
+        $this->Saving($connection);
+        $this->PostSave();
     }
 
     private function SaveRelation(DBConnection $connection) : void

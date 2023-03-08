@@ -16,15 +16,13 @@ $_rawscript = <<<RAWSCRIPT
 <script>
 $(document).ready( function() {
     $('.gridview').DataTable({
-        'columnDefs': [{
-            'orderable': false,
-            'targets': [0, 1] }],
+        'columnDefs': [{'orderable': false, 'targets': [0, 1] }],
+        'order': [2, 'asc'],
         'aaSorting': []
     });
     $('.onetomany').DataTable({
-        'columnDefs': [{
-            'orderable': false,
-            'targets': [0, 1] }],
+        'columnDefs': [{'orderable': false, 'targets': [0, 1] }],
+        'order': [2, 'asc'],
         'aaSorting': [],
         'paging': false,
         'searching': false

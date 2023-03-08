@@ -29,6 +29,11 @@ class UUID
         return $this->ID_Binary;
     }
 
+    public function ForQuery() : string
+    {
+        return UUID::ID_FOR_QUERY($this->ID_String);
+    }
+
     public function Encrypt(string $key) : string
     {
         return StringEncryption($this->ID_String, $key);

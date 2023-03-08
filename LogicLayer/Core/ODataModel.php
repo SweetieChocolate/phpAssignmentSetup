@@ -74,21 +74,40 @@ class ODataModel
         return $this->obj;
     }
 
-    public function save(DBConnection $connection) : void
+    public function PreSave() : void
     {
         $oclass = get_called_class();
         if (is_subclass_of($oclass, "IAutoNumber"))
         {
-            $autoNumber = AutoNumber::Where("ObjectClassType = '$oclass'");
-            if ($autoNumber != null && ($this->obj->ObjectNumber == null || $this->obj->ObjectNumber == ""))
+            if ($this->obj->IsNew())
             {
-                $con = new DBConnection();
-                $this->obj->ObjectNumber = $autoNumber->GetNextNumber();
-                $autoNumber->save($con);
-                $con->commit();
+                $autoNumber = AutoNumber::Where("ObjectClassType = '$oclass'");
+                if ($autoNumber != null && ($this->obj->ObjectNumber == null || $this->obj->ObjectNumber == ""))
+                {
+                    $con = new DBConnection();
+                    $this->ObjectNumber = $autoNumber->GetNextNumber();
+                    $autoNumber->save($con);
+                    $con->commit();
+                }
             }
         }
-        $this->obj->save($connection);
+    }
+
+    public function Saving(DBConnection $connection) : void
+    {
+        $this->obj->Saving($connection);
+    }
+
+    public function PostSave() : void
+    {
+        $this->obj->PostSave();
+    }
+
+    public function save(DBConnection $connection) : void
+    {
+        $this->PreSave();
+        $this->Saving($connection);
+        $this->PostSave();
     }
 
     public function delete(DBConnection $connection) : void

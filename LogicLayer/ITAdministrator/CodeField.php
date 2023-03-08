@@ -32,6 +32,7 @@ class OCodeField extends ODataModel
     public static string $DEPARTMENT = "DEPARTMENT";
     public static string $POSITION = "POSITION";
     public static string $POSITION_FAMILY = "POSITIONFAMILY";
+    public static string $CAREER_CODE = "CAREERCODE";
 }
 
 ?>
