@@ -11,8 +11,9 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-head.php";
 
 // data manipulate start here
 
-$codeType = OCodeField::$REGION;
+$codeType = OCodeField::$POSITION;
 $gvResult = CodeField::LoadList("CodeType = '$codeType'");
+
 // data manupulate end here
 
 // function start here
@@ -20,7 +21,7 @@ $gvResult = CodeField::LoadList("CodeType = '$codeType'");
 function SaveObject()
 {
     $o = BindFormToObject();
-    $o->CodeType = OCodeField::$REGION;
+    $o->CodeType = OCodeField::$POSITION;
     $con = new DBConnection();
     $o->save($con);
     $con->commit();
