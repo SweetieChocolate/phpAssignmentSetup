@@ -119,6 +119,24 @@ class ODataModel
     {
         return $this->obj->GetPropertyType($property);
     }
+    
+    public static function Clone(ODataModel $source, ODataModel $destination) : void
+    {
+        $values = $source->obj->GetPropertiesWithValuesForCloning();
+        foreach ($values as $propName => $value)
+        {
+            $propType = $destination->GetPropertyType($propName);
+            if (property_exists($destination->obj, $propName) && !property_exists("DataModel", $propName) &&
+                $propType == $source->GetPropertyType($propName))
+            {
+                if ($propType == "UUID")
+                {
+                    $destination->$propName = $value->Clone();
+                }
+                $destination->$propName = $value;
+            }
+        }
+    }
 }
 
 ?>

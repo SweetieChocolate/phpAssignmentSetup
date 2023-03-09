@@ -13,6 +13,13 @@ class User extends DataModel
     protected DateTime $LastLoginTime;
     protected UUID $EmploymentID;
     protected Employment $Employment;
+
+    protected DataList $UserRoleDetail;
+
+    protected function __construct()
+    {
+        $this->UserRoleDetail = DataList::Init('UserRoleDetail', 'UserID');
+    }
 }
 
 class OUser extends ODataModel
@@ -21,6 +28,12 @@ class OUser extends ODataModel
     {
         switch($name)
         {
+            case "IsAdminText":
+                return \GlobalConstant\GetYesNo($this->IsAdministrator);
+            case "IsBanText":
+                return \GlobalConstant\GetYesNo($this->IsBan);
+            case "RequirePasswordChangeText":
+                return \GlobalConstant\GetYesNo($this->RequirePasswordChange);
             default:
                 return parent::__get($name);
         }

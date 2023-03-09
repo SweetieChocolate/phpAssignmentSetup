@@ -26,6 +26,9 @@ class CareerHistory extends DataModel
     protected UUID $JobLevelID;
     protected CodeField $JobLevel;
 
+    protected DateTime $EffectiveDate;
+    protected DateTime $EndDate;
+
     protected function __construct()
     {
         

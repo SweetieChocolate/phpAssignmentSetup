@@ -1,5 +1,10 @@
 <?php
 
+/*
+pop-up attribute
+Size: modal-sm, modal-lg, modal-xl
+*/
+
 $_onetomanys = $_dom->getElementsByTagName("onetomany");
 if ($_onetomanys->length <= 0) return;
 $_object = GetCurrentObject();

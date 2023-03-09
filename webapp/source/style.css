@@ -61,16 +61,19 @@ div.one-col {
 div.one-col > label {
     width: var(--label-width);
     margin: var(--label-input-margin);
+    vertical-align: middle;
 }
 
 div.one-col > input {
     width: var(--input-width);
     margin: var(--label-input-margin);
+    vertical-align: middle;
 }
 
 div.one-col > select {
     width: var(--input-width);
     margin: var(--label-input-margin);
+    vertical-align: middle;
 }
 
 div.two-col {
@@ -82,16 +85,19 @@ div.two-col {
 div.two-col > label {
     width: var(--label-width);
     margin: var(--label-input-margin);
+    vertical-align: middle;
 }
 
 div.two-col > input {
     width: var(--input-width);
     margin: var(--label-input-margin);
+    vertical-align: middle;
 }
 
 div.two-col > select {
     width: var(--input-width);
     margin: var(--label-input-margin);
+    vertical-align: middle;
 }
 
 div.three-col {

@@ -2,6 +2,11 @@
 
 namespace GlobalConstant
 {
+    function GetYesNo(?bool $value) : string
+    {
+        return $value == true ? "Yes" : "No";
+    }
+
     class ContactType
     {
         public static string $BUSINESS = "B";

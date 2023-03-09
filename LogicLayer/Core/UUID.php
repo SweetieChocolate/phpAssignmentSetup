@@ -49,6 +49,14 @@ class UUID
         return $this->ID_String == $ObjectID->ToString();
     }
 
+    public function Clone() : UUID
+    {
+        $uuid = new UUID();
+        $uuid->ID_Binary = $this->ID_Binary;
+        $uuid->ID_String = $this->ID_String;
+        return $uuid;
+    }
+
     public static function New() : UUID
     {
         $obj = new UUID();

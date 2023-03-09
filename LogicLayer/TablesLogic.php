@@ -7,6 +7,7 @@ require_once "Core/UUID.php";
 require_once "Core/ODataModel.php";
 
 require_once "ITAdministrator/User.php";
+require_once "ITAdministrator/UserRoleDetail.php";
 require_once "ITAdministrator/FunctionModule.php";
 require_once "ITAdministrator/RoleModule.php";
 require_once "ITAdministrator/FunctionRoleDetail.php";
@@ -24,6 +25,7 @@ class TablesLogic
     public static $tables = [
         // IT Administrator
         "User",
+        "UserRoleDetail",
         "FunctionModule",
         "RoleModule",
         "FunctionRoleDetail",

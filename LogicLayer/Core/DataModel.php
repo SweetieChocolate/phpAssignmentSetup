@@ -500,6 +500,35 @@ class DataModel
         }
         return "$sql ;";
     }
+
+    public function GetPropertiesWithValuesForCloning() : Array
+    {
+        $array = array();
+        
+        $props = $this->GetPropertiesAsReflectionProperty();
+
+        foreach ($props as $prop)
+        {
+            $prop->setAccessible(true); // only required prior to PHP 8.1.0
+            
+            $proName = $prop->getName();
+            $isInit = $prop->isInitialized($this);
+            $isID = $prop->getType()->getName() == "UUID";
+            $isString = $prop->getType()->getName() == "string";
+            $isBoolean = $prop->getType()->getName() == "bool";
+            $isDateTime = $prop->getType()->getName() == "DateTime";
+
+            if (!$isInit && !$isString) continue;
+
+            if (!$isInit) $value = '';
+            else $value = $prop->getValue($this);
+            if (is_object($value) && !$isID && !$isDateTime) continue;
+            
+            $array[$proName] = $value;
+        }
+
+        return $array;
+    }
     
     private function GetPropertiesWithValuesForDB() : Array
     {
