@@ -26,12 +26,24 @@ class OCodeField extends ODataModel
         }
     }
 
+    public static function GetDropDownListCodeFieldByCodeType(string $codeType, string $sessionID)
+    {
+        $list = CodeField::LoadList("CodeType = '$codeType'");
+        $resultList = array();
+        foreach ($list as $item)
+        {
+            $resultList[$item->ObjectID->Encrypt($sessionID)] = $item->ObjectName;
+        }
+        return $resultList;
+    }
+
     public static string $REGION = "REGION";
     public static string $BRANCH = "BRANCH";
     public static string $LOCATION = "LOCATION";
     public static string $DEPARTMENT = "DEPARTMENT";
     public static string $POSITION = "POSITION";
     public static string $POSITION_FAMILY = "POSITIONFAMILY";
+    public static string $JOB_LEVEL = "JOBLEVEL";
     public static string $CAREER_CODE = "CAREERCODE";
 }
 

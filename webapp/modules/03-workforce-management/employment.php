@@ -11,7 +11,15 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-head.php";
 
 // data manipulate start here
 
+$ddlRegion = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$REGION, $sessionId);
+$ddlBranch = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$BRANCH, $sessionId);
+$ddlLocation = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$LOCATION, $sessionId);
+$ddlDepartment = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$DEPARTMENT, $sessionId);
+$ddlPosition = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$POSITION, $sessionId);
+$ddlPositionFamily = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$POSITION_FAMILY, $sessionId);
+$ddlJobLevel = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$JOB_LEVEL, $sessionId);
 
+$ddlContactType = GlobalConstant\ContactType::GetContactTypeDropDownList();
 
 // data manupulate end here
 
@@ -46,6 +54,13 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                 <column PropertyName="->ObjectNumber" HeaderText="Code" />
                 <column PropertyName="->ObjectName" HeaderText="Name" />
                 <column PropertyName="->Salary" HeaderText="Salary" />
+                <column PropertyName="->Region->ObjectName" HeaderText="Region" />
+                <column PropertyName="->Branch->ObjectName" HeaderText="Branch" />
+                <column PropertyName="->Location->ObjectName" HeaderText="Location" />
+                <column PropertyName="->Department->ObjectName" HeaderText="Department" />
+                <column PropertyName="->Position->ObjectName" HeaderText="Position" />
+                <column PropertyName="->PositionFamily->ObjectName" HeaderText="Position Family" />
+                <column PropertyName="->JobLevel->ObjectName" HeaderText="Job Level" />
             </grid-column>
         </gridview>
     </form>
@@ -71,6 +86,53 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                 <input type="text" id="tbSalary" name="->Salary" Caption="Salary" />
             </div>
         </div>
+
+        <div class="row">
+            <div class="two-col">
+                <dropdownlist id="ddlRegion" name="->RegionID" Caption="Region" Load="ddlRegion">
+                    <option value=""></option>
+                </dropdownlist>
+            </div>
+            <div class="two-col">
+                <dropdownlist id="ddlBranch" name="->BranchID" Caption="Branch" Load="ddlBranch">
+                    <option value=""></option>
+                </dropdownlist>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="two-col">
+                <dropdownlist id="ddlLocation" name="->LocationID" Caption="Location" Load="ddlLocation">
+                    <option value=""></option>
+                </dropdownlist>
+            </div>
+            <div class="two-col">
+                <dropdownlist id="ddlDepartment" name="->DepartmentID" Caption="Department" Load="ddlDepartment">
+                    <option value=""></option>
+                </dropdownlist>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="two-col">
+                <dropdownlist id="ddlPosition" name="->PositionID" Caption="Position" Load="ddlPosition">
+                    <option value=""></option>
+                </dropdownlist>
+            </div>
+            <div class="two-col">
+                <dropdownlist id="ddlPositionFamily" name="->PositionFamilyID" Caption="Position Family" Load="ddlPositionFamily">
+                    <option value=""></option>
+                </dropdownlist>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="two-col">
+                <dropdownlist id="ddlJobLevel" name="->JobLevelID" Caption="Job Level" Load="ddlJobLevel">
+                    <option value=""></option>
+                </dropdownlist>
+            </div>
+        </div>
         
         <div class="row">
             <div class="two-col">
@@ -79,9 +141,11 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                         <command CommandName="AddObject" CommandText="New"></command>
                     </grid-command>
                     <grid-column>
+                        <column PropertyName="->TypeText" HeaderText="Type" />
                         <column PropertyName="->ObjectNumber" HeaderText="Phone Number"/>
                     </grid-column>
                     <pop-up Size="modal-lg" Caption="Phone">
+                        <dropdownlist id="ddlPhoneType" name="->Type" Caption="Contact Type" Load="ddlContactType" />
                         <input type="text" id="tbPhoneNumber" name="->ObjectNumber" Caption="Phone Number" />
                     </pop-up>
                 </onetomany>
@@ -92,9 +156,11 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                         <command CommandName="AddObject" CommandText="New"></command>
                     </grid-command>
                     <grid-column>
-                        <column PropertyName="->ObjectNumber" HeaderText="Phone Number"/>
+                        <column PropertyName="->TypeText" HeaderText="Type" />
+                        <column PropertyName="->ObjectNumber" HeaderText="Email"/>
                     </grid-column>
                     <pop-up Size="modal-lg" Caption="Email">
+                        <dropdownlist id="ddlEmailType" name="->Type" Caption="Contact Type" Load="ddlContactType" />
                         <input type="text" id="tbEmail" name="->ObjectNumber" Caption="Email" />
                     </pop-up>
                 </onetomany>

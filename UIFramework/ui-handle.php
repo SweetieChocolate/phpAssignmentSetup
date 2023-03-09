@@ -92,7 +92,7 @@ $_cbInputs = $_domXPath->query("//input[@type='checkbox']");
 foreach ($_cbInputs as $_cbInput)
 {
     $_cbHidden = $_dom->createElement("input", "");
-    $_cbName = GetAttribute($_input, "name") ?? "";
+    $_cbName = GetAttribute($_cbInput, "name") ?? "";
     $_cbHidden->setAttribute("type", "hidden");
     $_cbHidden->setAttribute("name", $_cbName);
     $_cbHidden->setAttribute("value", "0");

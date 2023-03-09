@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . "/../../LogicLayer.php";
 class PersonEmail extends DataModel
 {
     protected UUID $PersonID;
+    protected string $Type;
 }
 
 class OPersonEmail extends ODataModel
@@ -13,6 +14,8 @@ class OPersonEmail extends ODataModel
     {
         switch($name)
         {
+            case "TypeText":
+                return GlobalConstant\ContactType::GetContactTypeText($this->Type);
             default:
                 return parent::__get($name);
         }
