@@ -4,8 +4,8 @@ require_once dirname(__FILE__) . "/../../LogicLayer.php";
 
 class PersonPhone extends DataModel
 {
-    protected UUID $PersonID;
-    protected string $Type;
+    protected ?UUID $PersonID;
+    protected ?string $Type;
 }
 
 class OPersonPhone extends ODataModel
@@ -15,7 +15,7 @@ class OPersonPhone extends ODataModel
         switch($name)
         {
             case "TypeText":
-                return GlobalConstant\ContactType::GetContactTypeText($this->Type);
+                return $this->Type !== NULL ? GlobalConstant\ContactType::GetContactTypeText($this->Type) : "";
             default:
                 return parent::__get($name);
         }

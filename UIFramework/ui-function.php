@@ -43,7 +43,7 @@ function BindFormToObject()
     {
         $_otype = $_object->GetPropertyType($_key);
         $_value = GetApplicableValueFromFormToObject($_value, $_otype);
-        if ($_value == null) continue;
+        //if ($_value == null) continue;
         ODataModel::SetPropertyValue($_object, $_key, $_value);
     }
     $_SESSION[$_sessionname] = serialize($_object);
@@ -134,7 +134,7 @@ function BindFormToObject_OTM()
     {
         $_otype = $_otmObject->GetPropertyType($_key);
         $_value = GetApplicableValueFromFormToObject($_value, $_otype);
-        if ($_value == null) continue;
+        //if ($_value == null) continue;
         ODataModel::SetPropertyValue($_otmObject, $_key, $_value);
     }
 

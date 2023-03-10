@@ -4,22 +4,22 @@ require_once dirname(__FILE__) . "/../LogicLayer.php";
 
 class User extends DataModel
 {
-    protected string $UserName;
-    protected string $Password;
-    protected string $UserEmail;
-    protected bool $IsAdministrator;
-    protected bool $IsBan;
-    protected bool $RequirePasswordChange;
-    protected DateTime $LastLoginTime;
-    protected UUID $EmploymentID;
-    protected Employment $Employment;
-
-    protected DataList $UserRoleDetail;
+    protected ?string $UserName;
+    protected ?string $Password;
+    protected ?string $UserEmail;
+    protected ?bool $IsAdministrator;
+    protected ?bool $IsBan;
+    protected ?bool $RequirePasswordChange;
+    protected ?DateTime $LastLoginTime;
+    protected ?UUID $EmploymentID;
+    protected ?Employment $Employment;
 
     protected function __construct()
     {
         $this->UserRoleDetail = DataList::Init('UserRoleDetail', 'UserID');
     }
+
+    protected DataList $UserRoleDetail;
 }
 
 class OUser extends ODataModel

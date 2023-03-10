@@ -12,6 +12,14 @@ class DateTimeHelper
     {
         return $dateTime->format("Y/m/d H:i:s.u");
     }
+    public static function ConvertToStringDate(DateTime $dateTime) : string
+    {
+        return $dateTime->format("Y/m/d");
+    }
+    public static function ConvertToStringDateTime(DateTime $dateTime) : string
+    {
+        return $dateTime->format("Y/m/d H:i:s");
+    }
     public static function FromString(string $dateTime) : DateTime
     {
         return (new DateTime($dateTime));

@@ -4,13 +4,13 @@ require_once dirname(__FILE__) . "/../LogicLayer.php";
 
 class FunctionModule extends DataModel
 {
-    protected string $Category;
-    protected string $SubCategory;
-    protected string $FunctionName;
-    protected int $DisplayOrder;
-    protected string $URL;
-    protected string $SubURL;
-    protected bool $IsEnable;
+    protected ?string $Category;
+    protected ?string $SubCategory;
+    protected ?string $FunctionName;
+    protected ?int $DisplayOrder;
+    protected ?string $URL;
+    protected ?string $SubURL;
+    protected ?bool $IsEnable;
 
     protected function __construct()
     {

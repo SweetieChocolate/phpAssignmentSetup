@@ -73,6 +73,10 @@ if ($_action != null)
             if ($_object == null)
                 $_object = $_basetablename::Create();
         }
+        else
+        {
+            $_object = BindFormToObject();
+        }
         BindObjectToForm($_object);
     }
 }

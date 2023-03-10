@@ -1,7 +1,5 @@
 <?php
 // this part is ui framework and seesion validate part
-// do not start your code here
-// all your code must start inside html tag
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 
@@ -29,6 +27,12 @@ function SaveObject()
 
 // function end here
 
+require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-handle.php";
+
+// pre render logic start here
+
+// pre render logic end here
+
 require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 
 ?>
@@ -46,6 +50,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
             <grid-column>
                 <column PropertyName="->Employment->ObjectNumber" HeaderText="Employee Code" />
                 <column PropertyName="->Employment->ObjectName" HeaderText="Employee Name" />
+                <column PropertyName="->ObjectName" HeaderText="ObjectName" />
                 <column PropertyName="->IsAdminText" HeaderText="Is Administrator" />
                 <column PropertyName="->RequirePasswordChangeText" HeaderText="Require Password Change" />
                 <column PropertyName="->IsBanText" HeaderText="Is Ban" />

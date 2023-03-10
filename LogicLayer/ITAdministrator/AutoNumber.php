@@ -9,9 +9,9 @@ interface IAutoNumber
 
 class AutoNumber extends DataModel
 {
-    protected string $ObjectClassType;
-    protected string $Format;
-    protected int $CurrentNumber;
+    protected ?string $ObjectClassType;
+    protected ?string $Format;
+    protected ?int $CurrentNumber;
     protected function __construct()
     {
         
@@ -31,17 +31,29 @@ class OAutoNumber extends ODataModel
     {
         switch($name)
         {
-            case "NumberExample": return sprintf($this->obj->Format, $this->obj->CurrentNumber);
+            case "NumberExample": return $this->NumberExample();
             default:
                 return parent::__get($name);
         }
     }
 
+    private function NumberExample() : string
+    {
+        $result = "";
+        if ($this->Format !== NULL && $this->CurrentNumber !== NULL)
+            $result = sprintf($this->Format, $this->CurrentNumber);
+        return $result;
+    }
+
     public function GetNextNumber() : string
     {
-        $this->obj->CurrentNumber += 1;
-        $number = sprintf($this->obj->Format, $this->obj->CurrentNumber);
-        return $number;
+        $result = "";
+        if ($this->Format !== NULL && $this->CurrentNumber !== NULL)
+        {
+            $this->CurrentNumber += 1;
+            $result = sprintf($this->Format, $this->CurrentNumber);
+        }
+        return $result;
     }
 
     public static function GetAllClassWithAutoNumber() : array

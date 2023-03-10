@@ -1,7 +1,5 @@
 <?php
 // this part is ui framework and seesion validate part
-// do not start your code here
-// all your code must start inside html tag
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 
@@ -36,6 +34,12 @@ function SaveObject()
 
 // function end here
 
+require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-handle.php";
+
+// pre render logic start here
+
+// pre render logic end here
+
 require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 
 ?>
@@ -53,14 +57,11 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
             <grid-column>
                 <column PropertyName="->ObjectNumber" HeaderText="Code" />
                 <column PropertyName="->ObjectName" HeaderText="Name" />
+                <column PropertyName="->StartDateText" HeaderText="Start Date" />
                 <column PropertyName="->Salary" HeaderText="Salary" />
-                <column PropertyName="->Region->ObjectName" HeaderText="Region" />
                 <column PropertyName="->Branch->ObjectName" HeaderText="Branch" />
-                <column PropertyName="->Location->ObjectName" HeaderText="Location" />
                 <column PropertyName="->Department->ObjectName" HeaderText="Department" />
                 <column PropertyName="->Position->ObjectName" HeaderText="Position" />
-                <column PropertyName="->PositionFamily->ObjectName" HeaderText="Position Family" />
-                <column PropertyName="->JobLevel->ObjectName" HeaderText="Job Level" />
             </grid-column>
         </gridview>
     </form>
@@ -82,8 +83,11 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
         </div>
         
         <div class="row">
-            <div class="one-col">
+            <div class="two-col">
                 <input type="text" id="tbSalary" name="->Salary" Caption="Salary" />
+            </div>
+            <div class="two-col">
+                <input type="date" id="tbStartDate" name="->StartDate" Caption="Start Date" />
             </div>
         </div>
 

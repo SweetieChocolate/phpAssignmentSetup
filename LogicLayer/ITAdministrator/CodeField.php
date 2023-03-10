@@ -4,10 +4,10 @@ require_once dirname(__FILE__) . "/../LogicLayer.php";
 
 class CodeField extends DataModel
 {
-    protected UUID $ParentID;
-    protected CodeField $Parent;
-    protected string $Description;
-    protected string $CodeType;
+    protected ?UUID $ParentID;
+    protected ?CodeField $Parent;
+    protected ?string $Description;
+    protected ?string $CodeType;
 
     protected function __construct()
     {

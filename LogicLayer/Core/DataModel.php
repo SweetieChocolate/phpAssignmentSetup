@@ -21,14 +21,14 @@ class DataModel
 
     // every property that need to map with database must be protected
     // default database field
-    protected UUID $ObjectID;
-    protected string $ObjectNumber = "";
-    protected string $ObjectName = "";
-    protected string $CreatedBy = "";
-    protected string $LastModifiedBy = "";
-    protected DateTime $CreatedDateTime;
-    protected DateTime $LastModifiedDateTime;
-    protected bool $IsDeleted = false;
+    protected ?UUID $ObjectID;
+    protected ?string $ObjectNumber = "";
+    protected ?string $ObjectName = "";
+    protected ?string $CreatedBy = "";
+    protected ?string $LastModifiedBy = "";
+    protected ?DateTime $CreatedDateTime;
+    protected ?DateTime $LastModifiedDateTime;
+    protected ?bool $IsDeleted = false;
 
     // constructor need to be protected or private
     // because property IsNew suppose to automate assign by system
@@ -512,17 +512,18 @@ class DataModel
             $prop->setAccessible(true); // only required prior to PHP 8.1.0
             
             $proName = $prop->getName();
+            $typeName = $prop->getType()->getName();
             $isInit = $prop->isInitialized($this);
             $isID = $prop->getType()->getName() == "UUID";
             $isString = $prop->getType()->getName() == "string";
             $isBoolean = $prop->getType()->getName() == "bool";
             $isDateTime = $prop->getType()->getName() == "DateTime";
 
-            if (!$isInit && !$isString) continue;
-
-            if (!$isInit) $value = '';
+            if (!$isInit) $value = null;
             else $value = $prop->getValue($this);
-            if (is_object($value) && !$isID && !$isDateTime) continue;
+
+            if ((is_object($value) && !$isID && !$isDateTime)
+                || is_subclass_of($typeName, "DataModel")) continue;
             
             $array[$proName] = $value;
         }
@@ -541,23 +542,36 @@ class DataModel
             $prop->setAccessible(true); // only required prior to PHP 8.1.0
             
             $proName = $prop->getName();
+            $typeName = $prop->getType()->getName();
             $isInit = $prop->isInitialized($this);
             $isID = $prop->getType()->getName() == "UUID";
             $isString = $prop->getType()->getName() == "string";
             $isBoolean = $prop->getType()->getName() == "bool";
             $isDateTime = $prop->getType()->getName() == "DateTime";
 
-            if (!$isInit && !$isString) continue;
+            if (!$isInit)
+            {
+                $value = 'NULL';
+            }
+            else
+            {
+                $value = $prop->getValue($this);
 
-            if (!$isInit) $value = '';
-            else $value = $prop->getValue($this);
-            if (is_object($value) && !$isID && !$isDateTime) continue;
+                if ($value === NULL)
+                {
+                    $value = 'NULL';
+                }
+                else
+                {
+                    if ($isID) $value = "UUID_TO_BIN('{$value->ToString()}')";
+                    if ($isString) $value = "'$value'";
+                    if ($isBoolean) $value = $value ? 1 : 0;
+                    if ($isDateTime) $value = "'" . DateTimeHelper::ConvertToString($value) . "'";
+                }
+            }
 
-            if ($isID)
-                $value = "UUID_TO_BIN('{$value->ToString()}')";
-            if ($isString) $value = "'$value'";
-            if ($isBoolean) $value = $value ? 1 : 0;
-            if ($isDateTime) $value = "'" . DateTimeHelper::ConvertToString($value) . "'";
+            if ((is_object($value) && !$isID && !$isDateTime)
+                || is_subclass_of($typeName, "DataModel")) continue;
             
             $array[$proName] = $value;
         }
@@ -688,8 +702,9 @@ class DataModel
 
     private static function GetPropertyTypeForDB(string $phpType) : string
     {
+        $noneNullable = str_replace("?", "", $phpType);
         $dbType = "";
-        switch ($phpType)
+        switch ($noneNullable)
         {
             case "UUID": $dbType = "binary(16)"; break;
             case "float": $dbType = "double"; break;

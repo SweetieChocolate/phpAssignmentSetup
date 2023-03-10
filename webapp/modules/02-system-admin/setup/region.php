@@ -1,7 +1,5 @@
 <?php
 // this part is ui framework and seesion validate part
-// do not start your code here
-// all your code must start inside html tag
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 
@@ -28,6 +26,12 @@ function SaveObject()
 }
 
 // function end here
+
+require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-handle.php";
+
+// pre render logic start here
+
+// pre render logic end here
 
 require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 

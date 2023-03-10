@@ -129,7 +129,7 @@ class ODataModel
             if (property_exists($destination->obj, $propName) && !property_exists("DataModel", $propName) &&
                 $propType == $source->GetPropertyType($propName))
             {
-                if ($propType == "UUID")
+                if ($propType == "UUID" && $value !== NULL)
                 {
                     $destination->$propName = $value->Clone();
                 }

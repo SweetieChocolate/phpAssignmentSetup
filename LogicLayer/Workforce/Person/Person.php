@@ -4,10 +4,10 @@ require_once dirname(__FILE__) . "/../../LogicLayer.php";
 
 class Person extends DataModel
 {
-    protected string $FamilyName;
-    protected string $GivenName;
-    protected string $Gender;
-    protected DateTime $BirthDay;
+    protected ?string $FamilyName;
+    protected ?string $GivenName;
+    protected ?string $Gender;
+    protected ?DateTime $BirthDay;
 
     protected function __construct()
     {
@@ -26,10 +26,19 @@ class OPerson extends ODataModel
         switch($name)
         {
             case "FullName":
-                return $this->obj->FamilyName . " " . $this->obj->GivenName;
+                return $this->FullName();
             default:
                 return parent::__get($name);
         }
+    }
+
+    private function FullName() : string
+    {
+        $result = "";
+        $result .= $this->FamilyName !== NULL ? $this->FamilyName : "";
+        $result .= empty($result) ? "" : " ";
+        $result .= $this->GivenName !== NULL ? $this->GivenName : "";
+        return $result;
     }
 }
 
