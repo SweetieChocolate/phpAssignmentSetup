@@ -40,85 +40,136 @@ if (isset($_POST['button']))
     <title><?= $_SESSION['COMPANY_NAME'] ?></title>
     <style>
         *{
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-        font-family: poppins;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: nunito;
+            font-weight: 600;
         }
 
         body{
-            background-color: #E8EDF2;
+            background-size: cover;
+            border: 2px solid rgb(153, 157, 158);
         }
-
-        div.container{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-
+        .container{
             display: flex;
-            flex-direction: row;
+            justify-content: center;
             align-items: center;
-
-            background-color: white;
-            padding: 30px;
-            box-shadow: 0 50px 50px -50px darkslategray;
+            min-height: 100vh;
+            position: relative;
         }
-        div.container div.myform{
-            width: 270px;
-            margin-right: 30px;
+        .wrapper{
+            position: absolute;
+            width: 455px;
+            height: 485px;
+            border-radius: 30px;
+            transform: rotate(5deg);
+            background: rgba(255, 255, 255, 0.53);
+            box-shadow: 2px 2px 15px 2px rgba(0,0,0,0.115),
+                        -2px -0px 15px 2px rgba(0, 0, 0, 0.054);
         }
-        div.container div.myform input[type="text"]{
-            border: none;
+        .box{
+            width: 450px;
+            height: 480px;
+            background: #fff;
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 2px 2px 15px 2px rgba(0,0,0,0.1),
+                        -2px -0px 15px 2px rgba(0,0,0,0.1);
+            z-index: 10;           
+        }
+        .header{
+            margin-bottom: 40px;
+        }
+        header{
+            display: flex;
+            align-items: center;
+        }
+        .header header{
+            display: flex;
+            justify-content: right;
+        }
+        header img{
+            width: 25px;
+        }
+        .header p{
+            font-size: 25px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .input-box{
+            display: flex;
+            flex-direction: column;
+            margin: 10px 0;
+            position: relative;
+        }
+        i{
+            font-size: 22px;
+            position: absolute;
+            top: 35px;
+            right: 12px;
+            color: #595b5e;
+        }
+        input{
+            height: 40px;
+            border: 2px solid rgb(153, 157, 158);
+            border-radius: 7px;
+            margin: 5px 0;
             outline: none;
-            border-radius: 0;
-            width: 100%;
-            border-bottom: 2px solid #1c1c1e;
-            margin-bottom: 25px;
-            padding: 7px 0;
-            font-size: 20px;
         }
-        div.container div.myform input[type="password"]{
-            border: none;
-            outline: none;
-            border-radius: 0;
-            width: 100%;
-            border-bottom: 2px solid #1c1c1e;
-            margin-bottom: 25px;
-            padding: 7px 0;
-            font-size: 20px;
-        }
-        div.container div.myform input[type="submit"]{
-            color: white;
-            background-color: #1c1c1e;
-            border: none;
-            outline: none;
-            border-radius: 2px;
-            font-size: 14px;
-            padding: 5px 12px;
+        .input-field{
             font-weight: 500;
+            padding: 0 10px;
+            font-size: 17px;
+            color: #333;
+            background: transparent;
+            transition: all .3s ease-in-out;
         }
-        div.container div.image img{
-            width: 400px;
+        .input-field:focus{
+            border: 2px solid rgb(89, 53, 180);
+        }
+        .input-field:focus ~ i{
+            color: rgb(89, 53, 180);
+        }
+        .input-submit{
+            background: #00b3f0;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: all .3s ease-in-out;
+        }
+        .input-submit:hover{
+            background: #000000;
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <div class="myform">
-            <form id="loginForm" action="" method="post">
-                <input type="text" name="tbUserName" placeholder="User Name" value="<?= isset($_POST['tbUserName']) ? $_POST['tbUserName'] : '' ?>" />
-                <input type="password" name="tbPassaword" placeholder="Password" />
-                <input type="submit" name="button" value="LOGIN" />
-            </form>
-            <br />
-            <p style="color: red"><?= $loginMessage ?></p>
-            <br />
-            <?php include "web-db-script.php" ?>
+    </head>
+    <body>
+        <div class="container">
+            
+            <div class="box">
+                <form id="loginForm" action="" method="post">
+                    <div class="header">
+                        <header> <img src="./source/image/profile.png" alt=""></header>
+                        <p>Log In to PHP AssignmentSetup</p>
+                    </div>
+                    <div class="input-box">
+                        <label for="text">Username</label>
+                        <input type="text" class="input-field" id="email" name="tbUserName" value="<?= isset($_POST['tbUserName']) ? $_POST['tbUserName'] : '' ?>" required>
+                        <i class="bx bx-envelope"></i>
+                    </div>
+                    <div class="input-box">
+                        <label for="pass">Password</label>
+                        <input type="password" class="input-field" id="pass" name="tbPassaword" required>
+                        <i class="bx bx-lock"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="submit" class="input-submit" name="button" value="LOGIN">
+                    </div>
+                        <span><?php include "web-db-script.php" ?></span>
+                </form>
+            </div>
+            <div class="wrapper"></div>
         </div>
-        <div class="image">
-            <img src="" />
-        </div>
-    </div>
-</body>
+    </body>
 </html>
