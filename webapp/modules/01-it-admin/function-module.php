@@ -80,7 +80,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
         </div>
         <div class="row">
             <div class="one-col">
-                <input type="checkbox" id="cbIsEnable" name="->IsEnable" Caption="Is Enable?" required="true" />
+                <input type="checkbox" id="cbIsEnable" name="->IsEnable" Caption="Is Enable?" />
             </div>
         </div>
 

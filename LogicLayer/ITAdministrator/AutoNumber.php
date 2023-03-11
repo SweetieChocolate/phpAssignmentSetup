@@ -37,6 +37,14 @@ class OAutoNumber extends ODataModel
         }
     }
 
+    public function PreSave() : void
+    {
+        if ($this->obj->IsNew())
+        {
+            $this->CurrentNumber = 0;
+        }
+    }
+
     private function NumberExample() : string
     {
         $result = "";

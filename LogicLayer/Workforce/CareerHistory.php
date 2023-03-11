@@ -56,16 +56,21 @@ class OCareerHistory extends ODataModel
         }
     }
 
-    public function save(DBConnection $con) : void
+    public function PreSave() : void
     {
         WorkforceHelper::UpdateCareer($this);
+    }
+
+    public function save(DBConnection $con) : void
+    {
         parent::save($con);
     }
 
     public function PostSave() : void
     {
+        if ($this->CareerCode->ObjectNumber == "NEWJOIN") return;
         $con = new DBConnection();
-        WorkforceHelper::UpdateEmploymentFromLatestCareer($this->Employment);
+        WorkforceHelper::UpdateEmploymentFromLatestCareer($this->Employment, $this);
         $this->Employment->save($con);
         $con->commit();
     }
