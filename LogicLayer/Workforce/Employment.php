@@ -54,6 +54,8 @@ class OEmployment extends ODataModel implements IAutoNumber
         {
             case "StartDateText":
                 return $this->StartDate !== NULL ? DateTimeHelper::ConvertToStringDate($this->StartDate) : "";
+            case "EndDateText":
+                return $this->EndDate !== NULL ? DateTimeHelper::ConvertToStringDate($this->EndDate) : "";
             default:
                 return parent::__get($name);
         }

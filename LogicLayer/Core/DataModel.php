@@ -156,10 +156,10 @@ class DataModel
         }
         return null;
     }
-    public static function Where(string $where = "1")
+    public static function Where(string $where = "1", string $orderby = "CreatedDateTime DESC")
     {
         $classname = get_called_class();
-        $sql = "SELECT * FROM $classname WHERE IsDeleted = 0 AND $where LIMIT 1;";
+        $sql = "SELECT * FROM $classname WHERE IsDeleted = 0 AND $where ORDER BY $orderby LIMIT 1;";
         /* load sql select top 1 from database and map every column to the obj below */
         $con = new DBConnection();
         $result = $con->ExecuteQuery($sql);

@@ -7,6 +7,11 @@ class CareerHistory extends DataModel
     protected ?UUID $EmploymentID;
     protected ?Employment $Employment;
 
+    protected ?UUID $PreviousCareerID;
+    protected ?CareerHistory $PreviousCareer;
+    protected ?UUID $NextCareerID;
+    protected ?CareerHistory $NextCareer;
+
     protected ?float $Salary;
     protected ?float $NewSalary;
     protected ?UUID $CareerCodeID;
@@ -42,6 +47,10 @@ class OCareerHistory extends ODataModel
     {
         switch($name)
         {
+            case "StartDateText":
+                return $this->EffectiveDate !== NULL ? DateTimeHelper::ConvertToStringDate($this->EffectiveDate) : "";
+            case "EndDateText":
+                return $this->EndDate !== NULL ? DateTimeHelper::ConvertToStringDate($this->EndDate) : "";
             default:
                 return parent::__get($name);
         }
@@ -49,11 +58,16 @@ class OCareerHistory extends ODataModel
 
     public function save(DBConnection $con) : void
     {
+        WorkforceHelper::UpdateCareer($this);
         parent::save($con);
-        if ($this->obj->IsNew())
-        {
+    }
 
-        }
+    public function PostSave() : void
+    {
+        $con = new DBConnection();
+        WorkforceHelper::UpdateEmploymentFromLatestCareer($this->Employment);
+        $this->Employment->save($con);
+        $con->commit();
     }
 }
 

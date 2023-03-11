@@ -19,6 +19,8 @@ $ddlPosition = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$POSIT
 $ddlPositionFamily = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$POSITION_FAMILY, $sessionId);
 $ddlJobLevel = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$JOB_LEVEL, $sessionId);
 
+$dllCareerCode = OCodeField::GetDropDownListCodeFieldByCodeType(OCodeField::$CAREER_CODE, $sessionId);
+
 // data manupulate end here
 
 // function start here
@@ -65,6 +67,8 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                 <column PropertyName="->Employment->ObjectNumber" HeaderText="Code" />
                 <column PropertyName="->Employment->ObjectName" HeaderText="Name" />
                 <column PropertyName="->CareerCode->ObjectName" HeaderText="Career" />
+                <column PropertyName="->StartDateText" HeaderText="Start Date" />
+                <column PropertyName="->EndDateText" HeaderText="End Date" />
                 <column PropertyName="->Salary" HeaderText="Salary" />
                 <column PropertyName="->NewSalary" HeaderText="New Salary" />
                 <column PropertyName="->Branch->ObjectName" HeaderText="Branch" />
@@ -76,11 +80,22 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
     <form id="EDIT" action="" method="post" BaseTableName="CareerHistory" Save="SaveObject">
 
         <div class="row">
-            <div class="one-col">
-                <dropdownlist id="ddlEmployment" name="->EmploymentID" Caption="Employment" Load="ddlEmployment"
+            <div class="two-col">
+                <dropdownlist id="ddlEmployment" name="->EmploymentID" Caption="Employment" Load="ddlEmployment" required="true"
                     onchange="this.form.submit()">
                     <option value=""></option>
                 </dropdownlist>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="two-col">
+                <dropdownlist id="dllCareerCode" name="->CareerCodeID" Caption="Career Code" Load="dllCareerCode">
+                    <option value=""></option>
+                </dropdownlist>
+            </div>
+            <div class="two-col">
+                <input type="date" id="dtEffectiveDate" name="->EffectiveDate" Caption="Effective Date" required="true" />
             </div>
         </div>
         

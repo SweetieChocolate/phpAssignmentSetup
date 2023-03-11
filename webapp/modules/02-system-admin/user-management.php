@@ -69,13 +69,13 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 
         <div class="row">
             <div class="one-col">
-                <input type="text" id="tbUserName" name="->UserName" Caption="UserName" />
+                <input type="text" id="tbUserName" name="->UserName" Caption="UserName" required="true" />
             </div>
         </div>
 
         <div class="row">
             <div class="one-col">
-                <input type="password" id="tbPassword" name="->Password" Caption="Password" />
+                <input type="password" id="tbPassword" name="->Password" Caption="Password" required="true" />
             </div>
         </div>
 
@@ -113,7 +113,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                         <column PropertyName="->RoleModule->ObjectName" HeaderText="Role" />
                     </grid-column>
                     <pop-up Caption="Phone">
-                        <dropdownlist id="ddlRole" name="->RoleModuleID" Caption="Role" Load="ddlRole" />
+                        <dropdownlist id="ddlRole" name="->RoleModuleID" Caption="Role" Load="ddlRole" required="true" />
                     </pop-up>
                 </onetomany>
             </div>

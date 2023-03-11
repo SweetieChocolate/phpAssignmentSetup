@@ -55,12 +55,12 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
     <form id="EDIT" action="" method="post" BaseTableName="RoleModule" Save="SaveObject">
         <div class="row">
             <div class="one-col">
-                <input type="text" id="tbObjectNumber" name="->ObjectNumber" Caption="ObjectNumber" />
+                <input type="text" id="tbObjectNumber" name="->ObjectNumber" Caption="ObjectNumber" required="true" />
             </div>
         </div>
         <div class="row">
             <div class="one-col">
-                <input type="text" id="tbObjectName" name="->ObjectName" Caption="ObjectName" />
+                <input type="text" id="tbObjectName" name="->ObjectName" Caption="ObjectName" required="true" />
             </div>
         </div>
     </form>

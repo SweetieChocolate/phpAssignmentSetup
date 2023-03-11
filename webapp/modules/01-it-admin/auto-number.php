@@ -57,19 +57,19 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
     <form id="EDIT" action="" method="post" BaseTableName="AutoNumber" Save="SaveObject">
         <div class="row">
             <div class="one-col">
-                <dropdownlist id="ddlClass" name="->ObjectClassType" Caption="Object Type" Load="ddlClassType">
+                <dropdownlist id="ddlClass" name="->ObjectClassType" Caption="Object Type" Load="ddlClassType" required="true">
                     <option value=""></option>
                 </dropdownlist>
             </div>
         </div>
         <div class="row">
             <div class="one-col">
-                <input type="text" id="tbFormat" name="->Format" Caption="Format" />
+                <input type="text" id="tbFormat" name="->Format" Caption="Format" required="true" />
             </div>
         </div>
         <div class="row">
             <div class="one-col">
-                <input type="text" id="tbCurrentNumber" name="->CurrentNumber" Caption="Current Number" readonly="" />
+                <input type="text" id="tbCurrentNumber" name="->CurrentNumber" Caption="Current Number" readonly="true" />
             </div>
         </div>
     </form>

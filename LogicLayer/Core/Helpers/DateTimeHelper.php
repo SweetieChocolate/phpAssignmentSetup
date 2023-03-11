@@ -32,6 +32,23 @@ class DateTimeHelper
     {
         return $dateTime->format('Y-m-d');
     }
+    public static function AddDays(DateTime $dateTime, int $day) : DateTime
+    {
+        if ($day < 0)
+            return DateTimeHelper::SubDays($dateTime, $day);
+        $result = DateTimeHelper::FromString(DateTimeHelper::ConvertToString($dateTime));
+        $interval = new DateInterval("P".$day."D");
+        $result->add($interval);
+        return $result;
+    }
+    private static function SubDays(DateTime $dateTime, int $day) : DateTime
+    {
+        $day = abs($day);
+        $result = DateTimeHelper::FromString(DateTimeHelper::ConvertToString($dateTime));
+        $interval = new DateInterval("P".$day."D");
+        $result->sub($interval);
+        return $result;
+    }
 }
 
 ?>

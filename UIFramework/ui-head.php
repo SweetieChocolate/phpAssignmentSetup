@@ -92,9 +92,9 @@ $_formedit = $_domXPath->query("//form[@id='EDIT']")->item(0);
 $_methodName = array();
 
 $_editDefaultBtn = <<<RAW
-<button type="submit" class="btn btn-primary" name="BUTTON" value="Save">Save</button>
-<button type="submit" class="btn btn-primary" name="BUTTON" value="SaveClose">Save and Close</button>
-<button type="submit" class="btn btn-primary" name="BUTTON" value="Close">Close</button>
+<button id="_btnSave" type="submit" class="btn btn-primary" name="BUTTON" value="Save">Save</button>
+<button id="_btnSaveClose" type="submit" class="btn btn-primary" name="BUTTON" value="SaveClose">Save and Close</button>
+<button id="_btnClose" type="submit" class="btn btn-primary" name="BUTTON" value="Close" formnovalidate>Close</button>
 <br />
 RAW;
 

@@ -60,27 +60,27 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
     <form id="EDIT" action="" method="post" BaseTableName="FunctionModule" Save="SaveObject">
         <div class="row">
             <div class="one-col">
-                <input type="text" id="tbCategory" name="->Category" Caption="Category" />
+                <input type="text" id="tbCategory" name="->Category" Caption="Category" required="true" />
             </div>
         </div>
         <div class="row">
             <div class="one-col">
-                <input type="text" id="tbFunctionName" name="->FunctionName" Caption="Function Name" />
+                <input type="text" id="tbFunctionName" name="->FunctionName" Caption="Function Name" required="true" />
             </div>
         </div>
         <div class="row">
             <div class="one-col">
-                <input type="text" id="tbDisplayOrder" name="->DisplayOrder" Caption="Display Order" />
+                <input type="text" id="tbDisplayOrder" name="->DisplayOrder" Caption="Display Order" required="true" />
             </div>
         </div>
         <div class="row">
             <div class="one-col">
-                <input type="text" id="tbURL" name="->URL" Caption="URL" style="width: 70%;" />
+                <input type="text" id="tbURL" name="->URL" Caption="URL" style="width: 70%;" required="true" />
             </div>
         </div>
         <div class="row">
             <div class="one-col">
-                <input type="checkbox" id="cbIsEnable" name="->IsEnable" Caption="Is Enable?" />
+                <input type="checkbox" id="cbIsEnable" name="->IsEnable" Caption="Is Enable?" required="true" />
             </div>
         </div>
 
@@ -94,7 +94,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                         <column PropertyName="->RoleModule->ObjectName" HeaderText="Role Name"/>
                     </grid-column>
                     <pop-up Caption="Email">
-                        <dropdownlist id="ddlRole" name="->RoleModuleID" Caption="Role" Load="ddlRole">
+                        <dropdownlist id="ddlRole" name="->RoleModuleID" Caption="Role" Load="ddlRole" required="true">
                             <option value=""></option>
                         </dropdownlist>
                     </pop-up>

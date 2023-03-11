@@ -15,4 +15,8 @@ VALUES
 (UUID_TO_BIN(UUID()), '', '', 'System Administrator', 'System Administrator', NOW(), NOW(), 0, 'SYSTEM SETTING', '', 'Job Level', 808, '~/modules/02-system-admin/setup/job-level.php', '', 1),
 (UUID_TO_BIN(UUID()), '', '', 'System Administrator', 'System Administrator', NOW(), NOW(), 0, 'SYSTEM SETTING', '', 'Career Code', 809, '~/modules/02-system-admin/setup/career-code.php', '', 1),
 (UUID_TO_BIN(UUID()), '', '', 'System Administrator', 'System Administrator', NOW(), NOW(), 0, 'WORKFORCE MANAGEMENT', '', 'Employment', 101, '~/modules/03-workforce-management/employment.php', '', 1),
-(UUID_TO_BIN(UUID()), '', '', 'System Administrator', 'System Administrator', NOW(), NOW(), 0, 'WORKFORCE MANAGEMENT', '', 'Career History', 102, '~/modules/03-workforce-management/career-history.php', '', 1)
+(UUID_TO_BIN(UUID()), '', '', 'System Administrator', 'System Administrator', NOW(), NOW(), 0, 'WORKFORCE MANAGEMENT', '', 'Career History', 102, '~/modules/03-workforce-management/career-history.php', '', 1),
+(UUID_TO_BIN(UUID()), '', '', 'System Administrator', 'System Administrator', NOW(), NOW(), 0, 'PAYROLL', '', 'Monthly Salary', 201, '~/modules/04-payroll/monthly-salary.php', '', 1),
+(UUID_TO_BIN(UUID()), '', '', 'System Administrator', 'System Administrator', NOW(), NOW(), 0, 'PAYROLL', '', 'Allowance', 202, '~/modules/04-payroll/allowance.php', '', 1),
+(UUID_TO_BIN(UUID()), '', '', 'System Administrator', 'System Administrator', NOW(), NOW(), 0, 'PAYROLL', '', 'Bonus', 203, '~/modules/04-payroll/bonus.php', '', 1),
+(UUID_TO_BIN(UUID()), '', '', 'System Administrator', 'System Administrator', NOW(), NOW(), 0, 'PAYROLL', '', 'Deduction', 204, '~/modules/04-payroll/deduction.php', '', 1)

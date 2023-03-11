@@ -58,6 +58,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                 <column PropertyName="->ObjectNumber" HeaderText="Code" />
                 <column PropertyName="->ObjectName" HeaderText="Name" />
                 <column PropertyName="->StartDateText" HeaderText="Start Date" />
+                <column PropertyName="->EndDateText" HeaderText="End Date" />
                 <column PropertyName="->Salary" HeaderText="Salary" />
                 <column PropertyName="->Branch->ObjectName" HeaderText="Branch" />
                 <column PropertyName="->Department->ObjectName" HeaderText="Department" />
@@ -69,10 +70,10 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 
         <div class="row">
             <div class="two-col">
-                <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name" />
+                <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name" required="true" />
             </div>
             <div class="two-col">
-                <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" />
+                <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" required="true" />
             </div>
         </div>
 
@@ -84,10 +85,10 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
         
         <div class="row">
             <div class="two-col">
-                <input type="text" id="tbSalary" name="->Salary" Caption="Salary" />
+                <input type="text" id="tbSalary" name="->Salary" Caption="Salary" required="true" />
             </div>
             <div class="two-col">
-                <input type="date" id="tbStartDate" name="->StartDate" Caption="Start Date" />
+                <input type="date" id="tbStartDate" name="->StartDate" Caption="Start Date" required="true" />
             </div>
         </div>
 
@@ -150,7 +151,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                     </grid-column>
                     <pop-up Size="modal-lg" Caption="Phone">
                         <dropdownlist id="ddlPhoneType" name="->Type" Caption="Contact Type" Load="ddlContactType" />
-                        <input type="text" id="tbPhoneNumber" name="->ObjectNumber" Caption="Phone Number" />
+                        <input type="text" id="tbPhoneNumber" name="->ObjectNumber" Caption="Phone Number" required="true" />
                     </pop-up>
                 </onetomany>
             </div>
@@ -165,7 +166,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                     </grid-column>
                     <pop-up Caption="Email">
                         <dropdownlist id="ddlEmailType" name="->Type" Caption="Contact Type" Load="ddlContactType" />
-                        <input type="text" id="tbEmail" name="->ObjectNumber" Caption="Email" />
+                        <input type="text" id="tbEmail" name="->ObjectNumber" Caption="Email" required="true" />
                     </pop-up>
                 </onetomany>
             </div>
