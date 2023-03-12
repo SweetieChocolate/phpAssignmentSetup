@@ -19,6 +19,7 @@ foreach ($_onetomanys as $_onetomany)
     $_popupblank = null;
     $_enableEdit = GetAttribute($_onetomany, "EnableEdit") == "false" ? false : true;
     $_enableDelete = GetAttribute($_onetomany, "EnableDelete") == "false" ? false : true;
+    $_exportExcel = GetAttribute($_onetomany, "ExportExcel") == "true" ? true : false;
 
     $_attrs = GetAllAttributes($_onetomany);
     $_grid_columns = GetAllChildNodesByTagName($_onetomany, "grid-column");
@@ -29,7 +30,10 @@ foreach ($_onetomanys as $_onetomany)
         $_columns = GetAllChildNodesByTagName($_grid_column, "column");
     
         $_table = $_dom->createElement("table");
-        $_table->setAttribute("class", "onetomany");
+        $_classType = "onetomany";
+        if ($_exportExcel)
+            $_classType .= " excel";
+        $_table->setAttribute("class", $_classType);
         foreach ($_attrs as $_key => $_value)
         {
             $_table->setAttribute($_key, $_value);
@@ -144,6 +148,11 @@ foreach ($_onetomanys as $_onetomany)
             $_button->setAttribute("type", "button");
             $_button->setAttribute("class", "btn btn-primary");
             $_button->setAttribute("style", "margin: 10px;");
+            $_attrs = GetAllAttributes($_command);
+            foreach ($_attrs as $_key => $_value)
+            {
+                $_button->setAttribute($_key, $_value);
+            }
             if ($_commandname == "AddObject" && $_popupblank != null)
             {
                 $_button->setAttribute("data-bs-toggle", "modal");
@@ -154,6 +163,17 @@ foreach ($_onetomanys as $_onetomany)
         }
 
         RemoveSelfNode($_grid_command);
+    }
+
+    if ($_exportExcel)
+    {
+        $_button = $_dom->createElement("button", "Export Excel");
+        $_button->setAttribute("type", "button");
+        $_button->setAttribute("class", "btn btn-primary");
+        $_button->setAttribute("style", "margin: 10px;");
+        $_onclick = "this.parentElement.getElementsByClassName('dt-button buttons-excel')[0].click()";
+        $_button->setAttribute("onclick", $_onclick);
+        $_onetomany->parentNode->insertBefore($_button, $_onetomany);
     }
 }
 

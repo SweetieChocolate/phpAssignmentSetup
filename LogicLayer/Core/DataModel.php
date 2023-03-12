@@ -735,7 +735,7 @@ class DataModel
             case "bool": $dbType = "bit"; break;
             case "string": $dbType = "text"; break;
             case "DateTime": $dbType = "DateTime(6)"; break;
-            default: $dbType = $phpType; break;
+            default: $dbType = $noneNullable; break;
         }
         return strtoupper($dbType);
     }

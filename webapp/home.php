@@ -31,11 +31,11 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
 
         <div class="profile-details">
             <div class="profile-content">
-                <img src="./source/image/profile.png" alt="">
+                <img id="profileBtn" src="./source/image/profile.png" alt="">
             </div>
-            <div class="name-job">
-                <div class="profile_name">Chan Dara</div>
-                <div class="job">Web Developer</div>
+            <div>
+                <div class="name"><?php echo GetCurrentUser()->ObjectName; ?></div>
+                <div class="job"></div>
             </div>
             <i class='bx bx-log-out' onclick="window.location.href = 'index.php'"></i>
         </div>
@@ -66,8 +66,15 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
         }
 
         let sidebar = document.querySelector(".sidebar");
+        
         let sidebarBtn = document.querySelector("#sidebarBtn");
         sidebarBtn.addEventListener("click", () =>
+        {
+            sidebar.classList.toggle("close");
+        });
+
+        let profileBtn = document.querySelector("#profileBtn");
+        profileBtn.addEventListener("click", () =>
         {
             sidebar.classList.toggle("close");
         });

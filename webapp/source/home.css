@@ -232,17 +232,18 @@
 }
 
 .sidebar .profile-details i,
-.sidebar .profile-details .profile_name,
+.sidebar .profile-details .name,
 .sidebar .profile-details .job {
     font-weight: 500;
     white-space: nowrap;
     font-size: var(--sidebar-fontsize-category);
     min-width: var(--sidebar-width-close);
     color: var(--theme-text-color);
+    transition-delay: 100s;
 }
 
 .sidebar.close .profile-details i,
-.sidebar.close .profile-details .profile_name,
+.sidebar.close .profile-details .name,
 .sidebar.close .profile-details .job {
     display: none;
 }

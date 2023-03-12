@@ -134,7 +134,7 @@ class PayrollHelper
                 $ms->MonthlySalaryDeductions->Add($deduction);
             }
 
-            $ms->BonusAmount = $ms->TotalBonus;
+            $ms->DeductionAmount = $ms->TotalDeduction;
         }
         catch (Exception)
         {

@@ -26,6 +26,10 @@ table.dataTable tbody tr:hover {
     background-color: #ddd;
 }
 
+.dt-buttons {
+    display: none;
+}
+
 .btn-primary {
     background-color: var(--theme-color) !important;
     border: none !important;
