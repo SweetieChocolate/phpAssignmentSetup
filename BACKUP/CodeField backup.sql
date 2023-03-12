@@ -1,4 +1,4 @@
-INSERT INTO `codefield` (`ObjectID`, `ObjectNumber`, `ObjectName`, `CreatedBy`, `LastModifiedBy`, `CreatedDateTime`, `LastModifiedDateTime`, `IsDeleted`, `ParentID`, `Description`, `CodeType`) VALUES
+INSERT INTO `CodeField` (`ObjectID`, `ObjectNumber`, `ObjectName`, `CreatedBy`, `LastModifiedBy`, `CreatedDateTime`, `LastModifiedDateTime`, `IsDeleted`, `ParentID`, `Description`, `CodeType`) VALUES
 (0x7efe5267bfc911edb19f50ebf62b0b36, 'R1', 'Region 1', 'System Administrator', 'System Administrator', '2023-03-11 11:59:25.828218', '2023-03-11 11:59:43.385085', b'0', NULL, NULL, 'REGION'),
 (0x89ffe2a5bfc911edb19f50ebf62b0b36, 'R2', 'Region 2', 'System Administrator', 'System Administrator', '2023-03-11 11:59:44.293401', '2023-03-11 11:59:49.708801', b'0', NULL, NULL, 'REGION'),
 (0x8e2512efbfc911edb19f50ebf62b0b36, 'R3', 'Region 3', 'System Administrator', 'System Administrator', '2023-03-11 11:59:51.248007', '2023-03-11 11:59:57.070332', b'0', NULL, NULL, 'REGION'),

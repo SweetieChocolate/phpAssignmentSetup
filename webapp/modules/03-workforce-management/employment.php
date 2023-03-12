@@ -164,7 +164,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
                         <column PropertyName="->TypeText" HeaderText="Type" />
                         <column PropertyName="->ObjectNumber" HeaderText="Email"/>
                     </grid-column>
-                    <pop-up Caption="Email">
+                    <pop-up Size="modal-lg" Caption="Email">
                         <dropdownlist id="ddlEmailType" name="->Type" Caption="Contact Type" Load="ddlContactType" />
                         <input type="text" id="tbEmail" name="->ObjectNumber" Caption="Email" required="true" />
                     </pop-up>

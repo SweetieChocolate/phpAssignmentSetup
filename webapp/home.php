@@ -43,7 +43,7 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
     </div>
     
     <section class="home-section">
-        <iframe id ="frameView" src="" width="100%" height="100%" style="overflow:scroll;"></iframe>
+        <iframe id ="frameView" src="https://onedrive.live.com/embed?resid=3E8BFFC05E526D5F%21526&amp;authkey=!AEry2hhIYqZdWlw&amp;em=2&amp;" width="100%" height="100%" style="overflow:scroll;"></iframe>
     </section>
 
 
