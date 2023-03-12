@@ -151,7 +151,7 @@ if (isset($_POST['button']))
                 <form id="loginForm" action="" method="post">
                     <div class="header">
                         <header> <img src="./source/image/profile.png" alt=""></header>
-                        <p>Log In to PHP AssignmentSetup</p>
+                        <p><?= $_SESSION['COMPANY_NAME'] ?></p>
                     </div>
                     <div class="input-box">
                         <label for="text">Username</label>
