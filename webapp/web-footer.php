@@ -25,7 +25,8 @@ $(document).ready( function() {
         'order': [2, 'asc'],
         'aaSorting': [],
         'paging': false,
-        'searching': false
+        'searching': false,
+        'info': false
     });
 });
 </script>

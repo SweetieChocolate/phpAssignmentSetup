@@ -20,6 +20,17 @@ require_once "Workforce/Person/Person.php";
 require_once "Workforce/Person/PersonPhone.php";
 require_once "Workforce/Person/PersonEmail.php";
 
+require_once "Payroll/PayrollSetting.php";
+require_once "Payroll/TaxContribution.php";
+require_once "Payroll/Allowance.php";
+require_once "Payroll/Bonus.php";
+require_once "Payroll/Deduction.php";
+require_once "Payroll/MonthlySalaryGenerate.php";
+require_once "Payroll/MonthlySalary.php";
+require_once "Payroll/MonthlySalaryAllowance.php";
+require_once "Payroll/MonthlySalaryBonus.php";
+require_once "Payroll/MonthlySalaryDeduction.php";
+
 class TablesLogic
 {
     public static $tables = [
@@ -36,7 +47,18 @@ class TablesLogic
         "CareerHistory",
         "Person",
         "PersonPhone",
-        "PersonEmail"
+        "PersonEmail",
+        // Payroll
+        "PayrollSetting",
+        "TaxContribution",
+        "Allowance",
+        "Bonus",
+        "Deduction",
+        "MonthlySalaryGenerate",
+        "MonthlySalary",
+        "MonthlySalaryAllowance",
+        "MonthlySalaryBonus",
+        "MonthlySalaryDeduction"
     ];
 
     public static function GetSynchronizeDB() : string

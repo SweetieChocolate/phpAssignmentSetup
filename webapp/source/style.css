@@ -64,13 +64,9 @@ div.one-col > label {
     vertical-align: middle;
 }
 
-div.one-col > input {
-    width: var(--input-width);
-    margin: var(--label-input-margin);
-    vertical-align: middle;
-}
-
-div.one-col > select {
+div.one-col > input,
+div.one-col > select,
+div.one-col > textarea {
     width: var(--input-width);
     margin: var(--label-input-margin);
     vertical-align: middle;
@@ -88,13 +84,9 @@ div.two-col > label {
     vertical-align: middle;
 }
 
-div.two-col > input {
-    width: var(--input-width);
-    margin: var(--label-input-margin);
-    vertical-align: middle;
-}
-
-div.two-col > select {
+div.two-col > input,
+div.two-col > select,
+div.two-col > textarea {
     width: var(--input-width);
     margin: var(--label-input-margin);
     vertical-align: middle;

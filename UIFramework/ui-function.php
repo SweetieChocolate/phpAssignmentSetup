@@ -38,12 +38,12 @@ function BindFormToObject()
         }
     }
     $_object = GetCurrentObject();
-    if ($_object == null) return null;
+    if ($_object === null) return null;
     foreach ($_bindProps as $_key => $_value)
     {
         $_otype = $_object->GetPropertyType($_key);
         $_value = GetApplicableValueFromFormToObject($_value, $_otype);
-        //if ($_value == null) continue;
+        //if ($_value === null) continue;
         ODataModel::SetPropertyValue($_object, $_key, $_value);
     }
     $_SESSION[$_sessionname] = serialize($_object);
@@ -52,7 +52,7 @@ function BindFormToObject()
 
 function BindObjectToForm($_objectSource)
 {
-    if ($_objectSource == null) return;
+    if ($_objectSource === null) return;
     global $_sid, $_requestURI, $_formedit, $_basetablename, $_sessionname, $_datakeyEncrypted, $_datakey;
     $_SESSION[$_sessionname] = serialize($_objectSource);
     foreach ($_formedit->ownerDocument->getElementsByTagName("input") as $_input)
@@ -65,17 +65,33 @@ function BindObjectToForm($_objectSource)
         if (!NeedBindingObjectToForm($_otype)) continue;
 
         $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
-        if ($_value == null) continue;
+        if ($_value === null) continue;
         $_ftype = GetAttribute($_input, "type") ?? "";
         $_value = GetApplicableValueFromObjetToForm($_value, $_ftype);
         $_input->setAttribute("value", $_value);
         if ($_ftype == "checkbox")
         {
-            if ($_value != null && $_value == true)
+            $_input->setAttribute("value", "1");
+            if ($_value !== null && $_value == true)
             {
                 $_input->setAttribute("checked", "");
             }
         }
+    }
+    
+    foreach ($_formedit->ownerDocument->getElementsByTagName("textarea") as $_textarea)
+    {
+        $_name = GetAttribute($_textarea, "name");
+        if (!str_starts_with($_name, "->")) continue;
+
+        $_name = substr($_name, 2);
+        $_otype = $_objectSource->GetPropertyType($_name);
+        if (!NeedBindingObjectToForm($_otype)) continue;
+
+        $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
+        if ($_value === null) continue;
+        
+        SetInnerHTML($_textarea, $_value);
     }
     
     foreach ($_formedit->ownerDocument->getElementsByTagName("select") as $_dropdown)
@@ -88,7 +104,7 @@ function BindObjectToForm($_objectSource)
         if (!NeedBindingObjectToForm($_otype)) continue;
 
         $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
-        if ($_value == null) continue;
+        if ($_value === null) continue;
 
         if ($_otype == "UUID") $_value = $_value->Encrypt($_sid);
         
@@ -105,18 +121,18 @@ function BindFormToObject_OTM()
     global $_sid, $_requestURI, $_formedit, $_basetablename, $_sessionname, $_datakeyEncrypted, $_datakey;
     global $_OTMProperty, $_OTMDatakey, $_OTMObjectID;
     $_object = GetCurrentObject();
-    if ($_object == null) return null;
-    if ($_OTMProperty == null) return null;
+    if ($_object === null) return null;
+    if ($_OTMProperty === null) return null;
 
     $_otm = ODataModel::GetPropertyValue($_object, substr($_OTMProperty, 2));
-    if ($_otm == null) return;
+    if ($_otm === null) return;
 
     $_otmObject = null;
     $_pendingAdd = false;
     if ($_OTMObjectID != null)
         $_otmObject = $_otm->FindWithID($_OTMObjectID);
 
-    if ($_OTMObjectID == null || $_otmObject == null)
+    if ($_OTMObjectID === null || $_otmObject === null)
     {
         $_pendingAdd = true;
         $_otmObject = $_otm->CreateNewObject();
@@ -134,7 +150,7 @@ function BindFormToObject_OTM()
     {
         $_otype = $_otmObject->GetPropertyType($_key);
         $_value = GetApplicableValueFromFormToObject($_value, $_otype);
-        //if ($_value == null) continue;
+        //if ($_value === null) continue;
         ODataModel::SetPropertyValue($_otmObject, $_key, $_value);
     }
 
@@ -146,12 +162,12 @@ function BindFormToObject_OTM()
 
 function BindObjectToForm_OTM($_objectSource, $_formModal) : DOMNode | null
 {
-    if ($_objectSource == null) return null;
+    if ($_objectSource === null) return null;
     global $_sid, $_requestURI, $_formedit, $_basetablename, $_sessionname, $_datakeyEncrypted, $_datakey;
     $_formResult = $_formModal->cloneNode(true);
-    foreach ($_formResult->getElementsByTagName("input") as $_prop)
+    foreach ($_formResult->getElementsByTagName("input") as $_input)
     {
-        $_name = GetAttribute($_prop, "name");
+        $_name = GetAttribute($_input, "name");
         if (!str_starts_with($_name, "->")) continue;
         
         $_name = substr($_name, 2);
@@ -159,10 +175,33 @@ function BindObjectToForm_OTM($_objectSource, $_formModal) : DOMNode | null
         if (!NeedBindingObjectToForm($_otype)) continue;
 
         $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
-        $_ftype = GetAttribute($_prop, "type") ?? "";
+        if ($_value === null) continue;
+        $_ftype = GetAttribute($_input, "type") ?? "";
         $_value = GetApplicableValueFromObjetToForm($_value, $_ftype);
-        if ($_value == null) continue;
-        $_prop->setAttribute("value", $_value);
+        $_input->setAttribute("value", $_value);
+        if ($_ftype == "checkbox")
+        {
+            $_input->setAttribute("value", "1");
+            if ($_value !== null && $_value == true)
+            {
+                $_input->setAttribute("checked", "");
+            }
+        }
+    }
+    
+    foreach ($_formResult->getElementsByTagName("textarea") as $_textarea)
+    {
+        $_name = GetAttribute($_textarea, "name");
+        if (!str_starts_with($_name, "->")) continue;
+
+        $_name = substr($_name, 2);
+        $_otype = $_objectSource->GetPropertyType($_name);
+        if (!NeedBindingObjectToForm($_otype)) continue;
+
+        $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
+        if ($_value === null) continue;
+        
+        SetInnerHTML($_textarea, $_value);
     }
     
     foreach ($_formResult->getElementsByTagName("select") as $_dropdown)
@@ -175,7 +214,7 @@ function BindObjectToForm_OTM($_objectSource, $_formModal) : DOMNode | null
         if (!NeedBindingObjectToForm($_otype)) continue;
 
         $_value = ODataModel::GetPropertyValue($_objectSource, $_name);
-        if ($_value == null) continue;
+        if ($_value === null) continue;
         if ($_otype == "UUID") $_value = $_value->Encrypt($_sid);
         
         SetDropDownSelected($_dropdown, $_value);
@@ -188,11 +227,11 @@ function DeleteObjectFromForm_OTM()
     global $_sid, $_requestURI, $_formedit, $_basetablename, $_sessionname, $_datakeyEncrypted, $_datakey;
     global $_OTMProperty, $_OTMDatakey, $_OTMObjectID;
     $_object = GetCurrentObject();
-    if ($_object == null) return null;
-    if ($_OTMProperty == null) return null;
+    if ($_object === null) return null;
+    if ($_OTMProperty === null) return null;
 
     $_otm = ODataModel::GetPropertyValue($_object, substr($_OTMProperty, 2));
-    if ($_otm == null) return;
+    if ($_otm === null) return;
     
     $_otm->RemoveWithID($_OTMObjectID);
 

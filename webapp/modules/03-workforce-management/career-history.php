@@ -41,7 +41,7 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-handle.php";
 // pre render logic start here
 
 $o = GetCurrentObject();
-if ($o != null && $o->Employment != null)
+if ($o != null && $o->Employment != null && $o->IsNew())
 {
     WorkforceHelper::CloneEmploymentToCareerHistory($o->Employment, $o);
     BindObjectToForm($o);

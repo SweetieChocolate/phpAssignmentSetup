@@ -42,15 +42,51 @@ class WorkforceHelper
 
     public static function UpdateCareer(OCareerHistory $careerHistory) : void
     {
-        $employmentID = $careerHistory->EmploymentID->ForQuery();
-        $startDate = DateTimeHelper::ConvertToString($careerHistory->EffectiveDate);
-        $preCareer = CareerHistory::Where("EmploymentID = $employmentID AND EffectiveDate < '$startDate'", "EffectiveDate DESC");
+        $preCareer = $careerHistory->PreviousCareer;
+        if ($preCareer === NULL)
+        {
+            $employmentID = $careerHistory->EmploymentID->ForQuery();
+            $startDate = DateTimeHelper::ForQuery($careerHistory->EffectiveDate);
+            $preCareer = CareerHistory::Where("EmploymentID = $employmentID AND EffectiveDate < $startDate", "EffectiveDate DESC");
+        }
         if ($preCareer !== NULL)
         {
-            $preCareer->EndDate = DateTimeHelper::AddDays($careerHistory->EffectiveDate, -1);
-            $preCareer->NextCareer = $careerHistory;
             $careerHistory->PreviousCareer = $preCareer;
+            $preCareer->NextCareer = $careerHistory;
+            $preCareer->EndDate = DateTimeHelper::AddDays($careerHistory->EffectiveDate, -1);
         }
+
+        $nextCareer = $careerHistory->NextCareer;
+        if ($nextCareer === NULL)
+        {
+            $employmentID = $careerHistory->EmploymentID->ForQuery();
+            $startDate = DateTimeHelper::ForQuery($careerHistory->EffectiveDate);
+            $nextCareer = CareerHistory::Where("EmploymentID = $employmentID AND EffectiveDate > $startDate", "EffectiveDate ASC");
+        }
+        if ($nextCareer !== NULL)
+        {
+            //$nextCareer->PreviousCareer = $careerHistory;
+            $nextCareer->EffectiveDate = DateTimeHelper::AddDays($careerHistory->EndDate, 1);
+            $nextCareer->Salary = $careerHistory->NewSalary;
+        }
+        else
+        {
+            $careerHistory->EndDate = null;
+        }
+    }
+
+    public static function GetCareerHistoryRange(UUID $EmploymentID, DateTime $fromDate, DateTime $toDate) : Array
+    {
+        $result = array();
+        $empId = $EmploymentID->ForQuery();
+        $qFromDate = DateTimeHelper::ForQuery($fromDate);
+        $qToDate = DateTimeHelper::ForQuery($toDate);
+        $where = "EmploymentID = $empId
+            AND EffectiveDate <= $qToDate
+            AND (EndDate IS NULL OR EndDate >= $qFromDate)
+        ";
+        $result = CareerHistory::LoadList($where, "EffectiveDate ASC");
+        return $result;
     }
 }
 

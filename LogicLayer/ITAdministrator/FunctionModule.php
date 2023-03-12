@@ -33,19 +33,43 @@ class OFunctionModule extends ODataModel
         }
     }
 
+    public function IsAvailableForThisRole(UUID $roleID) : bool
+    {
+        foreach ($this->FunctionRoleDetails as $role)
+        {
+            if ($roleID->EqualUUID($role->RoleModuleID))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // load function base on user permission
     public static function GetAvailableFunction(string $userID)
     {
         $user = User::Load($userID);
         if ($user == null)
             return array();
-        if ($user->IsAdministrator)
-            return FunctionModule::LoadList("IsEnable = 1", "DisplayOrder ASC");
-            
 
-        // dynamically load function
-        // empty array for now
-        return array();
+        $functionList = FunctionModule::LoadList("IsEnable = 1", "DisplayOrder ASC");
+        if ($user->IsAdministrator)
+            return $functionList;
+
+        $availableFunction = array();
+        foreach ($functionList as $function)
+        {
+            foreach ($user->UserRoleDetail as $role)
+            {
+                if ($function->IsAvailableForThisRole($role->RoleModuleID))
+                {
+                    array_push($availableFunction, $function);
+                    break;
+                }
+            }
+        }
+
+        return $availableFunction;
     }
 }
 

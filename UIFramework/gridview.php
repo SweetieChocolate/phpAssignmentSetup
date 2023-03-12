@@ -4,6 +4,8 @@ $_gridviews = $_dom->getElementsByTagName("gridview");
 if ($_gridviews->length <= 0) return;
 foreach ($_gridviews as $_gridview)
 {
+    $_enableEdit = GetAttribute($_gridview, "EnableEdit") == "false" ? false : true;
+    $_enableDelete = GetAttribute($_gridview, "EnableDelete") == "false" ? false : true;
     $_attrs = GetAllAttributes($_gridview);
     $_grid_columns = GetAllChildNodesByTagName($_gridview, "grid-column");
     if (count($_grid_columns) > 0)
@@ -68,7 +70,8 @@ foreach ($_gridviews as $_gridview)
                 $_editonclick = "window.location.href = '$_requestURI?ACTION=EDIT&DATAKEY=$_datakey'";
                 $_editbutton->setAttribute("onclick", $_editonclick);
                 $_col = $_dom->createElement("td");
-                $_col->appendChild($_editbutton);
+                if ($_enableEdit == true)
+                    $_col->appendChild($_editbutton);
                 $_row->appendChild($_col);
 
                 // delete button
@@ -78,14 +81,15 @@ foreach ($_gridviews as $_gridview)
                     window.location.href = '$_requestURI?ACTION=DELETE&DATAKEY=$_datakey'";
                 $_deletebutton->setAttribute("onclick", $_deleteonclick);
                 $_col = $_dom->createElement("td");
-                $_col->appendChild($_deletebutton);
+                if ($_enableDelete == true)
+                    $_col->appendChild($_deletebutton);
                 $_row->appendChild($_col);
 
                 foreach ($_columns as $_column)
                 {
                     $_propName = GetAttribute($_column, "PropertyName");
                     $_valuetext = ODataModel::GetPropertyValue($_item, substr($_propName, 2));
-                    if ($_valuetext == null)
+                    if ($_valuetext === null)
                         $_valuetext = $_nulltext;
                     $_col = $_dom->createElement("td", $_valuetext);
                     $_row->appendChild($_col);

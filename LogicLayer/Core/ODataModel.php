@@ -9,7 +9,7 @@ class ODataModel
         $temp = $item;
         foreach ($ps as $p)
         {
-            if ($temp == null)
+            if ($temp === null)
                 return null;
             $temp = $temp->$p;
         }
@@ -31,7 +31,7 @@ class ODataModel
                 return true;
             }
             $temp = $temp->$p;
-            if ($temp == null)
+            if ($temp === null)
                 return false;
         }
         return true;

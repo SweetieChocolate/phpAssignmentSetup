@@ -51,6 +51,7 @@ class DataList extends ArrayObject
 
     public function Reload() : void
     {
+        $this->Clear();
         $masterID = UUID::ID_FOR_QUERY($this->masterID);
         $array = $this->foreignClassName::LoadList("$this->foreignKey = $masterID");
         foreach ($array as $a)
@@ -117,6 +118,14 @@ class DataList extends ArrayObject
             {
                 $o->IsDeleted = true;
             }
+        }
+    }
+
+    public function Clear()
+    {
+        foreach ($this as $key => $value)
+        {
+            parent::offsetUnset($key);
         }
     }
 }

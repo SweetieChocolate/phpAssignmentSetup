@@ -87,10 +87,7 @@ function GetAllChildNodesByTagName(DOMNode $element, string $tagName) : array
 
 function GetApplicableValueFromObjetToForm($_value, string $_type) : string
 {
-    if ($_type == "checkbox")
-        return "1";
-        
-    if ($_value == null) return "";
+    if ($_value === null) return "";
 
     if (is_a($_value, "DateTime"))
     {
@@ -98,7 +95,11 @@ function GetApplicableValueFromObjetToForm($_value, string $_type) : string
             $_value = DateTimeHelper::ConvertForFormDate($_value);
         if ($_type == "datetime-local")
             $_value = DateTimeHelper::ConvertForFormDateTime($_value);
+        if ($_type == "month")
+            $_value = DateTimeHelper::ConvertForFormMonth($_value);
     }
+    if ($_type == "checkbox")
+        $_value = ($_value == true);
 
     return $_value;
 }
@@ -235,6 +236,15 @@ function SetDropDownSelected(DOMElement $_dropdown, string $_selected)
             break;
         }
     }
+}
+
+function SetInnerHTML(DOMNode $node, string $innerHTML)
+{
+    $fragment = $node->ownerDocument->createDocumentFragment();
+    $fragment->appendXML($innerHTML);
+    $clone = $node->cloneNode();
+    $clone->appendChild($fragment);
+    $node->parentNode->replaceChild($clone, $node);
 }
 
 ?>

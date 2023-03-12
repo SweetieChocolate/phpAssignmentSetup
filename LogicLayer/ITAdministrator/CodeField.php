@@ -28,7 +28,7 @@ class OCodeField extends ODataModel
 
     public static function GetDropDownListCodeFieldByCodeType(string $codeType, string $sessionID)
     {
-        $list = CodeField::LoadList("CodeType = '$codeType'");
+        $list = CodeField::LoadList("CodeType = '$codeType'", "ObjectNumber");
         $resultList = array();
         foreach ($list as $item)
         {
@@ -45,6 +45,9 @@ class OCodeField extends ODataModel
     public static string $POSITION_FAMILY = "POSITIONFAMILY";
     public static string $JOB_LEVEL = "JOBLEVEL";
     public static string $CAREER_CODE = "CAREERCODE";
+    public static string $ALLOWANCE_TYPE = "ALLOWANCETYPE";
+    public static string $BONUS_TYPE = "BONUSTYPE";
+    public static string $DEDUCTION_TYPE = "DEDUCTIONTYPE";
 }
 
 ?>

@@ -81,7 +81,7 @@ if ($_action != null)
     }
 }
 
-$_inputs = $_domXPath->query("//input|//select");
+$_inputs = $_domXPath->query("//input|//select|//textarea");
 foreach ($_inputs as $_input)
 {
     $_id = GetAttribute($_input, "id"); $_id = $_id ?? "";

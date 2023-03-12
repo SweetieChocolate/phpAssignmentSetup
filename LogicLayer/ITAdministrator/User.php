@@ -51,6 +51,16 @@ class OUser extends ODataModel
         }
         return null;
     }
+
+    public function HasThisRole(UUID $roleID) : bool
+    {
+        foreach ($this->UserRoleDetail as $role)
+        {
+            if ($roleID->EqualUUID($role->RoleModuleID))
+                return true;
+        }
+        return false;
+    }
 }
 
 ?>

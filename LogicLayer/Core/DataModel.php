@@ -243,6 +243,30 @@ class DataModel
         return $array;
     }
 
+    public static function LogicalRestore(string $where)
+    {
+        $classname = get_called_class();
+        $sql = "UPDATE $classname SET IsDeleted = 0 WHERE $where;";
+        $con = new DBConnection();
+        $result = $con->ExecuteQuery($sql);
+    }
+
+    public static function LogicalDelete(string $where)
+    {
+        $classname = get_called_class();
+        $sql = "UPDATE $classname SET IsDeleted = 1 WHERE $where;";
+        $con = new DBConnection();
+        $result = $con->ExecuteQuery($sql);
+    }
+
+    public static function PhysicalDelete(string $where)
+    {
+        $classname = get_called_class();
+        $sql = "DELETE FROM $classname WHERE $where;";
+        $con = new DBConnection();
+        $result = $con->ExecuteQuery($sql);
+    }
+
     public function Get($var)
     {
         return $this->__get($var);
@@ -566,7 +590,7 @@ class DataModel
                     if ($isID) $value = "UUID_TO_BIN('{$value->ToString()}')";
                     if ($isString) $value = "'$value'";
                     if ($isBoolean) $value = $value ? 1 : 0;
-                    if ($isDateTime) $value = "'" . DateTimeHelper::ConvertToString($value) . "'";
+                    if ($isDateTime) $value = DateTimeHelper::ForQuery($value);
                 }
             }
 

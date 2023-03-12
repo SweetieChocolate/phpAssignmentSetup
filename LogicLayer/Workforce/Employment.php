@@ -88,7 +88,7 @@ class OEmployment extends ODataModel implements IAutoNumber
         
         foreach ($emps as $item)
         {
-            $empslist[$item->ObjectID->Encrypt($_sid)] = $item->ObjectName;
+            $empslist[$item->ObjectID->Encrypt($_sid)] = $item->ObjectNumber . " - " . $item->ObjectName;
         }
 
         return $empslist;

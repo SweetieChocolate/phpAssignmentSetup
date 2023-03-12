@@ -47,6 +47,7 @@ if (!isset($_GET['ACTION']) && $_requestURI != $_SESSION['HOME_PAGE'])
 // map with id of the form
 $_action = GetAndUnsetGET('ACTION');
 $_button = GetAndUnsetPOST('BUTTON');
+$ButtonName = $_button;
 $_isPendingDelete = false;
 if ($_action == 'DELETE')
 {
