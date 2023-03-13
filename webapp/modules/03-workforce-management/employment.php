@@ -70,8 +70,17 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 
         <div class="row">
             <div class="two-col">
-                <img src="./../../source/image/profile.png" />
-                <input type="file" />
+                <div class="row">
+                    <div class="one-col">
+                        <label></label>
+                        <img style="width: auto; height: 180px;" src="./../../source/image/profile.png" />
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="one-col">
+                        <input type="file"  />
+                    </div>
+                </div>
             </div>
             <div class="two-col">
                 <div class="row">
