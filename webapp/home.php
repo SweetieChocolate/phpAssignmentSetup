@@ -27,6 +27,10 @@ if (!isset($_SESSION['ISINITIALIZE'])) exit();
             <span class="logo_name"><?= $_SESSION['COMPANY_NAME'] ?></span>
         </div>
 
+        <div class="logo-details">
+            <span class="logo_name"><img style="margin-top: 20px;" src="./source/image/logo.png" /></span>
+        </div>
+
         <?php include $_SESSION['WEB_ROOTPATH'] . "web-navigation.php" ?>
 
         <div class="profile-details">
