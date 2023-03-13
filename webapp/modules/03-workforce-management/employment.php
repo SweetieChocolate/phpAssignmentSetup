@@ -70,34 +70,16 @@ require_once $_SESSION['PROJECT_ROOTPATH'] . "UIFramework/ui-foot.php";
 
         <div class="row">
             <div class="two-col">
-                <div class="row">
-                    <div class="one-col">
-                        <label></label>
-                        <img style="width: auto; height: 180px;" src="./../../source/image/profile.png" />
-                    </div>  
-                </div>
-                <div class="row">
-                    <div class="one-col">
-                        <input type="file"  />
-                    </div>
-                </div>
+                <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name" required="true" />
             </div>
             <div class="two-col">
-                <div class="row">
-                    <div class="one-col">
-                        <input type="text" id="tbFamilyName" name="->Person->FamilyName" Caption="Family Name" required="true" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="one-col">
-                        <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" required="true" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="one-col">
-                        <input type="date" id="tbBirthday" name="->Person->BirthDay" Caption="Birthday" />
-                    </div>
-                </div>
+                <input type="text" id="tbGivenName" name="->Person->GivenName" Caption="Given Name" required="true" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="one-col">
+                <input type="date" id="tbBirthday" name="->Person->BirthDay" Caption="Birthday" />
             </div>
         </div>
         
