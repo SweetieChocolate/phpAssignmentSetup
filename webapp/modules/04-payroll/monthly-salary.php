@@ -40,7 +40,10 @@ if ($o != null && $o->InMonth !== null && ($o->FromDate === null || $o->ToDate =
 
 if ($ButtonName == "Generate")
 {
+    $con = new DBConnection();
     PayrollHelper::GenerateMonthlySalary($o);
+    $o->save($con);
+    $con->commit();
     BindObjectToForm($o);
 }
 

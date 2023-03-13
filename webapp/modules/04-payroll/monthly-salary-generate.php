@@ -40,6 +40,7 @@ if ($o != null && $o->InMonth !== null && ($o->FromDate === null || $o->ToDate =
 
 if ($ButtonName == "Generate")
 {
+    $con = new DBConnection();
     foreach ($o->MonthlySalaries as $item)
     {
         $item->InMonth = $o->InMonth;
@@ -48,6 +49,8 @@ if ($ButtonName == "Generate")
         $item->ExchangeRate = $o->ExchangeRate;
         PayrollHelper::GenerateMonthlySalary($item);
     }
+    $o->save($con);
+    $con->commit();
     BindObjectToForm($o);
 }
 
